@@ -1,0 +1,11 @@
+{
+  "name": "arkuibuild-scripts",
+  "version": "1.0.0",
+  "description": "Scripts for ArkUI Build",
+  "scripts": {
+    "upload": "node upload_widgets_simple.js"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.0.0"
+  }
+}

@@ -1,0 +1,47 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function isAdmin() {
+      return isSignedIn();
+      // Gelişmiş: Custom claims veya admin collection kontrolü eklenebilir
+      // return isSignedIn() && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.isAdmin == true;
+    }
+    
+    // Widgets collection
+    match /widgets/{widgetId} {
+      // Herkes okuyabilir (public)
+      allow read: if true;
+      
+      // Sadece admin yazabilir
+      allow create, update, delete: if isAdmin();
+    }
+
+    // Managers collection
+    match /managers/{managerId} {
+      // Herkes okuyabilir (public)
+      allow read: if true;
+
+      // Sadece admin yazabilir
+      allow create, update, delete: if isAdmin();
+    }
+    
+    // Admin users collection (opsiyonel - gelecekte kullanılabilir)
+    match /admins/{userId} {
+      allow read: if isSignedIn() && request.auth.uid == userId;
+      allow write: if false; // Sadece Firebase Console'dan eklenebilir
+    }
+    
+    // Analytics ve stats (gelecek için)
+    match /analytics/{document=**} {
+      allow read: if isAdmin();
+      allow write: if true; // Herkes analytics gönderebilir
+    }
+  }
+}
