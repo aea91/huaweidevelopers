@@ -18,14 +18,17 @@ class _AdminManagersScreenState extends State<AdminManagersScreen> {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Manager Sil'),
-        content: Text('${m.title} managerını silmek istiyor musunuz?'),
+        title: const Text('Delete Manager'),
+        content: Text('Do you want to delete ${m.title}?'),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('İptal')),
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
             style: TextButton.styleFrom(foregroundColor: Colors.red),
-            child: const Text('Sil'),
+            child: const Text('Delete'),
           ),
         ],
       ),
@@ -38,7 +41,7 @@ class _AdminManagersScreenState extends State<AdminManagersScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Manager silindi', style: GoogleFonts.inter()),
+            content: Text('Manager deleted', style: GoogleFonts.inter()),
             backgroundColor: Colors.green,
           ),
         );
@@ -47,7 +50,7 @@ class _AdminManagersScreenState extends State<AdminManagersScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Hata: $e', style: GoogleFonts.inter()),
+            content: Text('Error: $e', style: GoogleFonts.inter()),
             backgroundColor: Colors.red,
           ),
         );
@@ -60,7 +63,10 @@ class _AdminManagersScreenState extends State<AdminManagersScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFF9FAFB),
       appBar: AppBar(
-        title: Text('Managers', style: GoogleFonts.inter(fontWeight: FontWeight.bold)),
+        title: Text(
+          'Managers',
+          style: GoogleFonts.inter(fontWeight: FontWeight.bold),
+        ),
         backgroundColor: const Color(0xFF5B21B6),
         foregroundColor: Colors.white,
       ),
@@ -68,7 +74,7 @@ class _AdminManagersScreenState extends State<AdminManagersScreen> {
         stream: _firestoreService.getManagers(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return Center(child: Text('Hata: ${snapshot.error}'));
+            return Center(child: Text('Error: ${snapshot.error}'));
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -80,16 +86,26 @@ class _AdminManagersScreenState extends State<AdminManagersScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.manage_accounts, size: 80, color: Color(0xFFD1D5DB)),
+                  const Icon(
+                    Icons.manage_accounts,
+                    size: 80,
+                    color: Color(0xFFD1D5DB),
+                  ),
                   const SizedBox(height: 16),
                   Text(
-                    'Henüz manager eklenmemiş',
-                    style: GoogleFonts.inter(fontSize: 18, color: const Color(0xFF6B7280)),
+                    'No managers have been added yet',
+                    style: GoogleFonts.inter(
+                      fontSize: 18,
+                      color: const Color(0xFF6B7280),
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Yeni bir manager ekleyerek başlayın',
-                    style: GoogleFonts.inter(fontSize: 14, color: const Color(0xFF9CA3AF)),
+                    'Get started by adding a manager',
+                    style: GoogleFonts.inter(
+                      fontSize: 14,
+                      color: const Color(0xFF9CA3AF),
+                    ),
                   ),
                 ],
               ),
@@ -105,8 +121,14 @@ class _AdminManagersScreenState extends State<AdminManagersScreen> {
                 margin: const EdgeInsets.only(bottom: 12),
                 child: ListTile(
                   contentPadding: const EdgeInsets.all(16),
-                  leading: const Icon(Icons.manage_accounts, color: Color(0xFF5B21B6)),
-                  title: Text(m.title, style: GoogleFonts.inter(fontWeight: FontWeight.w600)),
+                  leading: const Icon(
+                    Icons.manage_accounts,
+                    color: Color(0xFF5B21B6),
+                  ),
+                  title: Text(
+                    m.title,
+                    style: GoogleFonts.inter(fontWeight: FontWeight.w600),
+                  ),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -119,7 +141,10 @@ class _AdminManagersScreenState extends State<AdminManagersScreen> {
                       const SizedBox(height: 10),
                       Text(
                         m.fileName,
-                        style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF6B7280)),
+                        style: GoogleFonts.inter(
+                          fontSize: 12,
+                          color: const Color(0xFF6B7280),
+                        ),
                       ),
                     ],
                   ),
@@ -131,7 +156,10 @@ class _AdminManagersScreenState extends State<AdminManagersScreen> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => AdminAddManagerScreen(manager: m)),
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  AdminAddManagerScreen(manager: m),
+                            ),
                           );
                         },
                       ),
@@ -151,15 +179,16 @@ class _AdminManagersScreenState extends State<AdminManagersScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const AdminAddManagerScreen()),
+            MaterialPageRoute(
+              builder: (context) => const AdminAddManagerScreen(),
+            ),
           );
         },
         backgroundColor: const Color(0xFF5B21B6),
         foregroundColor: Colors.white,
         icon: const Icon(Icons.add),
-        label: const Text('Manager Ekle'),
+        label: const Text('Add Manager'),
       ),
     );
   }
 }
-

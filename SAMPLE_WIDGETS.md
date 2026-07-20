@@ -1,6 +1,6 @@
-# 📦 Örnek Widget'lar - Admin Panelden Ekleme Rehberi
+# 📦 Sample Widgets - Adding Guide from Admin Panel
 
-Her kategori için örnek widget'lar! Bunları admin panelden ekleyebilirsiniz.
+Sample widgets for each category! You can add them from the admin panel.
 
 ---
 
@@ -8,17 +8,17 @@ Her kategori için örnek widget'lar! Bunları admin panelden ekleyebilirsiniz.
 
 ### Widget 1: Bottom Navigation Bar
 
-**Başlık:**
+**Title:**
 ```
 Bottom Navigation Bar with Gradient
 ```
 
-**Açıklama:**
+**Explanation:**
 ```
 Modern gradient bottom navigation bar with icon and label support
 ```
 
-**Kategori:**
+**Category:**
 ```
 Navigation
 ```
@@ -28,7 +28,7 @@ Navigation
 navigation, bottom bar, gradient, icons
 ```
 
-**ArkTS Kodu:**
+**ArkTS Code:**
 ```typescript
 @Component
 export struct GradientBottomNav {
@@ -80,17 +80,17 @@ export struct GradientBottomNav {
 
 ### Widget 2: Animated Product Card
 
-**Başlık:**
+**Title:**
 ```
 Animated Product Card
 ```
 
-**Açıklama:**
+**Explanation:**
 ```
 Product card with hover animation and shadow effects
 ```
 
-**Kategori:**
+**Category:**
 ```
 Cards
 ```
@@ -100,7 +100,7 @@ Cards
 card, product, animated, hover
 ```
 
-**ArkTS Kodu:**
+**ArkTS Code:**
 ```typescript
 @Component
 export struct AnimatedProductCard {
@@ -152,17 +152,17 @@ export struct AnimatedProductCard {
 
 ### Widget 3: Modern Search Bar
 
-**Başlık:**
+**Title:**
 ```
 Modern Search Bar
 ```
 
-**Açıklama:**
+**Explanation:**
 ```
 Clean search input with icon and focus animation
 ```
 
-**Kategori:**
+**Category:**
 ```
 Input
 ```
@@ -172,7 +172,7 @@ Input
 search, input, textfield
 ```
 
-**ArkTS Kodu:**
+**ArkTS Code:**
 ```typescript
 @Component
 export struct ModernSearchBar {
@@ -213,17 +213,17 @@ export struct ModernSearchBar {
 
 ### Widget 4: Gradient Button
 
-**Başlık:**
+**Title:**
 ```
 Gradient Button with Icon
 ```
 
-**Açıklama:**
+**Explanation:**
 ```
 Eye-catching gradient button with press animation
 ```
 
-**Kategori:**
+**Category:**
 ```
 Buttons
 ```
@@ -233,7 +233,7 @@ Buttons
 button, gradient, animated
 ```
 
-**ArkTS Kodu:**
+**ArkTS Code:**
 ```typescript
 @Component
 export struct GradientButton {
@@ -274,17 +274,17 @@ export struct GradientButton {
 
 ### Widget 5: Profile Header
 
-**Başlık:**
+**Title:**
 ```
 Profile Header with Stats
 ```
 
-**Açıklama:**
+**Explanation:**
 ```
 User profile header with avatar and statistics
 ```
 
-**Kategori:**
+**Category:**
 ```
 Layout
 ```
@@ -294,7 +294,7 @@ Layout
 profile, user, stats
 ```
 
-**ArkTS Kodu:**
+**ArkTS Code:**
 ```typescript
 @Component
 export struct ProfileHeader {
@@ -346,12 +346,12 @@ export struct ProfileHeader {
 
 ---
 
-## 📝 Ekleme Adımları
+Steps to Add ## 📝
 
-1. Admin panele giriş yapın
-2. Her widget için "Widget Ekle" tıklayın
-3. Bir GIF seçin (placeholder olarak herhangi bir .gif)
-4. Yukarıdaki bilgileri kopyalayın
+1. Log in to the admin panel
+2. Click "Add Widget" for each widget
+3. Select a GIF (any .gif as placeholder)
+4. Copy the information above
 5. Kaydedin!
 
-**5 dakikada 5 widget ekleyin! 🚀**
+**Add 5 widgets in 5 minutes! 🚀**

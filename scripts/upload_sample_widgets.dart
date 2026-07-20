@@ -5,14 +5,12 @@ import 'package:firebase_storage/firebase_storage.dart';
 import '../lib/firebase_options.dart';
 
 void main() async {
-  // Firebase'i başlat
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  //start Firebase
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  print('🚀 Firebase bağlantısı başarılı!');
+  print('🚀 Firebase connection successful!');
 
-  // Firestore referansı
+  // Firestore reference
   final firestore = FirebaseFirestore.instance;
   final storage = FirebaseStorage.instance;
 
@@ -20,7 +18,8 @@ void main() async {
   final sampleWidgets = [
     {
       'title': 'Bottom Navigation Bar with Gradient',
-      'description': 'Modern gradient bottom navigation bar with icon and label support',
+      'description':
+          'Modern gradient bottom navigation bar with icon and label support',
       'category': 'Navigation',
       'tags': ['navigation', 'bottom bar', 'gradient', 'icons'],
       'code': '''@Component
@@ -247,30 +246,32 @@ export struct ProfileHeader {
     },
   ];
 
-  print('\n📦 ${sampleWidgets.length} adet widget yüklenecek...\n');
+  print('\n📦 ${sampleWidgets.length} widgets will be loaded...\n');
 
   int successCount = 0;
   int errorCount = 0;
 
   for (var widgetData in sampleWidgets) {
     try {
-      // GIF dosyasını yükle
+      // load GIF file
       final gifPath = 'assets/gifs/${widgetData['gifFileName']}';
       final gifFile = File(gifPath);
-      
+
       String gifUrl = '';
       if (await gifFile.exists()) {
-        print('📤 ${widgetData['gifFileName']} yükleniyor...');
-        final storageRef = storage.ref().child('widgets/${widgetData['gifFileName']}');
+        print('📤 Loading ${widgetData['gifFileName']}...');
+        final storageRef = storage.ref().child(
+          'widgets/${widgetData['gifFileName']}',
+        );
         await storageRef.putFile(gifFile);
         gifUrl = await storageRef.getDownloadURL();
-        print('✅ GIF yüklendi: $gifUrl');
+        print('✅ GIF loaded: $gifUrl');
       } else {
-        print('⚠️  GIF bulunamadı: $gifPath');
+        print('⚠️ GIF not found: $gifPath');
         gifUrl = 'https://via.placeholder.com/400x300.gif';
       }
 
-      // Firestore'a widget ekle
+      //Add widget to Firestore
       await firestore.collection('widgets').add({
         'title': widgetData['title'],
         'description': widgetData['description'],
@@ -281,19 +282,19 @@ export struct ProfileHeader {
         'createdAt': FieldValue.serverTimestamp(),
       });
 
-      print('✅ "${widgetData['title']}" eklendi!\n');
+      print('✅ "${widgetData['title']}" added!\n');
       successCount++;
     } catch (e) {
-      print('❌ "${widgetData['title']}" eklenirken hata: $e\n');
+      print('❌ Error adding "${widgetData['title']}": $e\n');
       errorCount++;
     }
   }
 
   print('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-  print('✅ Başarılı: $successCount');
-  print('❌ Hatalı: $errorCount');
+  print('✅ Success: $successCount');
+  print('❌ Error: $errorCount');
   print('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-  print('\n🎉 İşlem tamamlandı!');
-  
+  print('\n🎉 Operation completed!');
+
   exit(0);
 }

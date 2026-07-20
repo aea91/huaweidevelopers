@@ -3,10 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // Mevcut kullanıcıyı getir
+  // Get the current user
   User? get currentUser => _auth.currentUser;
 
-  // Auth state değişikliklerini dinle
+  // Listen for authentication state changes
   Stream<User?> get authStateChanges => _auth.authStateChanges();
 
   // Admin login (email/password)
@@ -22,22 +22,22 @@ class AuthService {
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'user-not-found':
-          throw Exception('Bu email ile kayıtlı kullanıcı bulunamadı');
+          throw Exception('No user is registered with this email address');
         case 'wrong-password':
-          throw Exception('Hatalı şifre');
+          throw Exception('Incorrect password');
         case 'invalid-email':
-          throw Exception('Geçersiz email formatı');
+          throw Exception('Invalid email format');
         case 'user-disabled':
-          throw Exception('Bu hesap devre dışı bırakılmış');
+          throw Exception('This account has been disabled');
         default:
-          throw Exception('Giriş hatası: ${e.message}');
+          throw Exception('Sign-in failed: ${e.message}');
       }
     } catch (e) {
-      throw Exception('Beklenmeyen hata: $e');
+      throw Exception('Unexpected error: $e');
     }
   }
 
-  // Admin kaydı (ilk admin için)
+  // Register the first administrator
   Future<UserCredential> registerAdmin(String email, String password) async {
     try {
       return await _auth.createUserWithEmailAndPassword(
@@ -47,33 +47,33 @@ class AuthService {
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'weak-password':
-          throw Exception('Şifre çok zayıf (minimum 6 karakter)');
+          throw Exception('Password is too weak (minimum 6 characters)');
         case 'email-already-in-use':
-          throw Exception('Bu email zaten kullanımda');
+          throw Exception('This email address is already in use');
         case 'invalid-email':
-          throw Exception('Geçersiz email formatı');
+          throw Exception('Invalid email format');
         default:
-          throw Exception('Kayıt hatası: ${e.message}');
+          throw Exception('Registration failed: ${e.message}');
       }
     } catch (e) {
-      throw Exception('Beklenmeyen hata: $e');
+      throw Exception('Unexpected error: $e');
     }
   }
 
-  // Çıkış yap
+  // Sign out
   Future<void> signOut() async {
     await _auth.signOut();
   }
 
-  // Admin kontrolü
+  // Check administrator status
   bool get isAdmin => currentUser != null;
 
-  // Şifre sıfırlama emaili gönder
+  // Send a password reset email
   Future<void> sendPasswordResetEmail(String email) async {
     try {
       await _auth.sendPasswordResetEmail(email: email);
     } catch (e) {
-      throw Exception('Şifre sıfırlama emaili gönderilemedi: $e');
+      throw Exception('Failed to send password reset email: $e');
     }
   }
 }

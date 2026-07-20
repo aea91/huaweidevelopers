@@ -30,7 +30,7 @@ class _ManagersScreenState extends State<ManagersScreen> {
         stream: _firestoreService.getManagers(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return Center(child: Text('Hata: ${snapshot.error}'));
+            return Center(child: Text('Error: ${snapshot.error}'));
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -42,16 +42,23 @@ class _ManagersScreenState extends State<ManagersScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.manage_accounts, size: 80, color: Color(0xFFD1D5DB)),
+                  const Icon(
+                    Icons.manage_accounts,
+                    size: 80,
+                    color: Color(0xFFD1D5DB),
+                  ),
                   const SizedBox(height: 16),
                   Text(
-                    'Henüz manager yok',
+                    'No managers yet',
                     style: AppChrome.body(fontSize: 18, color: AppChrome.muted),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Admin panelden manager ekleyin',
-                    style: AppChrome.body(fontSize: 14, color: const Color(0xFF94A3B8)),
+                    'Add managers from the admin panel',
+                    style: AppChrome.body(
+                      fontSize: 14,
+                      color: const Color(0xFF94A3B8),
+                    ),
                   ),
                 ],
               ),
@@ -121,7 +128,12 @@ class _ManagersScreenState extends State<ManagersScreen> {
                   style: AppChrome.body(fontSize: 14, color: AppChrome.muted),
                 ),
                 const SizedBox(height: 16),
-                Expanded(child: CodeViewer(code: selected!.code.trim(), title: selected!.className)),
+                Expanded(
+                  child: CodeViewer(
+                    code: selected!.code.trim(),
+                    title: selected!.className,
+                  ),
+                ),
               ],
             ),
           ),
@@ -137,7 +149,9 @@ class _ManagersScreenState extends State<ManagersScreen> {
         ...managers.map(
           (m) => Card(
             elevation: 0,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
@@ -148,19 +162,31 @@ class _ManagersScreenState extends State<ManagersScreen> {
                       Expanded(
                         child: Text(
                           m.title,
-                          style: AppChrome.body(fontWeight: FontWeight.bold, fontSize: 18),
+                          style: AppChrome.body(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
                         ),
                       ),
                       Text(
                         m.fileName,
-                        style: AppChrome.body(fontSize: 12, color: AppChrome.muted),
+                        style: AppChrome.body(
+                          fontSize: 12,
+                          color: AppChrome.muted,
+                        ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 6),
-                  Text(m.description, style: AppChrome.body(fontSize: 13, color: AppChrome.muted)),
+                  Text(
+                    m.description,
+                    style: AppChrome.body(fontSize: 13, color: AppChrome.muted),
+                  ),
                   const SizedBox(height: 12),
-                  SizedBox(height: 380, child: CodeViewer(code: m.code.trim(), title: m.className)),
+                  SizedBox(
+                    height: 380,
+                    child: CodeViewer(code: m.code.trim(), title: m.className),
+                  ),
                 ],
               ),
             ),
@@ -179,10 +205,14 @@ class _ManagersScreenState extends State<ManagersScreen> {
         margin: const EdgeInsets.only(bottom: 10),
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: isSelected ? AppChrome.ink.withOpacity(0.08) : Colors.transparent,
+          color: isSelected
+              ? AppChrome.ink.withOpacity(0.08)
+              : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected ? AppChrome.ink.withOpacity(0.35) : const Color(0xFFE5E7EB),
+            color: isSelected
+                ? AppChrome.ink.withOpacity(0.35)
+                : const Color(0xFFE5E7EB),
           ),
         ),
         child: Column(
@@ -206,11 +236,13 @@ class _ManagersScreenState extends State<ManagersScreen> {
               ],
             ),
             const SizedBox(height: 6),
-            Text(m.description, style: AppChrome.body(fontSize: 12, color: AppChrome.muted)),
+            Text(
+              m.description,
+              style: AppChrome.body(fontSize: 12, color: AppChrome.muted),
+            ),
           ],
         ),
       ),
     );
   }
 }
-

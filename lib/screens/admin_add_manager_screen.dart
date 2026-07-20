@@ -56,7 +56,9 @@ class _AdminAddManagerScreenState extends State<AdminAddManagerScreen> {
     _classNameController = TextEditingController(text: m?.className ?? '');
     _exportCodeController = TextEditingController(text: m?.exportCode ?? '');
     _customPermissionController = TextEditingController();
-    _selectedPermissions = {...?m?.permissions.map((e) => e.trim()).where((e) => e.isNotEmpty)};
+    _selectedPermissions = {
+      ...?m?.permissions.map((e) => e.trim()).where((e) => e.isNotEmpty),
+    };
     _codeController = TextEditingController(text: m?.code ?? '');
     _loadPermissionTemplates();
   }
@@ -66,7 +68,9 @@ class _AdminAddManagerScreenState extends State<AdminAddManagerScreen> {
       final remote = await _firestoreService.getManagerPermissionTemplates();
       if (!mounted) return;
       setState(() {
-        _permissionTemplates = remote.isNotEmpty ? remote : List<String>.from(_defaultPermissionTemplates);
+        _permissionTemplates = remote.isNotEmpty
+            ? remote
+            : List<String>.from(_defaultPermissionTemplates);
       });
     } catch (_) {
       if (!mounted) return;
@@ -89,9 +93,9 @@ class _AdminAddManagerScreenState extends State<AdminAddManagerScreen> {
 
   String? _validateClassName(String? value) {
     final v = (value ?? '').trim();
-    if (v.isEmpty) return 'Class name gerekli';
+    if (v.isEmpty) return 'Class name is required';
     final ok = RegExp(r'^[A-Z][A-Za-z0-9]*$').hasMatch(v);
-    if (!ok) return 'Örn: StorageManager (PascalCase)';
+    if (!ok) return 'Example: StorageManager (PascalCase)';
     return null;
   }
 
@@ -120,7 +124,7 @@ class _AdminAddManagerScreenState extends State<AdminAddManagerScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              widget.manager == null ? 'Manager eklendi' : 'Manager güncellendi',
+              widget.manager == null ? 'Manager added' : 'Manager updated',
               style: GoogleFonts.inter(),
             ),
             backgroundColor: Colors.green,
@@ -132,7 +136,7 @@ class _AdminAddManagerScreenState extends State<AdminAddManagerScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Hata: $e', style: GoogleFonts.inter()),
+            content: Text('Error: $e', style: GoogleFonts.inter()),
             backgroundColor: Colors.red,
           ),
         );
@@ -149,7 +153,7 @@ class _AdminAddManagerScreenState extends State<AdminAddManagerScreen> {
       backgroundColor: const Color(0xFFF9FAFB),
       appBar: AppBar(
         title: Text(
-          isEdit ? 'Manager Düzenle' : 'Yeni Manager Ekle',
+          isEdit ? 'Edit Manager' : 'Add New Manager',
           style: GoogleFonts.inter(fontWeight: FontWeight.bold),
         ),
         backgroundColor: const Color(0xFF5B21B6),
@@ -161,24 +165,30 @@ class _AdminAddManagerScreenState extends State<AdminAddManagerScreen> {
           padding: const EdgeInsets.all(16),
           children: [
             _card(
-              title: 'Temel Bilgiler',
+              title: 'Basic Information',
               child: Column(
                 children: [
                   TextFormField(
                     controller: _titleController,
                     decoration: const InputDecoration(labelText: 'Title'),
-                    validator: (v) => (v == null || v.trim().isEmpty) ? 'Title gerekli' : null,
+                    validator: (v) => (v == null || v.trim().isEmpty)
+                        ? 'Title is required'
+                        : null,
                   ),
                   const SizedBox(height: 12),
                   TextFormField(
                     controller: _descriptionController,
                     decoration: const InputDecoration(labelText: 'Description'),
-                    validator: (v) => (v == null || v.trim().isEmpty) ? 'Description gerekli' : null,
+                    validator: (v) => (v == null || v.trim().isEmpty)
+                        ? 'Description is required'
+                        : null,
                   ),
                   const SizedBox(height: 12),
                   TextFormField(
                     controller: _classNameController,
-                    decoration: const InputDecoration(labelText: 'Class Name (örn: StorageManager)'),
+                    decoration: const InputDecoration(
+                      labelText: 'Class Name (example: StorageManager)',
+                    ),
                     validator: _validateClassName,
                   ),
                   const SizedBox(height: 12),
@@ -186,7 +196,8 @@ class _AdminAddManagerScreenState extends State<AdminAddManagerScreen> {
                     controller: _exportCodeController,
                     decoration: const InputDecoration(
                       labelText: "Export Code (opsiyonel)",
-                      hintText: "export { StorageManager } from './src/main/ets/managers/StorageManager';",
+                      hintText:
+                          "export { StorageManager } from './src/main/ets/managers/StorageManager';",
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -194,7 +205,10 @@ class _AdminAddManagerScreenState extends State<AdminAddManagerScreen> {
                     alignment: Alignment.centerLeft,
                     child: Text(
                       'Permissions',
-                      style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w600),
+                      style: GoogleFonts.inter(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -235,13 +249,16 @@ class _AdminAddManagerScreenState extends State<AdminAddManagerScreen> {
                           final value = _customPermissionController.text.trim();
                           if (value.isEmpty) return;
                           setState(() {
-                            if (!_containsPermission(_selectedPermissions, value)) {
+                            if (!_containsPermission(
+                              _selectedPermissions,
+                              value,
+                            )) {
                               _selectedPermissions.add(value);
                             }
                           });
                           _customPermissionController.clear();
                         },
-                        child: const Text('Ekle'),
+                        child: const Text('Add'),
                       ),
                     ],
                   ),
@@ -252,7 +269,10 @@ class _AdminAddManagerScreenState extends State<AdminAddManagerScreen> {
                       runSpacing: 8,
                       children: _selectedPermissions.map((p) {
                         return Chip(
-                          label: Text(p, style: GoogleFonts.inter(fontSize: 12)),
+                          label: Text(
+                            p,
+                            style: GoogleFonts.inter(fontSize: 12),
+                          ),
                           onDeleted: () {
                             setState(() {
                               _selectedPermissions.remove(p);
@@ -275,7 +295,8 @@ class _AdminAddManagerScreenState extends State<AdminAddManagerScreen> {
                   labelText: 'Code',
                   alignLabelWithHint: true,
                 ),
-                validator: (v) => (v == null || v.trim().isEmpty) ? 'Code gerekli' : null,
+                validator: (v) =>
+                    (v == null || v.trim().isEmpty) ? 'Code is required' : null,
               ),
             ),
             const SizedBox(height: 16),
@@ -285,10 +306,13 @@ class _AdminAddManagerScreenState extends State<AdminAddManagerScreen> {
                   ? const SizedBox(
                       width: 18,
                       height: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Colors.white,
+                      ),
                     )
                   : const Icon(Icons.save),
-              label: Text(isEdit ? 'Güncelle' : 'Kaydet'),
+              label: Text(isEdit ? 'Update' : 'Save'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF5B21B6),
                 foregroundColor: Colors.white,
@@ -308,16 +332,16 @@ class _AdminAddManagerScreenState extends State<AdminAddManagerScreen> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-          ),
+          BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w600)),
+          Text(
+            title,
+            style: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w600),
+          ),
           const SizedBox(height: 12),
           child,
         ],
@@ -325,4 +349,3 @@ class _AdminAddManagerScreenState extends State<AdminAddManagerScreen> {
     );
   }
 }
-

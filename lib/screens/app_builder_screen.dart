@@ -26,31 +26,39 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
   bool _isAiLoading = false;
   AppDesignSuggestion? _aiSuggestion;
   List<ManagerDefinition> _availableManagers = [];
-  
+
   // Step 1: Theme Data
   Color primaryColor = AppChrome.ink;
   Color secondaryColor = const Color(0xFF03DAC6);
   Color tertiaryColor = const Color(0xFFFF6B6B);
   bool isDarkMode = false;
-  
+
   // Step 2: Selected Widgets
   List<String> selectedWidgetIds = [];
   List<WidgetShowcase> availableWidgets = [];
-  
+
   // Step 3: Managers
   List<String> selectedManagerIds = [];
-  
+
   // Step 4: Models
   List<Map<String, dynamic>> models = [];
   final TextEditingController _modelNameController = TextEditingController();
   final TextEditingController _jsonController = TextEditingController();
   bool _makeModelsNullable = false;
-  
+
   // Step 5: Project Info
-  final TextEditingController _projectNameController = TextEditingController(text: 'MyArkUIApp');
-  final TextEditingController _bundleIdController = TextEditingController(text: 'com.example.myapp');
-  final TextEditingController _descriptionController = TextEditingController(text: 'A beautiful ArkUI application');
-  final TextEditingController _sdkVersionController = TextEditingController(text: '5.1.0(18)');
+  final TextEditingController _projectNameController = TextEditingController(
+    text: 'MyArkUIApp',
+  );
+  final TextEditingController _bundleIdController = TextEditingController(
+    text: 'com.example.myapp',
+  );
+  final TextEditingController _descriptionController = TextEditingController(
+    text: 'A beautiful ArkUI application',
+  );
+  final TextEditingController _sdkVersionController = TextEditingController(
+    text: '5.1.0(18)',
+  );
 
   @override
   void dispose() {
@@ -90,7 +98,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
     if (description.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Lütfen uygulamanızı tarif edin', style: AppChrome.body()),
+          content: Text('Please describe your app', style: AppChrome.body()),
           backgroundColor: Colors.orange,
         ),
       );
@@ -119,7 +127,10 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
       });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('AI önerisi alınamadı: $e', style: AppChrome.body()),
+          content: Text(
+            'Could not get an AI suggestion: $e',
+            style: AppChrome.body(),
+          ),
           backgroundColor: Colors.red,
         ),
       );
@@ -138,7 +149,8 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
       tertiaryColor = _colorFromHex(suggestion.tertiaryColor, tertiaryColor);
       isDarkMode = suggestion.isDarkMode;
 
-      if (suggestion.projectName != null && suggestion.projectName!.isNotEmpty) {
+      if (suggestion.projectName != null &&
+          suggestion.projectName!.isNotEmpty) {
         _projectNameController.text = suggestion.projectName!;
       }
       if (suggestion.projectDescription != null &&
@@ -152,10 +164,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
 
         final fields = <Map<String, String>>[];
         model.sampleJson.forEach((key, value) {
-          fields.add({
-            'name': key,
-            'type': _getJsonType(value),
-          });
+          fields.add({'name': key, 'type': _getJsonType(value)});
         });
 
         models.add({
@@ -170,7 +179,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          'AI önerileri uygulandı. Adımları gözden geçirip düzenleyebilirsiniz.',
+          'AI suggestions applied. You can review and edit the steps.',
           style: AppChrome.body(),
         ),
         backgroundColor: const Color(0xFF16A34A),
@@ -295,8 +304,8 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
               builder: (context, constraints) {
                 final maxAiPanelHeight = _aiPanelExpanded
                     ? (_aiSuggestion != null
-                        ? (constraints.maxHeight * 0.45).clamp(280.0, 420.0)
-                        : 250.0)
+                          ? (constraints.maxHeight * 0.45).clamp(280.0, 420.0)
+                          : 250.0)
                     : 88.0;
 
                 return Column(
@@ -326,70 +335,74 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                         ),
                       ),
                     ),
-                    Expanded(
-                      child: _buildCurrentStep(),
-                    ),
-                // Navigation Buttons
-                Container(
-                  padding: const EdgeInsets.all(24),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        blurRadius: 10,
-                        offset: const Offset(0, -2),
+                    Expanded(child: _buildCurrentStep()),
+                    // Navigation Buttons
+                    Container(
+                      padding: const EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 10,
+                            offset: const Offset(0, -2),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      if (_currentStep > 0)
-                        OutlinedButton.icon(
-                          onPressed: () {
-                            setState(() {
-                              _currentStep--;
-                            });
-                          },
-                          icon: const Icon(Icons.arrow_back),
-                          label: const Text('Back'),
-                          style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 24,
-                              vertical: 16,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          if (_currentStep > 0)
+                            OutlinedButton.icon(
+                              onPressed: () {
+                                setState(() {
+                                  _currentStep--;
+                                });
+                              },
+                              icon: const Icon(Icons.arrow_back),
+                              label: const Text('Back'),
+                              style: OutlinedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 24,
+                                  vertical: 16,
+                                ),
+                              ),
+                            )
+                          else
+                            const SizedBox(),
+                          ElevatedButton.icon(
+                            onPressed: _currentStep < 4
+                                ? () {
+                                    setState(() {
+                                      _currentStep++;
+                                    });
+                                  }
+                                : _generateProject,
+                            icon: Icon(
+                              _currentStep < 4
+                                  ? Icons.arrow_forward
+                                  : Icons.download,
+                            ),
+                            label: Text(
+                              _currentStep < 4
+                                  ? 'Next Step'
+                                  : 'Generate Project',
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppChrome.ink,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                                vertical: 16,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
                             ),
                           ),
-                        )
-                      else
-                        const SizedBox(),
-                      ElevatedButton.icon(
-                        onPressed: _currentStep < 4
-                            ? () {
-                                setState(() {
-                                  _currentStep++;
-                                });
-                              }
-                            : _generateProject,
-                        icon: Icon(
-                          _currentStep < 4 ? Icons.arrow_forward : Icons.download,
-                        ),
-                        label: Text(_currentStep < 4 ? 'Next Step' : 'Generate Project'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppChrome.ink,
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 24,
-                            vertical: 16,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
+                    ),
                   ],
                 );
               },
@@ -411,16 +424,14 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: isActive
-            ? AppChrome.ink.withOpacity(0.1)
-            : Colors.transparent,
+        color: isActive ? AppChrome.ink.withOpacity(0.1) : Colors.transparent,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: isActive
               ? AppChrome.ink
               : isCompleted
-                  ? Colors.green
-                  : Colors.transparent,
+              ? Colors.green
+              : Colors.transparent,
           width: isActive ? 2 : 1,
         ),
       ),
@@ -432,8 +443,8 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
             color: isCompleted
                 ? Colors.green
                 : isActive
-                    ? AppChrome.ink
-                    : const Color(0xFFF3F4F6),
+                ? AppChrome.ink
+                : const Color(0xFFF3F4F6),
             shape: BoxShape.circle,
           ),
           child: Center(
@@ -451,17 +462,12 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
           style: AppChrome.body(
             fontSize: 14,
             fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
-            color: isActive
-                ? AppChrome.ink
-                : AppChrome.ink,
+            color: isActive ? AppChrome.ink : AppChrome.ink,
           ),
         ),
         subtitle: Text(
           description,
-          style: AppChrome.body(
-            fontSize: 12,
-            color: AppChrome.muted,
-          ),
+          style: AppChrome.body(fontSize: 12, color: AppChrome.muted),
         ),
         trailing: Text(
           '$stepNumber',
@@ -527,10 +533,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                   const SizedBox(height: 4),
                   Text(
                     'Pick singleton managers (optional)',
-                    style: AppChrome.body(
-                      fontSize: 16,
-                      color: AppChrome.muted,
-                    ),
+                    style: AppChrome.body(fontSize: 16, color: AppChrome.muted),
                   ),
                 ],
               ),
@@ -547,7 +550,10 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: Text('Hata: ${snapshot.error}', style: AppChrome.body()),
+                  child: Text(
+                    'Error: ${snapshot.error}',
+                    style: AppChrome.body(),
+                  ),
                 );
               }
 
@@ -564,7 +570,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Text(
-                    'Henüz manager yok. Admin panelden manager ekleyin.',
+                    'No managers yet. Add managers from the admin panel.',
                     style: AppChrome.body(),
                   ),
                 );
@@ -591,17 +597,31 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                         onChanged: (checked) {
                           setState(() {
                             if (checked == true) {
-                              selectedManagerIds = {...selectedManagerIds, m.id}.toList();
+                              selectedManagerIds = {
+                                ...selectedManagerIds,
+                                m.id,
+                              }.toList();
                             } else {
-                              selectedManagerIds = selectedManagerIds.where((id) => id != m.id).toList();
+                              selectedManagerIds = selectedManagerIds
+                                  .where((id) => id != m.id)
+                                  .toList();
                             }
                           });
                         },
-                        title: Text(m.title, style: AppChrome.body(fontWeight: FontWeight.w600)),
-                        subtitle: Text(m.description, style: AppChrome.body(fontSize: 12)),
+                        title: Text(
+                          m.title,
+                          style: AppChrome.body(fontWeight: FontWeight.w600),
+                        ),
+                        subtitle: Text(
+                          m.description,
+                          style: AppChrome.body(fontSize: 12),
+                        ),
                         secondary: Text(
                           m.fileName,
-                          style: AppChrome.body(fontSize: 11, color: AppChrome.muted),
+                          style: AppChrome.body(
+                            fontSize: 11,
+                            color: AppChrome.muted,
+                          ),
                         ),
                         controlAffinity: ListTileControlAffinity.leading,
                       ),
@@ -655,17 +675,14 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                   const SizedBox(height: 4),
                   Text(
                     'Select colors for your app theme',
-                    style: AppChrome.body(
-                      fontSize: 16,
-                      color: AppChrome.muted,
-                    ),
+                    style: AppChrome.body(fontSize: 16, color: AppChrome.muted),
                   ),
                 ],
               ),
             ],
           ),
           const SizedBox(height: 32),
-          
+
           // Theme Mode Toggle
           Container(
             padding: const EdgeInsets.all(4),
@@ -676,18 +693,23 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                _buildModeButton('Light Mode', Icons.light_mode, !isDarkMode, () {
-                  setState(() => isDarkMode = false);
-                }),
+                _buildModeButton(
+                  'Light Mode',
+                  Icons.light_mode,
+                  !isDarkMode,
+                  () {
+                    setState(() => isDarkMode = false);
+                  },
+                ),
                 _buildModeButton('Dark Mode', Icons.dark_mode, isDarkMode, () {
                   setState(() => isDarkMode = true);
                 }),
               ],
             ),
           ),
-          
+
           const SizedBox(height: 32),
-          
+
           // Color Pickers
           Row(
             children: [
@@ -724,7 +746,12 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
     );
   }
 
-  Widget _buildModeButton(String label, IconData icon, bool isSelected, VoidCallback onTap) {
+  Widget _buildModeButton(
+    String label,
+    IconData icon,
+    bool isSelected,
+    VoidCallback onTap,
+  ) {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(10),
@@ -793,11 +820,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                 border: Border.all(color: Colors.black12, width: 2),
               ),
               child: const Center(
-                child: Icon(
-                  Icons.colorize,
-                  color: Colors.white,
-                  size: 32,
-                ),
+                child: Icon(Icons.colorize, color: Colors.white, size: 32),
               ),
             ),
           ),
@@ -813,10 +836,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
           const SizedBox(height: 4),
           Text(
             description,
-            style: AppChrome.body(
-              fontSize: 13,
-              color: AppChrome.muted,
-            ),
+            style: AppChrome.body(fontSize: 13, color: AppChrome.muted),
           ),
           const SizedBox(height: 8),
           Text(
@@ -848,7 +868,10 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
     );
   }
 
-  void _showColorPickerDialog(Color currentColor, ValueChanged<Color> onColorChanged) {
+  void _showColorPickerDialog(
+    Color currentColor,
+    ValueChanged<Color> onColorChanged,
+  ) {
     showDialog(
       context: context,
       builder: (dialogContext) => Dialog(
@@ -880,8 +903,9 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                   itemBuilder: (context, index) {
                     final color = _predefinedColors[index];
                     final isSelected = currentColor.value == color.value;
-                    final hexCode = '#${color.value.toRadixString(16).substring(2).toUpperCase()}';
-                    
+                    final hexCode =
+                        '#${color.value.toRadixString(16).substring(2).toUpperCase()}';
+
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -897,7 +921,9 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                                 color: color,
                                 borderRadius: BorderRadius.circular(8),
                                 border: Border.all(
-                                  color: isSelected ? Colors.black : Colors.black12,
+                                  color: isSelected
+                                      ? Colors.black
+                                      : Colors.black12,
                                   width: isSelected ? 3 : 1,
                                 ),
                               ),
@@ -1051,7 +1077,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
             ],
           ),
           const SizedBox(height: 32),
-          
+
           if (availableWidgets.isEmpty)
             Center(
               child: Column(
@@ -1061,10 +1087,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                   const SizedBox(height: 16),
                   Text(
                     'Loading widgets...',
-                    style: AppChrome.body(
-                      fontSize: 16,
-                      color: AppChrome.muted,
-                    ),
+                    style: AppChrome.body(fontSize: 16, color: AppChrome.muted),
                   ),
                 ],
               ),
@@ -1083,7 +1106,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
               itemBuilder: (context, index) {
                 final widget = availableWidgets[index];
                 final isSelected = selectedWidgetIds.contains(widget.id);
-                
+
                 return _buildWidgetCard(widget, isSelected, () {
                   setState(() {
                     if (isSelected) {
@@ -1100,7 +1123,11 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
     );
   }
 
-  Widget _buildWidgetCard(WidgetShowcase widget, bool isSelected, VoidCallback onTap) {
+  Widget _buildWidgetCard(
+    WidgetShowcase widget,
+    bool isSelected,
+    VoidCallback onTap,
+  ) {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),
@@ -1214,11 +1241,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                       ),
                     ],
                   ),
-                  child: const Icon(
-                    Icons.check,
-                    color: Colors.white,
-                    size: 20,
-                  ),
+                  child: const Icon(Icons.check, color: Colors.white, size: 20),
                 ),
               ),
           ],
@@ -1262,11 +1285,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                   color: AppChrome.ink.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Icon(
-                  Icons.code,
-                  color: AppChrome.ink,
-                  size: 32,
-                ),
+                child: const Icon(Icons.code, color: AppChrome.ink, size: 32),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -1295,7 +1314,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
             ],
           ),
           const SizedBox(height: 32),
-          
+
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -1384,8 +1403,12 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                                         Container(
                                           padding: const EdgeInsets.all(8),
                                           decoration: BoxDecoration(
-                                            color: AppChrome.ink.withOpacity(0.1),
-                                            borderRadius: BorderRadius.circular(6),
+                                            color: AppChrome.ink.withOpacity(
+                                              0.1,
+                                            ),
+                                            borderRadius: BorderRadius.circular(
+                                              6,
+                                            ),
                                           ),
                                           child: const Icon(
                                             Icons.data_object,
@@ -1396,15 +1419,18 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                                         const SizedBox(width: 12),
                                         Expanded(
                                           child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 '${model['name']}.ets',
-                                                style: GoogleFonts.jetBrainsMono(
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: AppChrome.ink,
-                                                ),
+                                                style:
+                                                    GoogleFonts.jetBrainsMono(
+                                                      fontSize: 13,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: AppChrome.ink,
+                                                    ),
                                               ),
                                               Text(
                                                 '${model['fields']?.length ?? 0} fields',
@@ -1417,7 +1443,10 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                                           ),
                                         ),
                                         IconButton(
-                                          icon: const Icon(Icons.delete_outline, size: 18),
+                                          icon: const Icon(
+                                            Icons.delete_outline,
+                                            size: 18,
+                                          ),
                                           color: Colors.red,
                                           onPressed: () {
                                             setState(() {
@@ -1435,9 +1464,9 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                   ),
                 ),
               ),
-              
+
               const SizedBox(width: 24),
-              
+
               // Right: Add Model Form
               Expanded(
                 flex: 2,
@@ -1461,7 +1490,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      
+
                       // Model Name Input
                       TextField(
                         controller: _modelNameController,
@@ -1474,9 +1503,9 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                           prefixIcon: const Icon(Icons.abc),
                         ),
                       ),
-                      
+
                       const SizedBox(height: 16),
-                      
+
                       // Nullable checkbox
                       CheckboxListTile(
                         title: Text(
@@ -1485,7 +1514,10 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                         ),
                         subtitle: Text(
                           'Add ? to all properties',
-                          style: AppChrome.body(fontSize: 11, color: AppChrome.muted),
+                          style: AppChrome.body(
+                            fontSize: 11,
+                            color: AppChrome.muted,
+                          ),
                         ),
                         value: _makeModelsNullable,
                         onChanged: (value) {
@@ -1497,9 +1529,9 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                         contentPadding: EdgeInsets.zero,
                         dense: true,
                       ),
-                      
+
                       const SizedBox(height: 12),
-                      
+
                       // JSON Input
                       Expanded(
                         child: Container(
@@ -1539,8 +1571,11 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                                   decoration: const InputDecoration(
                                     border: InputBorder.none,
                                     contentPadding: EdgeInsets.all(16),
-                                    hintText: '{\n  "id": 1,\n  "name": "John",\n  "email": "john@example.com"\n}',
-                                    hintStyle: TextStyle(color: AppChrome.muted),
+                                    hintText:
+                                        '{\n  "id": 1,\n  "name": "John",\n  "email": "john@example.com"\n}',
+                                    hintStyle: TextStyle(
+                                      color: AppChrome.muted,
+                                    ),
                                   ),
                                   style: GoogleFonts.jetBrainsMono(
                                     fontSize: 13,
@@ -1553,9 +1588,9 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                           ),
                         ),
                       ),
-                      
+
                       const SizedBox(height: 16),
-                      
+
                       // Add Model Button
                       SizedBox(
                         width: double.infinity,
@@ -1587,7 +1622,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
   void _addModel() {
     final name = _modelNameController.text.trim();
     final jsonText = _jsonController.text.trim();
-    
+
     if (name.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -1597,7 +1632,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
       );
       return;
     }
-    
+
     if (jsonText.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -1607,23 +1642,20 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
       );
       return;
     }
-    
+
     try {
       final jsonData = json.decode(jsonText);
-      
+
       if (jsonData is! Map<String, dynamic>) {
         throw Exception('JSON must be an object');
       }
-      
+
       // Extract field names and types
       final fields = <Map<String, String>>[];
       jsonData.forEach((key, value) {
-        fields.add({
-          'name': key,
-          'type': _getJsonType(value),
-        });
+        fields.add({'name': key, 'type': _getJsonType(value)});
       });
-      
+
       setState(() {
         models.add({
           'name': name,
@@ -1631,19 +1663,22 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
           'nullable': _makeModelsNullable,
           'fields': fields,
         });
-        
+
         // Clear form
         _modelNameController.clear();
         _jsonController.clear();
       });
-      
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Row(
             children: [
               const Icon(Icons.check_circle, color: Colors.white),
               const SizedBox(width: 12),
-              Text('Model "$name" added successfully!', style: AppChrome.body()),
+              Text(
+                'Model "$name" added successfully!',
+                style: AppChrome.body(),
+              ),
             ],
           ),
           backgroundColor: Colors.green,
@@ -1652,7 +1687,10 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Invalid JSON: ${e.toString()}', style: AppChrome.body()),
+          content: Text(
+            'Invalid JSON: ${e.toString()}',
+            style: AppChrome.body(),
+          ),
           backgroundColor: Colors.red,
         ),
       );
@@ -1716,7 +1754,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
             ],
           ),
           const SizedBox(height: 32),
-          
+
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -1742,7 +1780,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      
+
                       // Project Name
                       TextField(
                         controller: _projectNameController,
@@ -1756,7 +1794,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      
+
                       // Bundle ID
                       TextField(
                         controller: _bundleIdController,
@@ -1770,7 +1808,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      
+
                       // Description
                       TextField(
                         controller: _descriptionController,
@@ -1803,9 +1841,9 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                   ),
                 ),
               ),
-              
+
               const SizedBox(width: 24),
-              
+
               // Right: Summary
               Expanded(
                 flex: 1,
@@ -1828,7 +1866,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      
+
                       _buildSummaryItem(
                         Icons.palette,
                         'Theme',
@@ -1836,24 +1874,28 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                         '3 colors selected',
                       ),
                       const SizedBox(height: 16),
-                      
+
                       _buildSummaryItem(
                         Icons.widgets,
                         'Widgets',
                         '${selectedWidgetIds.length} components',
-                        selectedWidgetIds.isEmpty ? 'No widgets selected' : 'Ready to use',
+                        selectedWidgetIds.isEmpty
+                            ? 'No widgets selected'
+                            : 'Ready to use',
                       ),
                       const SizedBox(height: 16),
-                      
+
                       _buildSummaryItem(
                         Icons.code,
                         'Models',
                         '${models.length} data models',
-                        models.isEmpty ? 'No models added' : 'With fromJson/toJson',
+                        models.isEmpty
+                            ? 'No models added'
+                            : 'With fromJson/toJson',
                       ),
-                      
+
                       const SizedBox(height: 24),
-                      
+
                       Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
@@ -1883,7 +1925,9 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                               ],
                             ),
                             const SizedBox(height: 12),
-                            _buildBulletPoint('Complete ArkUI project structure'),
+                            _buildBulletPoint(
+                              'Complete ArkUI project structure',
+                            ),
                             _buildBulletPoint('Theme configuration files'),
                             _buildBulletPoint('Selected widget components'),
                             _buildBulletPoint('Data model classes'),
@@ -1891,9 +1935,9 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                           ],
                         ),
                       ),
-                      
+
                       const SizedBox(height: 24),
-                      
+
                       SizedBox(
                         width: double.infinity,
                         height: 50,
@@ -1928,7 +1972,12 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
     );
   }
 
-  Widget _buildSummaryItem(IconData icon, String title, String value, String subtitle) {
+  Widget _buildSummaryItem(
+    IconData icon,
+    String title,
+    String value,
+    String subtitle,
+  ) {
     return Row(
       children: [
         Container(
@@ -1946,10 +1995,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
             children: [
               Text(
                 title,
-                style: AppChrome.body(
-                  fontSize: 12,
-                  color: AppChrome.muted,
-                ),
+                style: AppChrome.body(fontSize: 12, color: AppChrome.muted),
               ),
               Text(
                 value,
@@ -1978,19 +2024,12 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
       padding: const EdgeInsets.only(bottom: 6),
       child: Row(
         children: [
-          const Icon(
-            Icons.check_circle,
-            size: 14,
-            color: Color(0xFF10B981),
-          ),
+          const Icon(Icons.check_circle, size: 14, color: Color(0xFF10B981)),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               text,
-              style: AppChrome.body(
-                fontSize: 12,
-                color: AppChrome.muted,
-              ),
+              style: AppChrome.body(fontSize: 12, color: AppChrome.muted),
             ),
           ),
         ],
@@ -2003,7 +2042,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
     final bundleId = _bundleIdController.text.trim();
     final description = _descriptionController.text.trim();
     final sdkVersion = _sdkVersionController.text.trim();
-    
+
     if (projectName.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -2013,7 +2052,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
       );
       return;
     }
-    
+
     if (bundleId.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -2033,7 +2072,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
       );
       return;
     }
-    
+
     // Show loading dialog
     showDialog(
       context: context,
@@ -2044,47 +2083,49 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
           children: [
             const CircularProgressIndicator(),
             const SizedBox(height: 16),
-            Text(
-              'Generating your ArkUI project...',
-              style: AppChrome.body(),
-            ),
+            Text('Generating your ArkUI project...', style: AppChrome.body()),
           ],
         ),
       ),
     );
-    
+
     try {
       // Get selected widgets
       final selectedWidgets = availableWidgets
           .where((w) => selectedWidgetIds.contains(w.id))
-          .map((w) => {
-                'id': w.id,
-                'title': w.title,
-                'category': w.category,
-                'code': w.code,
-              })
+          .map(
+            (w) => {
+              'id': w.id,
+              'title': w.title,
+              'category': w.category,
+              'code': w.code,
+            },
+          )
           .toList();
 
       final managerDocs = await _firestoreService.getManagers().first;
       final selectedManagers = managerDocs
           .where((m) => selectedManagerIds.contains(m.id))
-          .map((m) => {
-                'id': m.id,
-                'title': m.title,
-                'className': m.className,
-                'exportCode': m.exportCode,
-                'permissions': m.permissions,
-                'code': m.code,
-              })
+          .map(
+            (m) => {
+              'id': m.id,
+              'title': m.title,
+              'className': m.className,
+              'exportCode': m.exportCode,
+              'permissions': m.permissions,
+              'code': m.code,
+            },
+          )
           .toList();
-      
+
       // Generate and download the project
       await ProjectGenerator.generateAndDownload(
         projectName: projectName,
         bundleId: bundleId,
         description: description,
         primaryColor: '#${primaryColor.value.toRadixString(16).substring(2)}',
-        secondaryColor: '#${secondaryColor.value.toRadixString(16).substring(2)}',
+        secondaryColor:
+            '#${secondaryColor.value.toRadixString(16).substring(2)}',
         tertiaryColor: '#${tertiaryColor.value.toRadixString(16).substring(2)}',
         isDarkMode: isDarkMode,
         selectedWidgets: selectedWidgets,
@@ -2092,10 +2133,10 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
         models: models,
         sdkVersion: sdkVersion,
       );
-      
+
       // Close loading dialog
       if (mounted) Navigator.pop(context);
-      
+
       // Show success dialog
       if (mounted) {
         showDialog(
@@ -2134,7 +2175,10 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                       _buildInfoRow('SDK:', sdkVersion),
                       _buildInfoRow('Theme:', isDarkMode ? 'Dark' : 'Light'),
                       _buildInfoRow('Widgets:', '${selectedWidgetIds.length}'),
-                      _buildInfoRow('Managers:', '${selectedManagerIds.length}'),
+                      _buildInfoRow(
+                        'Managers:',
+                        '${selectedManagerIds.length}',
+                      ),
                       _buildInfoRow('Models:', '${models.length}'),
                     ],
                   ),
@@ -2149,7 +2193,11 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.check_circle, color: Colors.green, size: 18),
+                      const Icon(
+                        Icons.check_circle,
+                        color: Colors.green,
+                        size: 18,
+                      ),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
@@ -2177,12 +2225,15 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
     } catch (e) {
       // Close loading dialog
       if (mounted) Navigator.pop(context);
-      
+
       // Show error dialog
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Error generating project: $e', style: AppChrome.body()),
+            content: Text(
+              'Error generating project: $e',
+              style: AppChrome.body(),
+            ),
             backgroundColor: Colors.red,
           ),
         );
@@ -2206,10 +2257,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
           const SizedBox(width: 8),
           Text(
             value,
-            style: AppChrome.body(
-              fontSize: 12,
-              color: AppChrome.ink,
-            ),
+            style: AppChrome.body(fontSize: 12, color: AppChrome.ink),
           ),
         ],
       ),

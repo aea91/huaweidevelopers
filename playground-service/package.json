@@ -1,0 +1,13 @@
+{
+  "name": "arkuibuild-playground-service",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sandboxed ArkTS compile and run API for ArkUI Build",
+  "engines": {
+    "node": "20"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test server.test.js"
+  }
+}

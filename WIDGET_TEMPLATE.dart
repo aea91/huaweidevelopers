@@ -1,30 +1,30 @@
-// 🎨 WIDGET ŞABLONU
-// Bu dosyayı kullanarak kolayca yeni widget'lar ekleyebilirsiniz
+// 🎨 WIDGET TEMPLATE
+// You can easily add new widgets using this file
 
 import '../models/widget_showcase.dart';
 
-// ADIM 1: Bu şablonu kopyalayın
-// ADIM 2: Bilgileri doldurun
-// ADIM 3: lib/data/sample_widgets.dart dosyasındaki listeye ekleyin
+// STEP 1: Copy this template
+// STEP 2: Fill in the information
+// STEP 3: Add to list in lib/data/sample_widgets.dart file
 
 final templateWidget = WidgetShowcase(
-  // Benzersiz ID - Sadece rakam veya harf kullanın
+  //Unique ID - Use only numbers or letters
   id: 'YOUR_UNIQUE_ID',
-  
-  // Widget başlığı - Kısa ve açıklayıcı
+
+  // Widget title - Short and descriptive
   title: 'Your Widget Title',
-  
-  // Widget açıklaması - Max 100 karakter önerilir
+
+  // Widget description - Max 100 characters recommended
   description: 'Brief description of what this widget does',
-  
-  // Kategori - Mevcut: Navigation, Cards, Input, Buttons
-  // Veya yeni bir kategori adı ekleyin
+
+  // Category - Available: Navigation, Cards, Input, Buttons
+  //Or add a new category name
   category: 'Your Category',
-  
-  // GIF dosya yolu - assets/gifs/ klasöründeki GIF
+
+  // GIF file path - GIF in folder assets/gifs/
   gifPath: 'assets/gifs/your_widget.gif',
-  
-  // ArkTS Kodu - Tam çalışan kod örneği
+
+  // ArkTS Code - Fully working code example
   code: '''
 @Component
 struct YourWidgetName {
@@ -42,7 +42,7 @@ struct YourWidgetName {
   }
 }
 
-// KULLANIM ÖRNEĞİ:
+// USE EXAMPLE:
 // @Entry
 // @Component  
 // struct Index {
@@ -51,34 +51,34 @@ struct YourWidgetName {
 //   }
 // }
 ''',
-  
-  // Tag'ler - Arama için kullanılır (2-5 tag önerilir)
+
+  // Tags - Used for search (2-5 tags recommended)
   tags: ['tag1', 'tag2', 'tag3'],
 );
 
 /* 
- * 💡 İPUÇLARI
+ * 💡 TIPS
  * ===========
- * 
- * 1. ID seçimi:
+ *
+ * 1. ID selection:
  *    ✅ 'custom_button_1'
  *    ✅ 'profile_card'
- *    ❌ 'my widget' (boşluk yok!)
- *    ❌ 'button@123' (özel karakter yok!)
- * 
- * 2. Başlık örnekleri:
+ * ❌ 'my widget' (no spaces!)
+ * ❌ 'button@123' (no special characters!)
+ *
+ * 2. Title examples:
  *    ✅ 'Animated Button'
  *    ✅ 'Profile Card with Avatar'
  *    ✅ 'Gradient Background'
- *    ❌ 'button' (çok kısa!)
- *    ❌ 'This is a very long title that explains everything' (çok uzun!)
+ * ❌ 'button' (too short!)
+ * ❌ 'This is a very long title that explains everything' (very long!)
  * 
- * 3. Açıklama örnekleri:
+ * 3. Explanation examples:
  *    ✅ 'Modern button with ripple effect and icon support'
  *    ✅ 'User profile card displaying avatar, name and stats'
- *    ❌ 'Button' (çok kısa!)
+ * ❌ 'Button' (too short!)
  * 
- * 4. Kategori önerileri:
+ * 4. Category recommendations:
  *    - Navigation (Bottom bars, Tab bars, Drawers)
  *    - Cards (Profile cards, Product cards, Info cards)
  *    - Input (Text fields, Search bars, Forms)
@@ -88,55 +88,55 @@ struct YourWidgetName {
  *    - Animation (Transitions, Effects)
  *    - Media (Image viewers, Video players)
  * 
- * 5. Tag örnekleri:
+ * 5. Tag examples:
  *    ✅ ['button', 'animated', 'gradient']
  *    ✅ ['card', 'profile', 'user']
  *    ✅ ['input', 'search', 'icon']
- *    ❌ ['Button', 'ANIMATED'] (küçük harf kullanın!)
- * 
- * 6. Kod yazımı:
- *    - Tam çalışan kod yazın
- *    - Yorumlar ekleyin
- *    - Girintilemeye dikkat edin
- *    - State yönetimini gösterin
- *    - Kullanım örneği ekleyin (yorumda)
- * 
- * 7. GIF hazırlama:
- *    - Boyut: 300-500px genişlik
- *    - Süre: 2-5 saniye
- *    - Loop: Evet
+ * ❌ ['Button', 'ANIMATED'] (use lowercase!)
+ *
+ * 6. Code writing:
+ * - Write fully working code
+ * - Add comments
+ * - Be careful with indentation
+ * - Show state management
+ * - Add usage example (in comment)
+ *
+ * 7. GIF preparation:
+ * - Size: 300-500px width
+ * - Duration: 2-5 seconds
+ * - Loop: Yes
  *    - FPS: 15-24
- *    - Format: GIF
- *    - Dosya boyutu: < 3MB
+ * - Format: GIF
+ * - File size: < 3MB
  * 
  * 
- * 📋 KONTROL LİSTESİ
+ * 📋 CHECKLIST
  * ==================
  * 
- * Eklemeden önce kontrol edin:
+ *Check before adding:
  * □ ID benzersiz mi?
- * □ Başlık açıklayıcı mı?
- * □ Açıklama 100 karakterden kısa mı?
- * □ Kategori anlamlı mı?
- * □ GIF dosyası mevcut mu?
- * □ Kod çalışıyor mu?
- * □ Kod düzgün girintili mi?
- * □ Tag'ler küçük harfli mi?
- * □ En az 2 tag var mı?
+ * □ Is the title descriptive?
+ * □ Is the description less than 100 characters?
+ * □ Does the category make sense?
+ * □ Is GIF file available?
+ * □ Does the code work?
+ * □ Is the code properly indented?
+ * □ Are tags in lowercase letters?
+ * □ Are there at least 2 tags?
  * 
  * 
- * 🚀 EKLEME ADIMLARI
+ * 🚀 ADDING STEPS
  * ===================
  * 
- * 1. Bu şablonu kopyalayın
- * 2. Bilgileri doldurun
- * 3. lib/data/sample_widgets.dart açın
- * 4. sampleWidgets listesinin sonuna ekleyin:
+ * 1. Copy this template
+ * 2. Fill in the information
+ * 3. Open lib/data/sample_widgets.dart
+ * 4. Add to the end of the sampleWidgets list:
  * 
  *    final List<WidgetShowcase> sampleWidgets = [
- *      // ... mevcut widget'lar
+ * // ... available widgets
  *      
- *      // Yeni widget'ınız
+ * // Your new widget
  *      WidgetShowcase(
  *        id: 'your_id',
  *        title: 'Your Title',
@@ -144,11 +144,11 @@ struct YourWidgetName {
  *      ),
  *    ];
  * 
- * 5. Hot reload için terminal'de 'r' tuşuna basın
- * 6. Web uygulamasında widget'ınızı görün!
+ * 5. Press 'r' in terminal for hot reload
+ * 6. See your widget in the web app!
  * 
  * 
- * 📦 ÖRNEK WIDGET (Kopyalayıp kullanabilirsiniz)
+ * 📦 SAMPLE WIDGET (You can copy and use)
  * ================================================
  */
 
@@ -190,7 +190,7 @@ struct PulseButton {
   }
 }
 
-// KULLANIM:
+// USAGE:
 // @Entry
 // @Component
 // struct Index {
@@ -208,21 +208,21 @@ struct PulseButton {
 );
 
 /*
- * 🎓 DAHA FAZLA BİLGİ
+ * 🎓 MORE INFORMATION
  * ====================
  * 
- * - Detaylı kullanım: USAGE_GUIDE.md
- * - Hızlı başlangıç: QUICKSTART.md
+ * - Detailed usage: USAGE_GUIDE.md
+ * - Quick start: QUICKSTART.md
  * - ArkTS Docs: https://developer.harmonyos.com/
  * 
  * 
  * 💬 YARDIM
  * ==========
  * 
- * Sorunuz mu var? 
- * - GitHub Issues açın
- * - Dokümantasyonu okuyun
- * - Community'ye katılın
+ * Have questions?
+ * - Open GitHub Issues
+ * - Read the documentation
+ * - Join the Community
  * 
- * İyi kodlamalar! 🚀
+ * Happy coding! 🚀
  */

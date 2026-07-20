@@ -1,46 +1,46 @@
-# 🔴 Resim Yükleme Hatası - Acil Çözüm
+# 🔴 Image Upload Error - Urgent Solution
 
-## Şu Anda Ne Görüyorsunuz:
+## What You See Now:
 - ❌ "Image Load Error"
 - ❌ "Could not load image"
 
-## Hemen Yapın:
+## Do Now:
 
-### 1️⃣ Chrome Console'u Açın
-1. Chrome'da **F12** basın
-2. **Console** sekmesine gidin
-3. Şu mesajları arayın ve bana gönderin:
+### 1️⃣ Open Chrome Console
+1. Press **F12** in Chrome
+2. Go to the **Console** tab
+3. Search and send me these messages:
    - `WidgetPreview gifPath: ...`
    - `Is HTTP URL: ...`
    - `Image.network error: ...`
 
-### 2️⃣ Konsol Çıktısını Bana Gönderin
-Konsolda yazan TÜM hataları ve log mesajlarını kopyalayıp bana gönderin.
+### 2️⃣ Send Me the Console Output
+Copy ALL errors and log messages in the console and send them to me.
 
 ## Muhtemel Sebepler:
 
-### A) gifUrl Boş veya Yanlış
-Firebase'e URL kaydedilmemiş olabilir.
+### A) gifUrl Empty or False
+The URL may not have been saved in Firebase.
 
-**Çözüm**: Firebase Console'dan kontrol edin:
+**Solution**: Check from Firebase Console:
 - https://console.firebase.google.com/project/arkuibuilder/firestore
-- `widgets` koleksiyonu → Eklediğiniz widget
-- `gifUrl` alanı dolu mu?
+- `widgets` collection → widget you added
+- Is the `gifUrl` field occupied?
 
-### B) Firebase Storage'da Dosya Yok
-Resim yüklenmemiş olabilir.
+### B) No Files in Firebase Storage
+The image may not have loaded.
 
-**Çözüm**: Firebase Console'dan kontrol edin:
+**Solution**: Check from Firebase Console:
 - https://console.firebase.google.com/project/arkuibuilder/storage
-- `widget_gifs/` klasörü var mı?
-- İçinde dosya var mı?
+- Is there a `widget_gifs/` folder?
+- Is there a file inside?
 
 ### C) CORS Sorunu
-Tarayıcı Firebase Storage'dan resim çekemiyor.
+Browser cannot retrieve image from Firebase Storage.
 
-**Belirti**: Console'da "CORS policy" yazıyor mu?
+**Symptom**: Does the Console say "CORS policy"?
 
 ---
 
-## 🚨 ÖNEMLİ
-Chrome Console'daki hata mesajlarını bana gönderin, hemen çözelim!
+## 🚨 IMPORTANT
+Send me error messages in Chrome Console and we'll fix them right away!

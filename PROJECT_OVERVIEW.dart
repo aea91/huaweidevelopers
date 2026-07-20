@@ -1,75 +1,75 @@
 // 📦 ArkUI Build - Component Library Showcase
-// Oluşturulan: 2026-02-19
+//Created: 2026-02-19
 
 /*
- * ✅ TAMAMLANAN ÖZELLİKLER
+ * ✅ COMPLETE FEATURES
  * ========================
  * 
- * 1. UI/UX Tasarım
+ * 1. UI/UX Design
  *    - Modern gradient header (Purple theme)
  *    - Split-screen layout (Preview + Code)
  *    - Responsive design (Mobile, Tablet, Desktop)
- *    - Smooth animations ve transitions
+ * - Smooth animations and transitions
  *    - Glass morphism effects
  * 
- * 2. Kod Görüntüleme
+ * 2. Code View
  *    - Syntax highlighting (ArkTS/TypeScript)
  *    - Dark theme code editor
- *    - Copy to clipboard özelliği
- *    - Kod dosya simülasyonu (.ets uzantısı)
+ * - Copy to clipboard feature
+ * - Code file simulation (.ets extension)
  *    - JetBrains Mono font
  * 
  * 3. Widget Showcase
- *    - 5 örnek widget (Navigation, Cards, Input, Buttons, Profile)
- *    - GIF preview desteği
+ * - 5 sample widgets (Navigation, Cards, Input, Buttons, Profile)
+ * - GIF preview support
  *    - Fallback placeholder (GIF yoksa)
- *    - Widget detay sayfaları
+ * - Widget detail pages
  * 
- * 4. Filtreleme ve Arama
- *    - Kategori bazlı filtreleme
- *    - Real-time arama
- *    - Tag bazlı arama
- *    - Dinamik kategori listesi
+ * 4. Filtering and Searching
+ * - Category based filtering
+ * - Real-time search
+ * - Tag based search
+ * - Dynamic category list
  * 
- * 5. Kod Kalitesi
+ * 5. Code Quality
  *    - Clean architecture
  *    - Model-View separation
  *    - Reusable widgets
  *    - No linter errors
  * 
- * 6. Dokümantasyon
- *    - README.md (Genel bilgi)
- *    - USAGE_GUIDE.md (Detaylı kullanım)
- *    - QUICKSTART.md (Hızlı başlangıç)
- *    - Kod içi yorumlar
+ * 6. Documentation
+ * - README.md (General information)
+ * - USAGE_GUIDE.md (Detailed usage)
+ * - QUICKSTART.md (Quick start)
+ * - In-code comments
  * 
  * 
- * 📁 PROJE YAPISI
+ * 📁 PROJECT STRUCTURE
  * ===============
  * 
  * arkuibuild/
  * ├── lib/
  * │   ├── data/
- * │   │   └── sample_widgets.dart          # 5 örnek widget verisi
+ * │ │ └── sample_widgets.dart # 5 sample widget data
  * │   ├── models/
  * │   │   └── widget_showcase.dart         # WidgetShowcase model
  * │   ├── screens/
- * │   │   └── home_screen.dart             # Ana ekran (350+ satır)
+ * │ │ └── home_screen.dart # Home screen (350+ lines)
  * │   ├── widgets/
- * │   │   ├── category_chip.dart           # Kategori seçici
- * │   │   ├── code_viewer.dart             # Kod görüntüleyici
+ * │ │ ├── category_chip.dart # Category selector
+ * │ │ ├── code_viewer.dart # Code viewer
  * │   │   └── widget_preview.dart          # GIF preview
  * │   └── main.dart                        # App entry point
  * ├── assets/
  * │   ├── gifs/                            # Widget GIF'leri
- * │   └── images/                          # Diğer görseller
+ * │ └── images/ # Other images
  * ├── pubspec.yaml                         # Dependencies
- * ├── README.md                            # Ana dokümantasyon
- * ├── USAGE_GUIDE.md                       # Kullanım kılavuzu
- * └── QUICKSTART.md                        # Hızlı başlangıç
+ * ├── README.md # Main documentation
+ * ├── USAGE_GUIDE.md # User guide
+ * └── QUICKSTART.md # Quick start
  * 
  * 
- * 🎨 TASARIM SİSTEMİ
+ * 🎨 DESIGN SYSTEM
  * ==================
  * 
  * Renkler:
@@ -100,26 +100,26 @@
  * 📦 KULLANILAN PAKETLER
  * ======================
  * 
- * - google_fonts: ^6.3.2         → Inter ve JetBrains Mono fontları
+ * - google_fonts: ^6.3.2 → Inter and JetBrains Mono fonts
  * - flutter_highlight: ^0.7.0    → Syntax highlighting
  * - url_launcher: ^6.2.4         → External links (gelecekte)
  * - cupertino_icons: ^1.0.8      → iOS style icons
  * 
  * 
- * 🎯 ÖNEMLİ NOKTALAR
+ * 🎯 IMPORTANT POINTS
  * ==================
  * 
- * 1. GIF Ekleme:
- *    - GIF dosyalarını assets/gifs/ klasörüne ekleyin
- *    - sample_widgets.dart'ta gifPath'i güncelleyin
- *    - Uygulama otomatik fallback gösterecek (GIF yoksa)
+ * 1. Adding GIF:
+ * - Add GIF files to assets/gifs/ folder
+ * - Update gifPath in sample_widgets.dart
+ * - App will show automatic fallback (if there is no GIF)
  * 
- * 2. Yeni Widget Ekleme:
- *    - lib/data/sample_widgets.dart dosyasını düzenleyin
- *    - WidgetShowcase nesnesi oluşturun
- *    - ArkTS kodunu code parametresine ekleyin
+ * 2. Adding New Widget:
+ * - Edit lib/data/sample_widgets.dart
+ * - Create WidgetShowcase object
+ * - Add the ArkTS code to the code parameter
  * 
- * 3. Renk Teması Değiştirme:
+ * 3. Changing Color Theme:
  *    - lib/main.dart → seedColor
  *    - lib/screens/home_screen.dart → gradient colors
  * 
@@ -130,11 +130,11 @@
  * 
  * 5. Deployment:
  *    - flutter build web --release
- *    - build/web/ klasörünü host edin
+ * - host the build/web/ folder
  *    - GitHub Pages, Vercel, Firebase Hosting uyumlu
  * 
  * 
- * 🚀 ÇALIŞTIRMA
+ * 🚀 OPERATION
  * =============
  * 
  * Development:
@@ -144,23 +144,23 @@
  * $ flutter build web --release
  * 
  * Hot Reload:
- * Terminal'de 'r' tuşuna basın
+ * Press 'r' in Terminal
  * 
  * 
- * 📝 ÖRNEK WIDGET YAPISI
+ * 📝 SAMPLE WIDGET STRUCTURE
  * =======================
  * 
  * WidgetShowcase(
  *   id: 'unique_id',
- *   title: 'Widget Başlığı',
- *   description: 'Kısa açıklama (max 100 karakter)',
+ * title: 'Widget Title',
+ * description: 'Short description (max 100 characters)',
  *   category: 'Navigation|Cards|Input|Buttons',
  *   gifPath: 'assets/gifs/your_widget.gif',
  *   code: '''
  *     @Component
  *     struct YourWidget {
  *       build() {
- *         // ArkTS kodu
+ * // ArkTS code
  *       }
  *     }
  *   ''',
@@ -177,69 +177,69 @@
  * - Material Design: https://material.io/design
  * 
  * 
- * 💡 İLHAM KAYNAKLARI
+ * 💡 SOURCES OF INSPIRATION
  * ===================
  * 
- * - FlutterBricks.com → Component showcase tasarımı
+ * - FlutterBricks.com → Component showcase design
  * - CodePen → Code preview layouts
  * - Dribbble → Modern UI/UX patterns
  * - GitHub → Code organization
  * 
  * 
- * ⚡ PERFORMANS İPUÇLARI
+ * ⚡ PERFORMANCE TIPS
  * ======================
  * 
- * 1. GIF'leri optimize edin:
- *    - Boyut: 300-500px genişlik
- *    - Süre: 2-5 saniye loop
- *    - FPS: 15-24 (30 değil!)
- *    - Dosya boyutu: < 3MB
+ * 1. Optimized GIFs:
+ * - Size: 300-500px width
+ * - Duration: 2-5 seconds loop
+ * - FPS: 15-24 (not 30!)
+ * - File size: < 3MB
  * 
  * 2. Lazy loading:
- *    - ListView.builder kullanıldı
- *    - Sadece görünen widget'lar render edilir
+ * - ListView.builder used
+ * - Only visible widgets are rendered
  * 
  * 3. Code highlighting:
- *    - flutter_highlight paketi kullanıldı
- *    - Performanslı syntax parsing
+ * - flutter_highlight package used
+ * - Performance syntax parsing
  * 
  * 
- * 🔮 GELECEKTEKİ ÖZELLİKLER (İsteğe Bağlı)
+ *🔮 FUTURE FEATURES (Optional)
  * =========================================
  * 
  * - [ ] Widget favorileme
- * - [ ] Widget beğenme/rating sistemi
+ * - [ ] Widget liking/rating system
  * - [ ] Dark/Light mode toggle
- * - [ ] Widget yorumları
+ * - [ ] Widget comments
  * - [ ] Code playground (live preview)
- * - [ ] Widget export (zip olarak)
- * - [ ] Kullanıcı hesapları
- * - [ ] Widget koleksiyonları
+ * - [ ] Widget export (as zip)
+ * - [ ] User accounts
+ * - [ ] Widget collections
  * - [ ] API entegrasyonu
- * - [ ] Analytics (kullanım istatistikleri)
- * - [ ] Çoklu dil desteği
+ * - [ ] Analytics (usage statistics)
+ * - [ ] Multi-language support
  * - [ ] Widget version history
  * 
  * 
- * 🎉 PROJE DURUMU: TAMAMLANDI
+ * 🎉 PROJECT STATUS: COMPLETED
  * ============================
  * 
- * ✅ Temel özellikler tamamlandı
- * ✅ UI/UX tasarım tamamlandı
- * ✅ Responsive tasarım tamamlandı
- * ✅ Kod kalitesi kontrol edildi
- * ✅ Dokümantasyon hazırlandı
- * ✅ Örnek widget'lar eklendi
- * ✅ Uygulama test edildi
+ * ✅ Basic features complete
+ * ✅ UI/UX design completed
+ * ✅ Responsive design completed
+ * ✅ Code quality checked
+ * ✅ Documentation prepared
+ * ✅ Sample widgets added
+ * ✅ App tested
  * 
- * 📌 Sonraki Adımlar:
- * 1. GIF dosyalarını ekleyin
- * 2. Daha fazla widget ekleyin
- * 3. Production'a deploy edin
- * 4. Community ile paylaşın!
+ * 📌 Next Steps:
+ * 1. Add GIF files
+ * 2. Add more widgets
+ * 3. Deploy to Production
+ * 4. Share with the Community!
  * 
  */
 
-// Son Güncelleme: 2026-02-19
+//Last Update: 2026-02-19
 // Versiyon: 1.0.0
-// Geliştirici Notları: FlutterBricks benzeri modern showcase uygulaması
+// Developer Notes: Modern showcase application similar to FlutterBricks

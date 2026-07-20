@@ -120,8 +120,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _loadLinkedInHighlights() async {
     try {
       final posts = await _linkedinService.fetchHighlights(limit: 8);
-      final withImages =
-          posts.where((p) => (p.imageUrl ?? '').trim().isNotEmpty).toList();
+      final withImages = posts
+          .where((p) => (p.imageUrl ?? '').trim().isNotEmpty)
+          .toList();
       final seen = <String>{};
       final picks = <ExternalArticle>[];
       for (final post in [...withImages, ...posts]) {
@@ -170,7 +171,8 @@ class _HomeScreenState extends State<HomeScreen> {
       final matchesCategory =
           selectedCategory == 'All' || widget.category == selectedCategory;
       final q = searchQuery.toLowerCase();
-      final matchesSearch = q.isEmpty ||
+      final matchesSearch =
+          q.isEmpty ||
           widget.title.toLowerCase().contains(q) ||
           widget.description.toLowerCase().contains(q) ||
           widget.mainCategory.toLowerCase().contains(q) ||
@@ -181,10 +183,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   TextStyle get _display => GoogleFonts.spaceGrotesk(
-        fontWeight: FontWeight.w700,
-        color: _ink,
-        letterSpacing: -0.6,
-      );
+    fontWeight: FontWeight.w700,
+    color: _ink,
+    letterSpacing: -0.6,
+  );
 
   TextStyle get _body => GoogleFonts.plusJakartaSans(color: _ink);
 
@@ -284,16 +286,17 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             borderRadius: BorderRadius.circular(11),
           ),
-          child: const Icon(Icons.auto_awesome_mosaic_rounded, color: Colors.white, size: 20),
+          child: const Icon(
+            Icons.auto_awesome_mosaic_rounded,
+            color: Colors.white,
+            size: 20,
+          ),
         ),
         const SizedBox(width: 10),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'ArkUI Build',
-              style: _display.copyWith(fontSize: 20, height: 1.1),
-            ),
+            Text('ArkUI Build', style: _display.copyWith(fontSize: 20, height: 1.1)),
             Text(
               'HarmonyOS components',
               style: _body.copyWith(fontSize: 11, color: _muted, height: 1.2),
@@ -307,9 +310,14 @@ class _HomeScreenState extends State<HomeScreen> {
   List<_NavItem> _navItems(BuildContext context) {
     return [
       _NavItem(
+        label: 'Playground',
+        icon: Icons.terminal_rounded,
+        emphasis: true,
+        onTap: () => Navigator.pushNamed(context, '/playground'),
+      ),
+      _NavItem(
         label: 'App Builder',
         icon: Icons.rocket_launch_rounded,
-        emphasis: true,
         onTap: () => Navigator.pushNamed(context, '/app-builder'),
       ),
       _NavItem(
@@ -458,7 +466,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return InputDecorator(
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: _body.copyWith(fontSize: 12, color: _muted, fontWeight: FontWeight.w600),
+        labelStyle: _body.copyWith(
+          fontSize: 12,
+          color: _muted,
+          fontWeight: FontWeight.w600,
+        ),
         filled: true,
         fillColor: const Color(0xFFF1F5F9),
         contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
@@ -566,8 +578,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   controller: _pageController ??= PageController(
                     initialPage: selectedWidget != null
                         ? filteredWidgets
-                            .indexWhere((w) => w.id == selectedWidget!.id)
-                            .clamp(0, filteredWidgets.length - 1)
+                              .indexWhere((w) => w.id == selectedWidget!.id)
+                              .clamp(0, filteredWidgets.length - 1)
                         : 0,
                   ),
                   onPageChanged: (index) {
@@ -825,7 +837,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             _HeroStat(label: 'Components', value: '${filtered.length}'),
                             _HeroStat(
                               label: 'Platform',
-                              value: selectedMainCategory == 'All' ? 'All' : selectedMainCategory,
+                              value: selectedMainCategory == 'All'
+                                  ? 'All'
+                                  : selectedMainCategory,
                             ),
                           ],
                         ),
@@ -866,10 +880,7 @@ class _HomeScreenState extends State<HomeScreen> {
             SliverPadding(
               padding: const EdgeInsets.fromLTRB(28, 22, 28, 12),
               sliver: SliverToBoxAdapter(
-                child: Text(
-                  'All widgets',
-                  style: _display.copyWith(fontSize: 22),
-                ),
+                child: Text('All widgets', style: _display.copyWith(fontSize: 22)),
               ),
             ),
             SliverPadding(
@@ -956,9 +967,9 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Could not open article: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Could not open article: $e')));
     }
   }
 
@@ -1002,10 +1013,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   return SizedBox(
                     width: cardSize,
                     height: cardSize,
-                    child: _DemoCard(
-                      demo: demo,
-                      onTap: () => _openDemo(demo),
-                    ),
+                    child: _DemoCard(demo: demo, onTap: () => _openDemo(demo)),
                   );
                 },
               ),
@@ -1063,10 +1071,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   return SizedBox(
                     width: cardSize,
                     height: cardSize,
-                    child: _LinkedInCard(
-                      post: post,
-                      onTap: () => _openUrl(post.url),
-                    ),
+                    child: _LinkedInCard(post: post, onTap: () => _openUrl(post.url)),
                   );
                 },
               ),
@@ -1124,10 +1129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   return SizedBox(
                     width: cardSize,
                     height: cardSize,
-                    child: _YouTubeCard(
-                      video: video,
-                      onTap: () => _openUrl(video.url),
-                    ),
+                    child: _YouTubeCard(video: video, onTap: () => _openUrl(video.url)),
                   );
                 },
               ),
@@ -1180,11 +1182,19 @@ class _HomeScreenState extends State<HomeScreen> {
                               _getProxyUrl(widget.gifPath),
                               fit: BoxFit.contain,
                               errorBuilder: (_, __, ___) => const Center(
-                                child: Icon(Icons.image_outlined, size: 42, color: Color(0xFFCBD5E1)),
+                                child: Icon(
+                                  Icons.image_outlined,
+                                  size: 42,
+                                  color: Color(0xFFCBD5E1),
+                                ),
                               ),
                             )
                           : const Center(
-                              child: Icon(Icons.image_outlined, size: 42, color: Color(0xFFCBD5E1)),
+                              child: Icon(
+                                Icons.image_outlined,
+                                size: 42,
+                                color: Color(0xFFCBD5E1),
+                              ),
                             ),
                     ),
                   ),
@@ -1209,7 +1219,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           Expanded(
                             child: Text(
                               widget.description,
-                              style: _body.copyWith(fontSize: 12.5, color: _muted, height: 1.35),
+                              style: _body.copyWith(
+                                fontSize: 12.5,
+                                color: _muted,
+                                height: 1.35,
+                              ),
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -1249,7 +1263,9 @@ class _HomeScreenState extends State<HomeScreen> {
         decoration: BoxDecoration(
           color: isSelected ? const Color(0xFFF1F5F9) : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: isSelected ? _ink.withValues(alpha: 0.18) : Colors.transparent),
+          border: Border.all(
+            color: isSelected ? _ink.withValues(alpha: 0.18) : Colors.transparent,
+          ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1451,10 +1467,7 @@ class _MediumCard extends StatelessWidget {
   final ExternalArticle article;
   final VoidCallback onTap;
 
-  const _MediumCard({
-    required this.article,
-    required this.onTap,
-  });
+  const _MediumCard({required this.article, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -1476,14 +1489,22 @@ class _MediumCard extends StatelessWidget {
                 errorBuilder: (_, __, ___) => Container(
                   color: const Color(0xFF1E293B),
                   alignment: Alignment.center,
-                  child: const Icon(Icons.article_outlined, color: Colors.white54, size: 40),
+                  child: const Icon(
+                    Icons.article_outlined,
+                    color: Colors.white54,
+                    size: 40,
+                  ),
                 ),
               )
             else
               Container(
                 color: const Color(0xFF1E293B),
                 alignment: Alignment.center,
-                child: const Icon(Icons.article_outlined, color: Colors.white54, size: 40),
+                child: const Icon(
+                  Icons.article_outlined,
+                  color: Colors.white54,
+                  size: 40,
+                ),
               ),
             DecoratedBox(
               decoration: BoxDecoration(
@@ -1569,10 +1590,7 @@ class _YouTubeCard extends StatelessWidget {
   final ExternalArticle video;
   final VoidCallback onTap;
 
-  const _YouTubeCard({
-    required this.video,
-    required this.onTap,
-  });
+  const _YouTubeCard({required this.video, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -1615,7 +1633,11 @@ class _YouTubeCard extends StatelessWidget {
                   color: const Color(0xFFFF0000).withValues(alpha: 0.92),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.play_arrow_rounded, color: Colors.white, size: 28),
+                child: const Icon(
+                  Icons.play_arrow_rounded,
+                  color: Colors.white,
+                  size: 28,
+                ),
               ),
             ),
             Padding(
@@ -1673,10 +1695,7 @@ class _LinkedInCard extends StatelessWidget {
   final ExternalArticle post;
   final VoidCallback onTap;
 
-  const _LinkedInCard({
-    required this.post,
-    required this.onTap,
-  });
+  const _LinkedInCard({required this.post, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -1778,15 +1797,13 @@ class _DemoCard extends StatelessWidget {
   final GitHubDemo demo;
   final VoidCallback onTap;
 
-  const _DemoCard({
-    required this.demo,
-    required this.onTap,
-  });
+  const _DemoCard({required this.demo, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    final imageUrl =
-        demo.screenshotUrls.isNotEmpty ? demo.screenshotUrls.first.trim() : '';
+    final imageUrl = demo.screenshotUrls.isNotEmpty
+        ? demo.screenshotUrls.first.trim()
+        : '';
 
     return Material(
       color: const Color(0xFF0F172A),

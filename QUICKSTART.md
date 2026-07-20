@@ -1,17 +1,17 @@
 # ArkUI Build - Quick Start
 
-## ✨ Özellikler
+## ✨ Features
 
-### 1. **Split-Screen Görünüm**
-- 🎬 Sol tarafta: Widget animasyonlarını gösteren GIF preview
-- 💻 Sağ tarafta: Kopyalanabilir ArkTS kodu
-- 🎨 Modern dark theme kod editörü
+### 1. **Split-Screen View**
+- 🎬 On the left: GIF preview showing widget animations
+- 💻 On the right: Copiable ArkTS code
+- 🎨 Modern dark theme code editor
 
-### 2. **Kolay Kullanım**
-- 🔍 Güçlü arama fonksiyonu
-- 🏷️ Kategori bazlı filtreleme
-- 📋 Tek tıkla kod kopyalama
-- 📱 Tam responsive tasarım
+### 2. **Easy to Use**
+- 🔍 Powerful search function
+- 🏷️ Category based filtering
+- 📋 Copy code with one click
+- 📱 Fully responsive design
 
 ### 3. **Widget Koleksiyonu**
 - Navigation components
@@ -19,37 +19,37 @@
 - Input fields
 - Buttons
 - Profile cards
-- Ve daha fazlası...
+- And more...
 
-## 🎯 Hemen Başlayın
+## 🎯 Get Started Now
 
-1. **Projeyi çalıştırın:**
+1. **Run the project:**
    ```bash
    flutter run -d chrome
    ```
 
-2. **Bir widget seçin:**
-   - Sol sidebar'dan istediğiniz widget'a tıklayın
+2. **Select a widget:**
+   - Click on the widget you want from the left sidebar
 
-3. **Kodu kopyalayın:**
-   - "Copy Code" butonuna tıklayın
-   - HarmonyOS projenize yapıştırın
-   - Çalıştırın!
+3. **Copy the code:**
+   - Click the "Copy Code" button
+   - Paste into your HarmonyOS project
+   - Run it!
 
-## 📂 Widget Ekleme (Hızlı)
+## 📂 Adding Widgets (Quick)
 
-1. **GIF'inizi hazırlayın:**
-   - Widget'ınızın ekran kaydını alın
-   - `assets/gifs/` klasörüne kaydedin
+1. **Prepare your GIF:**
+   - Take a screen recording of your widget
+   - Save in folder `assets/gifs/`
 
-2. **Widget'ı ekleyin:**
+2. **Add widget:**
    ```dart
-   // lib/data/sample_widgets.dart dosyasına
+   //to the file lib/data/sample_widgets.dart
    WidgetShowcase(
      id: 'unique_id',
-     title: 'Widget Adı',
-     description: 'Kısa açıklama',
-     category: 'Kategori',
+     title: 'Widget Name',
+     description: 'Short description',
+     category: 'Category',
      gifPath: 'assets/gifs/your_gif.gif',
      code: '''YOUR_ARKTS_CODE''',
      tags: ['tag1', 'tag2'],
@@ -57,18 +57,18 @@
    ```
 
 3. **Hot reload:**
-   - Terminal'de `r` tuşuna basın
+   - Press `r` in Terminal
 
-## 🎨 Özelleştirme
+## 🎨 Customization
 
-### Renkleri Değiştirin
+### Change Colors
 `lib/main.dart` → `seedColor: const Color(0xFFYOURCOLOR)`
 
-### Logo Ekleyin
-`lib/screens/home_screen.dart` → `_buildHeader()` metodunu düzenleyin
+### Add Logo
+Edit method `lib/screens/home_screen.dart` → `_buildHeader()`
 
-### Font Değiştirin
-`lib/main.dart` → `GoogleFonts.yourFont()` kullanın
+### Change Font
+Use `lib/main.dart` → `GoogleFonts.yourFont()`
 
 ## 🚀 Production Build
 
@@ -76,46 +76,46 @@
 flutter build web --release
 ```
 
-Build dosyaları `build/web/` klasöründe olacak.
+Build files will be in the `build/web/` folder.
 
-## 📱 Örnek Kullanım Senaryoları
+## 📱 Sample Usage Scenarios
 
 ### Senaryo 1: Bottom Navigation Bar gerekiyor
-1. Arama kutusuna "navigation" yazın
-2. "Bottom Nav Bar Gradient" widget'ını seçin
-3. Kodu kopyalayın
-4. HarmonyOS projenizde kullanın
+1. Type "navigation" in the search box
+2. Select the "Bottom Nav Bar Gradient" widget
+3. Copy the code
+4. Use it in your HarmonyOS project
 
-### Senaryo 2: Özel kart tasarımı
-1. "Cards" kategorisini seçin
-2. Beğendiğiniz kartı bulun
-3. Kodu ihtiyacınıza göre özelleştirin
+### Scenario 2: Custom card design
+1. Select the "Cards" category
+2. Find the card you like
+3. Customize the code as per your need
 
-### Senaryo 3: Arama kutusu ekleme
-1. "Input" kategorisinden "Search Bar" seçin
-2. Kodunu kopyalayın
-3. Renklerini projenize uyarlayın
+### Scenario 3: Adding a search box
+1. Select "Search Bar" from the "Input" category
+2. Copy its code
+3. Adapt colors to your project
 
-## 💡 İpuçları
+## 💡 Tips
 
-- **GIF Boyutu**: 300-500px genişlik ideal
-- **Kod Formatı**: ArkTS syntax'ını takip edin
-- **Tag'ler**: Arama için iyi tag'ler kullanın
-- **Açıklama**: Kısa ve öz tutun (max 100 karakter)
+- **GIF Size**: 300-500px width is ideal
+- **Code Format**: Follow ArkTS syntax
+- **Tags**: Use good tags for search
+- **Description**: Keep it short and concise (max 100 characters)
 
-## 🎓 Daha Fazla Bilgi
+## 🎓 More Information
 
-- Detaylı kullanım için: `USAGE_GUIDE.md`
-- Proje yapısı için: `README.md`
-- ArkTS dokümantasyonu: [HarmonyOS Docs](https://developer.harmonyos.com/)
+- For detailed use: `USAGE_GUIDE.md`
+- For project structure: `README.md`
+- ArkTS documentation: [HarmonyOS Docs](https://developer.harmonyos.com/)
 
-## 🤝 Katkıda Bulunun
+## 🤝 Contribute
 
-Widget'larınızı paylaşmak ister misiniz?
-1. Yeni widget ekleyin
-2. GIF preview oluşturun
-3. Pull request açın
-4. Community'ye katkıda bulunun!
+Want to share your widgets?
+1. Add new widget
+2. Create GIF preview
+3. Open a pull request
+4. Contribute to the Community!
 
 ---
 

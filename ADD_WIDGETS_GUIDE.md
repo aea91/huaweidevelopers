@@ -1,46 +1,46 @@
-# 🚀 Sample Widget'ları Firebase'e Ekleme Rehberi
+# 🚀 Guide to Adding Sample Widgets to Firebase
 
-## Durum
-✅ 5 adet sample widget hazır
-✅ Firebase bağlantısı aktif
-✅ Yerel geliştirme ortamı çalışıyor
+## Situation
+✅ 5 sample widgets ready
+✅ Firebase connection active
+✅ Local development environment is running
 
-## Sonraki Adımlar
+## Next Steps
 
-### 1️⃣ Admin User Oluşturun (Firebase Console)
+### 1️⃣ Create Admin User (Firebase Console)
 
-1. **Firebase Console'u açın**: https://console.firebase.google.com/project/arkuibuilder/authentication/users
+1. **Open Firebase Console**: https://console.firebase.google.com/project/arkuibuilder/authentication/users
 
-2. **"Add User" butonuna tıklayın**
+2. **Click the "Add User" button**
 
 3. **Admin bilgilerini girin**:
-   - Email: `admin@arkui.com` (veya istediğiniz email)
-   - Password: `Admin123!` (veya güçlü bir şifre)
+   - Email: `admin@arkui.com` (or your desired email)
+   - Password: `Admin123!` (or a strong password)
 
-4. **"Add User" ile kaydedin**
+4. **Save with "Add User"**
 
-### 2️⃣ Widget'ları Admin Panel Üzerinden Ekleyin
+### 2️⃣ Add Widgets via Admin Panel
 
-Admin user'ı oluşturduktan sonra:
+After creating the admin user:
 
-1. **Admin panele giriş yapın**: http://localhost:XXXX/admin
+1. **Log in to admin panel**: http://localhost:XXXX/admin
    - Email: `admin@arkui.com`
-   - Şifre: Oluşturduğunuz şifre
+   - Password: The password you created
 
-2. **Her bir widget için "Widget Ekle" butonuna tıklayın**
+2. **Click the "Add Widget" button for each widget**
 
-3. **`SAMPLE_WIDGETS.md` dosyasındaki bilgileri kullanın**:
-   - 5 farklı kategoride 5 widget var
-   - Her biri için başlık, açıklama, kategori, tags ve ArkTS kodu hazır
+3. **Use information in file `SAMPLE_WIDGETS.md`**:
+   - There are 5 widgets in 5 different categories
+   - Title, description, category, tags and ArkTS code are ready for each
 
-4. **GIF yükleyin**:
-   - Placeholder olarak herhangi bir GIF seçebilirsiniz
-   - Veya gerçek widget GIF'lerinizi yükleyin
-   - Sistem otomatik olarak Firebase Storage'a yükleyecek
+4. **Upload GIF**:
+   - You can choose any GIF as placeholder
+   - Or upload your real widget GIFs
+   - The system will automatically upload to Firebase Storage
 
-### 3️⃣ Deploy Edin
+### 3️⃣ Deploy
 
-Widget'ları ekledikten sonra:
+After adding widgets:
 
 ```bash
 cd /Users/arifemreankara/development/arkuibuild
@@ -49,7 +49,7 @@ cd /Users/arifemreankara/development/arkuibuild
 
 ---
 
-## 📦 Hazır Widget Listesi
+## 📦 Ready Widget List
 
 1. **Bottom Navigation Bar** (Navigation)
 2. **Animated Product Card** (Cards)
@@ -57,26 +57,26 @@ cd /Users/arifemreankara/development/arkuibuild
 4. **Gradient Button** (Buttons)
 5. **Profile Header** (Layout)
 
-Tüm detaylar `SAMPLE_WIDGETS.md` dosyasında! 🎨
+All details are in file `SAMPLE_WIDGETS.md`! 🎨
 
 ---
 
-## ⚡ Hızlı Başlangıç
+## ⚡ Quick Start
 
-Şu anda yapmanız gereken TEK ŞEY:
+THE ONLY THING you need to do right now is:
 
 ```
-1. Firebase Console'dan admin user oluşturun
+1. Create admin user from Firebase Console
 2. Yerel admin panelde login olun
-3. 5 widget'ı ekleyin (her biri 2 dakika)
-4. Deploy edin!
+3. Add 5 widgets (2 minutes each)
+4. Deploy!
 ```
 
-**Toplam süre: ~15 dakika** ⏱️
+**Total time: ~15 minutes** ⏱️
 
 ---
 
-## 🔗 Faydalı Linkler
+## 🔗 Useful Links
 
 - 🔥 Firebase Console: https://console.firebase.google.com/project/arkuibuilder
 - 👤 Authentication: https://console.firebase.google.com/project/arkuibuilder/authentication/users
@@ -87,4 +87,4 @@ Tüm detaylar `SAMPLE_WIDGETS.md` dosyasında! 🎨
 
 ---
 
-**Hazır mısınız? Firebase Console'dan admin user oluşturun ve başlayın! 🚀**
+**Are you ready? Create admin user from Firebase Console and get started! 🚀**

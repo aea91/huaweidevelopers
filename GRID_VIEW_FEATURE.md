@@ -1,87 +1,87 @@
-# 🎉 Grid Görünümü Eklendi!
+# 🎉 Grid View Added!
 
-## ✨ Yeni Özellik: "All" Kategorisi Grid View
+## ✨ New Feature: "All" Category Grid View
 
-### 🎯 Nasıl Çalışıyor?
+### 🎯 How Does It Work?
 
-**"All" Kategorisi Seçildiğinde:**
-- ✅ Sol sidebar gizlenir
-- ✅ Tüm widget'lar **grid (ızgara)** görünümünde gösterilir
-- ✅ Her kart widget'ın önizlemesini gösterir
-- ✅ Başlık, açıklama ve kategori bilgisi
-- ✅ Karta tıklayınca detay sayfasına gider
+**When "All" Category is Selected:**
+- ✅ Left sidebar is hidden
+- ✅ All widgets are displayed in **grid view**
+- ✅ Shows preview of each card widget
+- ✅ Title, description and category information
+- ✅ When you click on the card, it goes to the detail page
 
-**Diğer Kategoriler Seçildiğinde:**
-- ✅ Normal görünüm (sidebar + detay)
-- ✅ Filtrelenmiş liste
-- ✅ Seçilen widget detayları
+**When Other Categories are Selected:**
+- ✅ Normal view (sidebar + detail)
+- ✅ Filtered list
+- ✅ Selected widget details
 
 ---
 
-## 📐 Grid Layout Detayları
+## 📐 Grid Layout Details
 
-### Desktop (Büyük Ekran):
-- **3 sütun** grid
-- Widget kartları önizleme + bilgi
-- Hover efekti ile interaktif
+### Desktop (Big Screen):
+- **3 columns** grid
+- Widget cards preview + information
+- Interactive with hover effect
 
 ### Tablet:
-- **2 sütun** grid
-- Responsive tasarım
+- **2 columns** grid
+- Responsive design
 
 ### Mobil:
-- **1 sütun** (liste görünümü korundu)
+- **1 column** (list view preserved)
 
 ---
 
-## 🎨 Widget Kartı İçeriği
+## 🎨 Widget Card Content
 
-Her kartta:
-1. **Resim Önizleme** (Üst %60)
-   - Widget'ın görseli
-   - Cover fit ile tam alan kullanımı
+On each card:
+1. **Image Preview** (Upper 60%)
+   - Image of the widget
+   - Full area use with Cover fit
    
-2. **Widget Bilgileri** (Alt %40)
-   - **Başlık** (2 satır max)
-   - **Açıklama** (2 satır max)
-   - **Kategori badge** (mor renk)
+2. **Widget Information** (Lower 40%)
+   - **Title** (2 lines max)
+   - **Description** (2 lines max)
+   - **Category badge** (purple color)
 
 ---
 
-## 🖱️ Kullanıcı Deneyimi
+## 🖱️ User Experience
 
-### Akış:
-1. Ana sayfada **"All"** kategorisine tıklayın
-2. Tüm widget'lar grid olarak gösterilir
-3. İstediğiniz widget kartına tıklayın
-4. Otomatik olarak:
-   - O widget'ın kategorisi seçilir
-   - Detay görünümü açılır
-   - Kod + resim yan yana gösterilir
+### Stream:
+1. Click on the **"All"** category on the home page
+2. All widgets are shown as grid
+3. Click on the widget card you want
+4. Automatically:
+   - The category of that widget is selected
+   - Detail view opens
+   - Code + image shown side by side
 
 ---
 
-## 🚀 Test Edin
+## 🚀 Test it
 
 **Production URL:** https://arkuibuilder.web.app
 
-1. Sayfayı açın
-2. **"All"** kategorisine tıklayın
-3. **Grid görünümü** açılacak!
-4. Her widget'a tıklayarak detayları görün
+1. Open the page
+2. Click on the **"All"** category
+3. **Grid view** will open!
+4. Click on each widget to see details
 
 ---
 
-## ✅ Tüm Özellikler
+## ✅ All Features
 
-- ✅ Grid görünümü (All kategorisi)
-- ✅ Liste görünümü (Diğer kategoriler)
-- ✅ Resim önizleme
-- ✅ CORS düzeltildi
-- ✅ Kod görüntüleme (24 satır + scroll)
-- ✅ Resim ortalandı
+- ✅ Grid view (All category)
+- ✅ List view (Other categories)
+- ✅ Image preview
+- ✅ CORS fixed
+- ✅ Code view (24 lines + scroll)
+- ✅ Image centered
 - ✅ Admin panel
-- ✅ Responsive tasarım
-- ✅ Tüm resim formatları (PNG, JPG, GIF, WebP)
+- ✅ Responsive design
+- ✅ All image formats (PNG, JPG, GIF, WebP)
 
-**Projeniz tam özellikli ve hazır! 🎨🚀**
+**Your project is fully featured and ready! 🎨🚀**

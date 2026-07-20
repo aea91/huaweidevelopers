@@ -1,10 +1,10 @@
-# ✅ Resim Formatı Güncellemesi Tamamlandı
+# ✅ Image Format Update Completed
 
-## 🎯 Yapılan Değişiklikler
+## 🎯 Changes Made
 
-### 1. Admin Panel - Dosya Yükleme
-**Öncesi:** Sadece `.gif` formatı kabul ediliyordu  
-**Sonrası:** Şu formatlar kabul ediliyor:
+### 1. Admin Panel - File Upload
+**Before:** Only `.gif` format was accepted
+**After:** The following formats are accepted:
 - ✅ GIF
 - ✅ PNG
 - ✅ JPG
@@ -12,34 +12,34 @@
 - ✅ WebP
 
 ### 2. Firebase Storage Rules
-**Güncelleme:** `storage.rules` dosyası güncellendi
-- `isValidGif()` → `isValidImage()` olarak değiştirildi
-- Tüm `image/*` content type'ları kabul ediliyor
-- Dosya boyutu limiti: Max 5MB (sabit)
+**Update:** Updated file `storage.rules`
+- `isValidGif()` → changed to `isValidImage()`
+- All `image/*` content types are accepted
+- File size limit: Max 5MB (fixed)
 
-### 3. UI Değişiklikleri
+### 3. UI Changes
 **Admin Panel Metinleri:**
-- "Widget GIF" → "Widget Görseli"
-- "GIF Seç/Değiştir" → "Görsel Seç/Değiştir"
-- "Lütfen bir GIF dosyası seçin" → "Lütfen bir resim dosyası seçin"
+- "Widget GIF" → "Widget Image"
+- "Select/Change GIF" → "Select/Change Image"
+- "Please select a GIF file" → "Please select an image file"
 - Icon: `Icons.gif_box` → `Icons.image`
-- Açıklama: "Max 5MB, sadece .gif formatı" → "Max 5MB - GIF, PNG, JPG, JPEG, WebP"
+- Description: "Max 5MB, .gif format only" → "Max 5MB - GIF, PNG, JPG, JPEG, WebP"
 
 ## 🚀 Deployment Durumu
 
-✅ **Storage Rules:** Deploy edildi  
-✅ **Web Uygulaması:** Build edildi  
-✅ **Firebase Hosting:** Deploy edildi  
+✅ **Storage Rules:** Deployed
+✅ **Web Application:** Built
+✅ **Firebase Hosting:** Deployed
 
 **Live URL:** https://arkuibuilder.web.app  
 **Admin Panel:** https://arkuibuilder.web.app/admin
 
-## 📋 Test Adımları
+## 📋 Testing Steps
 
-1. **Admin panele giriş yapın**
-2. **"Widget Ekle" tıklayın**
-3. **"Görsel Seç" butonuna tıklayın**
-4. **Şimdi şu formatları seçebilirsiniz:**
+1. **Log in to admin panel**
+2. **Click "Add Widget"**
+3. **Click the "Select Image" button**
+4. **Now you can choose these formats:**
    - PNG resimler
    - JPG/JPEG resimler
    - GIF animasyonlar
@@ -47,11 +47,11 @@
 
 ## 💡 Notlar
 
-- Dosya boyutu limiti hala 5MB
-- Admin authentication gerekli (değişiklik yok)
-- Eski GIF'ler hala çalışmaya devam edecek
-- Yeni widget'lar için artık statik resim de kullanabilirsiniz
+- File size limit is still 5MB
+- Admin authentication required (no change)
+- Old GIFs will still work
+- You can now also use static images for new widgets
 
 ---
 
-**Hazır! Artık GIF dışında PNG, JPG gibi formatları da yükleyebilirsiniz! 🎉**
+**Ready! Now you can upload formats such as PNG and JPG other than GIF! 🎉**

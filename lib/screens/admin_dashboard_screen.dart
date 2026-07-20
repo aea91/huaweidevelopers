@@ -29,17 +29,17 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Widget Sil'),
-        content: Text('$title widgetini silmek istediginizden emin misiniz?'),
+        title: const Text('Delete Widget'),
+        content: Text('Are you sure you want to delete the $title widget?'),
         actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('Iptal'),
-            ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
             style: TextButton.styleFrom(foregroundColor: Colors.red),
-            child: const Text('Sil'),
+            child: const Text('Delete'),
           ),
         ],
       ),
@@ -51,7 +51,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('Widget başarıyla silindi'),
+              content: Text('Widget deleted successfully'),
               backgroundColor: Colors.green,
             ),
           );
@@ -60,7 +60,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('Hata: ${e.toString()}'),
+              content: Text('Error: ${e.toString()}'),
               backgroundColor: Colors.red,
             ),
           );
@@ -87,7 +87,9 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const AdminManagersScreen()),
+                MaterialPageRoute(
+                  builder: (context) => const AdminManagersScreen(),
+                ),
               );
             },
           ),
@@ -97,20 +99,22 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const AdminPermissionTemplatesScreen()),
+                MaterialPageRoute(
+                  builder: (context) => const AdminPermissionTemplatesScreen(),
+                ),
               );
             },
           ),
           IconButton(
             icon: const Icon(Icons.home),
-            tooltip: 'Ana Sayfa',
+            tooltip: 'Home',
             onPressed: () {
               Navigator.of(context).pushReplacementNamed('/');
             },
           ),
           IconButton(
             icon: const Icon(Icons.logout),
-            tooltip: 'Cikis Yap',
+            tooltip: 'Sign Out',
             onPressed: _handleLogout,
           ),
         ],
@@ -119,15 +123,11 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
         stream: _firestoreService.getWidgets(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return Center(
-              child: Text('Hata: ${snapshot.error}'),
-            );
+            return Center(child: Text('Error: ${snapshot.error}'));
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const Center(child: CircularProgressIndicator());
           }
 
           final widgets = snapshot.data ?? [];
@@ -144,7 +144,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Henuz widget eklenmemis',
+                    'No widgets have been added yet',
                     style: GoogleFonts.inter(
                       fontSize: 18,
                       color: const Color(0xFF6B7280),
@@ -152,7 +152,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Hemen bir widget ekleyerek baslayin!',
+                    'Get started by adding a widget!',
                     style: GoogleFonts.inter(
                       fontSize: 14,
                       color: const Color(0xFF9CA3AF),
@@ -228,7 +228,9 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                                 MaterialTapTargetSize.shrinkWrap,
                             padding: const EdgeInsets.symmetric(horizontal: 8),
                           ),
-                          ...widget.tags.take(2).map(
+                          ...widget.tags
+                              .take(2)
+                              .map(
                                 (tag) => Chip(
                                   label: Text(
                                     tag,
@@ -236,8 +238,9 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                                   ),
                                   materialTapTargetSize:
                                       MaterialTapTargetSize.shrinkWrap,
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 8),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                  ),
                                 ),
                               ),
                         ],
@@ -253,9 +256,8 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => AdminAddWidgetScreen(
-                                widget: widget,
-                              ),
+                              builder: (context) =>
+                                  AdminAddWidgetScreen(widget: widget),
                             ),
                           );
                         },
@@ -283,7 +285,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
         },
         backgroundColor: const Color(0xFF5B21B6),
         icon: const Icon(Icons.add),
-        label: const Text('Widget Ekle'),
+        label: const Text('Add Widget'),
       ),
     );
   }

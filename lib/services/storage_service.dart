@@ -5,15 +5,18 @@ class StorageService {
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final String folder = 'widget_gifs';
 
-  // GIF/Image yükle (tüm resim formatlarını destekler)
+  // Upload a GIF or image (supports all image formats)
   Future<String> uploadGif(Uint8List fileBytes, String fileName) async {
     try {
-      // Dosya adını temizle ve unique yap
+      // Sanitize the file name and make it unique
       final timestamp = DateTime.now().millisecondsSinceEpoch;
-      final cleanFileName = fileName.replaceAll(RegExp(r'[^a-zA-Z0-9._-]'), '_');
+      final cleanFileName = fileName.replaceAll(
+        RegExp(r'[^a-zA-Z0-9._-]'),
+        '_',
+      );
       final uniqueFileName = '${timestamp}_$cleanFileName';
 
-      // Dosya uzantısından content type belirle
+      // Determine the content type from the file extension
       String contentType = 'image/gif';
       final extension = fileName.toLowerCase().split('.').last;
       switch (extension) {
@@ -32,46 +35,44 @@ class StorageService {
           break;
       }
 
-      // Storage referansı oluştur
+      // Create the storage reference
       final ref = _storage.ref().child('$folder/$uniqueFileName');
 
       // Metadata ayarla
       final metadata = SettableMetadata(
         contentType: contentType,
-        customMetadata: {
-          'uploadedAt': DateTime.now().toIso8601String(),
-        },
+        customMetadata: {'uploadedAt': DateTime.now().toIso8601String()},
       );
 
       print('📤 Uploading: $uniqueFileName with content-type: $contentType');
 
-      // Dosyayı yükle
+      // Upload the file
       final uploadTask = await ref.putData(fileBytes, metadata);
 
       // Download URL al
       final downloadUrl = await uploadTask.ref.getDownloadURL();
-      
+
       print('✅ Upload complete: $downloadUrl');
 
       return downloadUrl;
     } catch (e) {
       print('❌ Upload error: $e');
-      throw Exception('Resim yüklenirken hata: $e');
+      throw Exception('Failed to upload image: $e');
     }
   }
 
-  // GIF sil
+  // Delete a GIF
   Future<void> deleteGif(String gifUrl) async {
     try {
       final ref = _storage.refFromURL(gifUrl);
       await ref.delete();
     } catch (e) {
-      // Dosya zaten silinmiş olabilir, hata görmezden gel
-      print('GIF silinirken hata (görmezden gelindi): $e');
+      // The file may already be deleted; ignore the error
+      print('Failed to delete GIF (ignored): $e');
     }
   }
 
-  // Tüm GIF'leri listele (admin için)
+  // List all GIFs for administrators
   Future<List<Map<String, dynamic>>> listAllGifs() async {
     try {
       final ref = _storage.ref().child(folder);
@@ -91,17 +92,17 @@ class StorageService {
 
       return gifs;
     } catch (e) {
-      throw Exception('GIF listesi alınırken hata: $e');
+      throw Exception('Failed to fetch GIF list: $e');
     }
   }
 
-  // Dosya boyutunu kontrol et (max 5MB)
+  // Validate the file size (maximum 5 MB)
   bool isFileSizeValid(int sizeInBytes) {
     const maxSize = 5 * 1024 * 1024; // 5MB
     return sizeInBytes <= maxSize;
   }
 
-  // Dosya tipini kontrol et
+  // Validate the file type
   bool isGifFile(String fileName) {
     return fileName.toLowerCase().endsWith('.gif');
   }

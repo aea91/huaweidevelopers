@@ -3,26 +3,26 @@ import 'package:firebase_core/firebase_core.dart';
 import '../firebase_options.dart';
 
 void main() async {
-  print('🚀 Firebase bağlantısı başlatılıyor...');
-  
-  // Firebase'i başlat
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  print('🚀 Initializing Firebase connection...');
 
-  print('✅ Firebase bağlantısı başarılı!\n');
+  // Initialize Firebase
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // Firestore referansı
+  print('✅ Firebase connection established!\n');
+
+  // Firestore reference
   final firestore = FirebaseFirestore.instance;
 
-  // Sample widget verileri
+  // Sample widget data
   final sampleWidgets = [
     {
       'title': 'Bottom Navigation Bar with Gradient',
-      'description': 'Modern gradient bottom navigation bar with icon and label support',
+      'description':
+          'Modern gradient bottom navigation bar with icon and label support',
       'category': 'Navigation',
       'tags': ['navigation', 'bottom bar', 'gradient', 'icons'],
-      'gifUrl': 'https://via.placeholder.com/400x300.gif?text=Bottom+Navigation',
+      'gifUrl':
+          'https://via.placeholder.com/400x300.gif?text=Bottom+Navigation',
       'code': '''@Component
 export struct GradientBottomNav {
   @State selectedIndex: number = 0;
@@ -246,14 +246,14 @@ export struct ProfileHeader {
     },
   ];
 
-  print('📦 ${sampleWidgets.length} adet widget yüklenecek...\n');
+  print('📦 Uploading ${sampleWidgets.length} widgets...\n');
 
   int successCount = 0;
   int errorCount = 0;
 
   for (var widgetData in sampleWidgets) {
     try {
-      // Firestore'a widget ekle
+      // Add the widget to Firestore
       await firestore.collection('widgets').add({
         'title': widgetData['title'],
         'description': widgetData['description'],
@@ -264,18 +264,18 @@ export struct ProfileHeader {
         'createdAt': FieldValue.serverTimestamp(),
       });
 
-      print('✅ "${widgetData['title']}" eklendi!');
+      print('✅ "${widgetData['title']}" uploaded!');
       successCount++;
     } catch (e) {
-      print('❌ "${widgetData['title']}" eklenirken hata: $e');
+      print('❌ "${widgetData['title']}" failed to upload: $e');
       errorCount++;
     }
   }
 
   print('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-  print('✅ Başarılı: $successCount');
-  print('❌ Hatalı: $errorCount');
+  print('✅ Successful: $successCount');
+  print('❌ Failed: $errorCount');
   print('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-  print('\n🎉 İşlem tamamlandı!');
-  print('🌐 Widget\'ları görmek için: https://arkuibuilder.web.app\n');
+  print('\n🎉 Operation complete!');
+  print('🌐 View widgets at: https://arkuibuilder.web.app\n');
 }

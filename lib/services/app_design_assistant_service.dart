@@ -18,7 +18,7 @@ class AppDesignAssistantService {
   }) async {
     final trimmed = description.trim();
     if (trimmed.isEmpty) {
-      throw ArgumentError('Lütfen uygulamanızı kısaca tarif edin.');
+      throw ArgumentError('Please briefly describe your app.');
     }
 
     try {
@@ -28,7 +28,12 @@ class AppDesignAssistantService {
         managers: managers,
       );
       if (cloudResult != null) {
-        return _sanitizeSuggestion(cloudResult, widgets, managers, usedCloudAi: true);
+        return _sanitizeSuggestion(
+          cloudResult,
+          widgets,
+          managers,
+          usedCloudAi: true,
+        );
       }
     } catch (e) {
       debugPrint('Cloud AI unavailable, using local matcher: $e');
@@ -54,22 +59,26 @@ class AppDesignAssistantService {
             'description': description,
             'catalog': {
               'widgets': widgets
-                  .map((w) => {
-                        'id': w.id,
-                        'title': w.title,
-                        'description': w.description,
-                        'category': w.category,
-                        'mainCategory': w.mainCategory,
-                        'tags': w.tags,
-                      })
+                  .map(
+                    (w) => {
+                      'id': w.id,
+                      'title': w.title,
+                      'description': w.description,
+                      'category': w.category,
+                      'mainCategory': w.mainCategory,
+                      'tags': w.tags,
+                    },
+                  )
                   .toList(),
               'managers': managers
-                  .map((m) => {
-                        'id': m.id,
-                        'title': m.title,
-                        'description': m.description,
-                        'className': m.className,
-                      })
+                  .map(
+                    (m) => {
+                      'id': m.id,
+                      'title': m.title,
+                      'description': m.description,
+                      'className': m.className,
+                    },
+                  )
                   .toList(),
             },
           }),
@@ -81,12 +90,14 @@ class AppDesignAssistantService {
     }
 
     if (response.statusCode != 200) {
-      throw Exception('AI servisi yanıt vermedi (${response.statusCode})');
+      throw Exception(
+        'The AI service did not respond (${response.statusCode})',
+      );
     }
 
     final decoded = jsonDecode(response.body);
     if (decoded is! Map<String, dynamic>) {
-      throw Exception('Geçersiz AI yanıtı');
+      throw Exception('Invalid AI response');
     }
 
     return AppDesignSuggestion.fromJson(decoded);
@@ -130,7 +141,7 @@ class AppDesignAssistantService {
         selectedWidgets.add(
           WidgetSuggestion(
             id: widget.id,
-            reason: 'Katalogdan tamamlayıcı bileşen',
+            reason: 'Complementary component from the catalog',
           ),
         );
         if (selectedWidgets.length >= 5) break;
@@ -143,7 +154,7 @@ class AppDesignAssistantService {
 
     return AppDesignSuggestion(
       summary:
-          'Katalog eşleştirmesiyle ${selectedWidgets.length} widget, ${managerIds.length} manager ve ${models.length} model önerildi.',
+          'Catalog matching suggested ${selectedWidgets.length} widgets, ${managerIds.length} managers, and ${models.length} models.',
       layoutDescription: layout,
       widgets: selectedWidgets,
       managerIds: managerIds,
@@ -172,13 +183,14 @@ class AppDesignAssistantService {
         .take(10)
         .toList();
 
-    final filteredManagers =
-        suggestion.managerIds.where(validManagerIds.contains).toList();
+    final filteredManagers = suggestion.managerIds
+        .where(validManagerIds.contains)
+        .toList();
 
     return AppDesignSuggestion(
       summary: suggestion.summary.isNotEmpty
           ? suggestion.summary
-          : 'AI önerisi katalogdan seçildi.',
+          : 'The AI suggestion was selected from the catalog.',
       layoutDescription: suggestion.layoutDescription,
       widgets: filteredWidgets.isNotEmpty
           ? filteredWidgets
@@ -201,16 +213,51 @@ class AppDesignAssistantService {
 
   List<String> _extractKeywords(String text) {
     const vocabulary = [
-      'dashboard', 'finans', 'finance', 'e-ticaret', 'ecommerce', 'eticaret',
-      'mağaza', 'store', 'shop', 'satış', 'sales', 'kpi', 'grafik', 'chart',
-      'liste', 'list', 'kart', 'card', 'profil', 'profile', 'navigasyon',
-      'navigation', 'bottom', 'tab', 'giriş', 'login', 'auth', 'kayıt',
-      'register', 'harita', 'map', 'konum', 'location', 'depolama', 'storage',
-      'bildirim', 'notification', 'arama', 'search', 'form', 'buton', 'button',
-      'sağlık', 'health', 'fitness', 'sosyal', 'social', 'mesaj', 'chat',
-      'ödeme', 'payment', 'sipariş', 'order', 'ürün', 'product', 'istatistik',
-      'stat', 'analytics', 'koyu', 'dark', 'açık', 'light', 'modern',
-      'minimal', 'gradient', 'menu', 'drawer', 'sidebar', 'header', 'footer',
+      'dashboard',
+      'finance',
+      'ecommerce',
+      'store',
+      'shop',
+      'sales',
+      'kpi',
+      'chart',
+      'list',
+      'card',
+      'profile',
+      'navigation',
+      'bottom',
+      'tab',
+      'login',
+      'auth',
+      'register',
+      'map',
+      'location',
+      'storage',
+      'notification',
+      'search',
+      'form',
+      'button',
+      'health',
+      'fitness',
+      'social',
+      'message',
+      'chat',
+      'payment',
+      'order',
+      'product',
+      'statistics',
+      'stat',
+      'analytics',
+      'dark',
+      'light',
+      'modern',
+      'minimal',
+      'gradient',
+      'menu',
+      'drawer',
+      'sidebar',
+      'header',
+      'footer',
     ];
 
     final found = <String>[];
@@ -222,7 +269,11 @@ class AppDesignAssistantService {
     return found;
   }
 
-  double _scoreWidget(WidgetShowcase widget, List<String> keywords, String text) {
+  double _scoreWidget(
+    WidgetShowcase widget,
+    List<String> keywords,
+    String text,
+  ) {
     final haystack = [
       widget.title,
       widget.description,
@@ -247,14 +298,10 @@ class AppDesignAssistantService {
 
     const directHints = {
       'dashboard': ['stat', 'chart', 'card', 'metric', 'kpi'],
-      'finans': ['chart', 'stat', 'card'],
       'finance': ['chart', 'stat', 'card'],
       'navigation': ['nav', 'bottom', 'tab'],
-      'liste': ['list'],
       'list': ['list'],
-      'profil': ['profile'],
       'profile': ['profile'],
-      'grafik': ['chart', 'graph'],
       'chart': ['chart', 'graph'],
     };
 
@@ -279,9 +326,9 @@ class AppDesignAssistantService {
 
   String _widgetReason(WidgetShowcase widget, List<String> keywords) {
     if (keywords.isEmpty) {
-      return '${widget.category} kategorisinden öneri';
+      return 'Suggested from the ${widget.category} category';
     }
-    return '${widget.category} — "${keywords.take(2).join(', ')}" ihtiyacına uygun';
+    return '${widget.category} — matches the need for "${keywords.take(2).join(', ')}"';
   }
 
   List<String> _matchManagers(
@@ -290,18 +337,21 @@ class AppDesignAssistantService {
     String text,
   ) {
     const managerHints = {
-      'storage': ['storage', 'depolama', 'cache', 'prefs', 'kayıt'],
-      'location': ['location', 'konum', 'harita', 'map', 'gps'],
-      'camera': ['camera', 'kamera', 'foto'],
+      'storage': ['storage', 'cache', 'prefs'],
+      'location': ['location', 'map', 'gps'],
+      'camera': ['camera', 'photo'],
       'network': ['network', 'api', 'http', 'internet'],
     };
 
     final ids = <String>[];
     for (final manager in managers) {
       final blob =
-          '${manager.title} ${manager.description} ${manager.className}'.toLowerCase();
+          '${manager.title} ${manager.description} ${manager.className}'
+              .toLowerCase();
       for (final entry in managerHints.entries) {
-        final matched = entry.value.any((hint) => text.contains(hint) || blob.contains(hint));
+        final matched = entry.value.any(
+          (hint) => text.contains(hint) || blob.contains(hint),
+        );
         if (matched && blob.contains(entry.key)) {
           ids.add(manager.id);
         }
@@ -316,7 +366,7 @@ class AppDesignAssistantService {
   }
 
   List<SuggestedModel> _suggestModels(List<String> keywords, String text) {
-    if (_containsAny(text, ['finans', 'finance', 'bank', 'dashboard', 'kpi'])) {
+    if (_containsAny(text, ['finance', 'bank', 'dashboard', 'kpi'])) {
       return [
         const SuggestedModel(
           name: 'Transaction',
@@ -327,21 +377,17 @@ class AppDesignAssistantService {
             'currency': 'TRY',
             'date': '2026-06-01',
           },
-          reason: 'Finans dashboard için işlem verisi',
+          reason: 'Transaction data for a finance dashboard',
         ),
         const SuggestedModel(
           name: 'KpiMetric',
-          sampleJson: {
-            'label': 'Active users',
-            'value': 1240,
-            'delta': 8.4,
-          },
-          reason: 'Üst KPI kartları için metrik modeli',
+          sampleJson: {'label': 'Active users', 'value': 1240, 'delta': 8.4},
+          reason: 'Metric model for the top KPI cards',
         ),
       ];
     }
 
-    if (_containsAny(text, ['e-ticaret', 'ecommerce', 'eticaret', 'shop', 'mağaza', 'store'])) {
+    if (_containsAny(text, ['ecommerce', 'shop', 'store'])) {
       return [
         const SuggestedModel(
           name: 'Product',
@@ -351,7 +397,7 @@ class AppDesignAssistantService {
             'price': 1299.99,
             'imageUrl': 'https://example.com/product.png',
           },
-          reason: 'Ürün listesi ve kartları için',
+          reason: 'For product lists and cards',
         ),
         const SuggestedModel(
           name: 'Order',
@@ -361,12 +407,12 @@ class AppDesignAssistantService {
             'total': 2599.98,
             'createdAt': '2026-06-08',
           },
-          reason: 'Sipariş geçmişi bölümü için',
+          reason: 'For the order history section',
         ),
       ];
     }
 
-    if (_containsAny(text, ['profil', 'profile', 'social', 'sosyal', 'user', 'kullanıcı'])) {
+    if (_containsAny(text, ['profile', 'social', 'user'])) {
       return [
         const SuggestedModel(
           name: 'UserProfile',
@@ -376,7 +422,7 @@ class AppDesignAssistantService {
             'email': 'user@example.com',
             'avatarUrl': 'https://example.com/avatar.png',
           },
-          reason: 'Profil ekranı için temel kullanıcı modeli',
+          reason: 'Basic user model for the profile screen',
         ),
       ];
     }
@@ -390,17 +436,17 @@ class AppDesignAssistantService {
           'subtitle': 'Today',
           'value': 42,
         },
-        reason: 'Genel dashboard içeriği için başlangıç modeli',
+        reason: 'Starter model for general dashboard content',
       ),
     ];
   }
 
   Map<String, String> _resolveTheme(String text, List<String> keywords) {
     final combined = '$text ${keywords.join(' ')}';
-    final isDark = _containsAny(combined, ['koyu', 'dark']) &&
-        !_containsAny(combined, ['açık', 'light']);
+    final isDark =
+        _containsAny(combined, ['dark']) && !_containsAny(combined, ['light']);
 
-    if (_containsAny(combined, ['finans', 'finance', 'bank'])) {
+    if (_containsAny(combined, ['finance', 'bank'])) {
       return {
         'primary': '#1565C0',
         'secondary': '#2E7D32',
@@ -408,7 +454,7 @@ class AppDesignAssistantService {
         'dark': isDark.toString(),
       };
     }
-    if (_containsAny(combined, ['e-ticaret', 'ecommerce', 'eticaret', 'shop'])) {
+    if (_containsAny(combined, ['ecommerce', 'shop'])) {
       return {
         'primary': '#7C3AED',
         'secondary': '#06B6D4',
@@ -416,7 +462,7 @@ class AppDesignAssistantService {
         'dark': isDark.toString(),
       };
     }
-    if (_containsAny(combined, ['sağlık', 'health', 'fitness'])) {
+    if (_containsAny(combined, ['health', 'fitness'])) {
       return {
         'primary': '#059669',
         'secondary': '#0EA5E9',
@@ -442,25 +488,29 @@ class AppDesignAssistantService {
       final widget = catalog.where((w) => w.id == item.id).firstOrNull;
       if (widget != null) titles.add(widget.title);
     }
-    if (titles.isEmpty) return 'Üstte başlık, ortada içerik, altta navigasyon.';
+    if (titles.isEmpty) {
+      return 'Header at the top, content in the middle, and navigation at the bottom.';
+    }
 
     final parts = <String>[];
     if (titles.length >= 2) {
-      parts.add('Üst bölüm: ${titles.take(2).join(', ')}');
+      parts.add('Top section: ${titles.take(2).join(', ')}');
     }
     if (titles.length > 2) {
-      parts.add('Orta bölüm: ${titles.sublist(2, titles.length.clamp(2, 5)).join(', ')}');
+      parts.add(
+        'Middle section: ${titles.sublist(2, titles.length.clamp(2, 5)).join(', ')}',
+      );
     }
     if (titles.length > 5) {
-      parts.add('Alt bölüm: ${titles.last}');
+      parts.add('Bottom section: ${titles.last}');
     }
     return parts.join(' · ');
   }
 
   String? _suggestProjectName(String text) {
-    if (_containsAny(text, ['finans', 'finance'])) return 'FinanceDashboard';
-    if (_containsAny(text, ['e-ticaret', 'ecommerce', 'eticaret'])) return 'ShopArkApp';
-    if (_containsAny(text, ['sağlık', 'health'])) return 'HealthTracker';
+    if (_containsAny(text, ['finance'])) return 'FinanceDashboard';
+    if (_containsAny(text, ['ecommerce'])) return 'ShopArkApp';
+    if (_containsAny(text, ['health'])) return 'HealthTracker';
     if (text.contains('dashboard')) return 'DashboardApp';
     return null;
   }

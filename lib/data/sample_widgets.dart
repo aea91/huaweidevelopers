@@ -6,7 +6,7 @@ final List<WidgetShowcase> sampleWidgets = [
     title: 'Bottom Nav Bar Gradient',
     description: 'Modern gradient bottom navigation bar with smooth animations',
     category: 'Navigation',
-    gifPath: 'assets/gifs/bottom_nav.gif', // Placeholder - GIF'inizi buraya ekleyin
+    gifPath: 'assets/gifs/bottom_nav.gif', // Placeholder - add your GIF here
     code: '''@Entry
 @Component
 struct BottomNavBarGradient {

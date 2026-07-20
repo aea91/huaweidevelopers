@@ -1,17 +1,17 @@
 #!/bin/bash
 
-echo "🚀 Firebase'e sample widget'lar ekleniyor..."
+echo "🚀 Adding sample widgets to Firebase..."
 echo ""
 
 # Firebase project ID
 PROJECT_ID="arkuibuilder"
 
-# Widget verilerini tek tek ekle
-echo "📦 5 adet widget yüklenecek..."
+# Add widget data one by one
+echo "📦 5 widgets will be loaded..."
 echo ""
 
 # Widget 1: Bottom Navigation Bar
-echo "📤 1/5: Bottom Navigation Bar ekleniyor..."
+echo "📤 1/5: Adding Bottom Navigation Bar..."
 curl -X POST \
   "https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents/widgets" \
   -H "Authorization: Bearer $(firebase login:ci --no-localhost 2>&1 | grep -o 'ya29[^"]*' || firebase --token 2>&1 | grep -o 'ya29[^"]*')" \
@@ -34,13 +34,13 @@ curl -X POST \
   }' > /dev/null 2>&1
 
 if [ $? -eq 0 ]; then
-    echo "✅ Bottom Navigation Bar eklendi!"
+    echo "✅ Bottom Navigation Bar added!"
 else
-    echo "❌ Bottom Navigation Bar eklenirken hata oluştu"
+    echo "❌ Error adding Bottom Navigation Bar"
 fi
 
 # Widget 2: Animated Product Card
-echo "📤 2/5: Animated Product Card ekleniyor..."
+echo "📤 2/5: Adding Animated Product Card..."
 curl -X POST \
   "https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents/widgets" \
   -H "Authorization: Bearer $(firebase login:ci --no-localhost 2>&1 | grep -o 'ya29[^"]*' || firebase --token 2>&1 | grep -o 'ya29[^"]*')" \
@@ -63,13 +63,13 @@ curl -X POST \
   }' > /dev/null 2>&1
 
 if [ $? -eq 0 ]; then
-    echo "✅ Animated Product Card eklendi!"
+    echo "✅ Animated Product Card added!"
 else
-    echo "❌ Animated Product Card eklenirken hata oluştu"
+    echo "❌ Error adding Animated Product Card"
 fi
 
 # Widget 3: Modern Search Bar
-echo "📤 3/5: Modern Search Bar ekleniyor..."
+echo "📤 3/5: Adding Modern Search Bar..."
 curl -X POST \
   "https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents/widgets" \
   -H "Authorization: Bearer $(firebase login:ci --no-localhost 2>&1 | grep -o 'ya29[^"]*' || firebase --token 2>&1 | grep -o 'ya29[^"]*')" \
@@ -91,13 +91,13 @@ curl -X POST \
   }' > /dev/null 2>&1
 
 if [ $? -eq 0 ]; then
-    echo "✅ Modern Search Bar eklendi!"
+    echo "✅ Modern Search Bar added!"
 else
-    echo "❌ Modern Search Bar eklenirken hata oluştu"
+    echo "❌ Error adding Modern Search Bar"
 fi
 
 # Widget 4: Gradient Button
-echo "📤 4/5: Gradient Button ekleniyor..."
+echo "📤 4/5: Adding Gradient Button..."
 curl -X POST \
   "https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents/widgets" \
   -H "Authorization: Bearer $(firebase login:ci --no-localhost 2>&1 | grep -o 'ya29[^"]*' || firebase --token 2>&1 | grep -o 'ya29[^"]*')" \
@@ -119,13 +119,13 @@ curl -X POST \
   }' > /dev/null 2>&1
 
 if [ $? -eq 0 ]; then
-    echo "✅ Gradient Button eklendi!"
+    echo "✅ Gradient Button added!"
 else
-    echo "❌ Gradient Button eklenirken hata oluştu"
+    echo "❌ Error adding Gradient Button"
 fi
 
 # Widget 5: Profile Header
-echo "📤 5/5: Profile Header ekleniyor..."
+echo "📤 5/5: Adding Profile Header..."
 curl -X POST \
   "https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents/widgets" \
   -H "Authorization: Bearer $(firebase login:ci --no-localhost 2>&1 | grep -o 'ya29[^"]*' || firebase --token 2>&1 | grep -o 'ya29[^"]*')" \
@@ -147,14 +147,14 @@ curl -X POST \
   }' > /dev/null 2>&1
 
 if [ $? -eq 0 ]; then
-    echo "✅ Profile Header eklendi!"
+    echo "✅ Profile Header added!"
 else
-    echo "❌ Profile Header eklenirken hata oluştu"
+    echo "❌ Error adding Profile Header"
 fi
 
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "🎉 İşlem tamamlandı!"
+echo "🎉 Operation completed!"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
-echo "✅ https://arkuibuilder.web.app adresinden widget'ları görebilirsiniz!"
+echo "✅ You can see widgets at https://arkuibuilder.web.app!"

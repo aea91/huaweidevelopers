@@ -62,7 +62,11 @@ class AppBuilderAiPanel extends StatelessWidget {
                       color: AppChrome.ink,
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: const Icon(Icons.auto_awesome, color: Colors.white, size: 22),
+                    child: const Icon(
+                      Icons.auto_awesome,
+                      color: Colors.white,
+                      size: 22,
+                    ),
                   ),
                   const SizedBox(width: 14),
                   Expanded(
@@ -70,7 +74,7 @@ class AppBuilderAiPanel extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'AI Tasarım Asistanı',
+                          'AI Design Assistant',
                           style: AppChrome.body(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -79,7 +83,7 @@ class AppBuilderAiPanel extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          'Uygulamanızı tarif edin — katalogdan widget, tema ve model önersin',
+                          'Describe your app to get widget, theme, and model suggestions from the catalog',
                           style: AppChrome.body(
                             fontSize: 13,
                             color: AppChrome.muted,
@@ -109,8 +113,11 @@ class AppBuilderAiPanel extends StatelessWidget {
                     maxLines: 4,
                     decoration: InputDecoration(
                       hintText:
-                          'Örn: Finans dashboard — üstte KPI kartları, ortada aylık gelir grafiği, altta işlem listesi. Koyu tema.',
-                      hintStyle: AppChrome.body(fontSize: 13, color: const Color(0xFF94A3B8)),
+                          'Example: Finance dashboard with KPI cards at the top, a monthly revenue chart in the middle, and a transaction list at the bottom. Dark theme.',
+                      hintStyle: AppChrome.body(
+                        fontSize: 13,
+                        color: const Color(0xFF94A3B8),
+                      ),
                       filled: true,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
@@ -135,15 +142,25 @@ class AppBuilderAiPanel extends StatelessWidget {
                             ? const SizedBox(
                                 width: 16,
                                 height: 16,
-                                child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.white,
+                                ),
                               )
                             : const Icon(Icons.search, size: 18),
-                        label: Text(isLoading ? 'Analiz ediliyor...' : 'Katalogdan Öner'),
+                        label: Text(
+                          isLoading ? 'Analyzing...' : 'Suggest from Catalog',
+                        ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppChrome.ink,
                           foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 14,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                         ),
                       ),
                       if (suggestion != null)
@@ -203,7 +220,7 @@ class AppBuilderAiPanel extends StatelessWidget {
                   borderRadius: BorderRadius.circular(999),
                 ),
                 child: Text(
-                  current.usedCloudAi ? 'Cloud AI' : 'Akıllı eşleştirme',
+                  current.usedCloudAi ? 'Cloud AI' : 'Smart matching',
                   style: AppChrome.body(
                     fontSize: 11,
                     fontWeight: FontWeight.w600,
@@ -223,7 +240,7 @@ class AppBuilderAiPanel extends StatelessWidget {
             ),
           ],
           const SizedBox(height: 16),
-          _sectionTitle('Widget önerileri (${current.widgets.length})'),
+          _sectionTitle('Widget suggestions (${current.widgets.length})'),
           const SizedBox(height: 8),
           Wrap(
             spacing: 8,
@@ -242,7 +259,7 @@ class AppBuilderAiPanel extends StatelessWidget {
             }).toList(),
           ),
           const SizedBox(height: 16),
-          _sectionTitle('Tema'),
+          _sectionTitle('Theme'),
           const SizedBox(height: 8),
           Wrap(
             spacing: 12,
@@ -254,7 +271,7 @@ class AppBuilderAiPanel extends StatelessWidget {
               _colorDot(current.tertiaryColor, 'Tertiary'),
               Chip(
                 label: Text(
-                  current.isDarkMode ? 'Koyu tema' : 'Açık tema',
+                  current.isDarkMode ? 'Dark theme' : 'Light theme',
                   style: AppChrome.body(fontSize: 12),
                 ),
               ),
@@ -262,7 +279,7 @@ class AppBuilderAiPanel extends StatelessWidget {
           ),
           if (current.managerIds.isNotEmpty) ...[
             const SizedBox(height: 16),
-            _sectionTitle('Manager önerileri'),
+            _sectionTitle('Manager suggestions'),
             const SizedBox(height: 8),
             Wrap(
               spacing: 8,
@@ -281,7 +298,7 @@ class AppBuilderAiPanel extends StatelessWidget {
           ],
           if (current.models.isNotEmpty) ...[
             const SizedBox(height: 16),
-            _sectionTitle('Model önerileri'),
+            _sectionTitle('Model suggestions'),
             const SizedBox(height: 8),
             Column(
               children: current.models.map((model) {
@@ -289,8 +306,14 @@ class AppBuilderAiPanel extends StatelessWidget {
                   contentPadding: EdgeInsets.zero,
                   dense: true,
                   leading: const Icon(Icons.data_object, color: AppChrome.ink),
-                  title: Text(model.name, style: GoogleFonts.jetBrainsMono(fontSize: 13)),
-                  subtitle: Text(model.reason, style: AppChrome.body(fontSize: 12)),
+                  title: Text(
+                    model.name,
+                    style: GoogleFonts.jetBrainsMono(fontSize: 13),
+                  ),
+                  subtitle: Text(
+                    model.reason,
+                    style: AppChrome.body(fontSize: 12),
+                  ),
                 );
               }).toList(),
             ),
@@ -301,12 +324,14 @@ class AppBuilderAiPanel extends StatelessWidget {
             child: ElevatedButton.icon(
               onPressed: onApply,
               icon: const Icon(Icons.check_circle_outline),
-              label: const Text('Önerileri Uygula'),
+              label: const Text('Apply Suggestions'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF16A34A),
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
               ),
             ),
           ),
@@ -348,7 +373,10 @@ class AppBuilderAiPanel extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 6),
-        Text(label, style: AppChrome.body(fontSize: 12, color: AppChrome.muted)),
+        Text(
+          label,
+          style: AppChrome.body(fontSize: 12, color: AppChrome.muted),
+        ),
       ],
     );
   }

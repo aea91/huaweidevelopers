@@ -23,15 +23,15 @@ service firebase.storage {
     
     // Widget images folder (GIF, PNG, JPG, JPEG, WebP)
     match /widget_gifs/{imageFile} {
-      // Herkes okuyabilir (public)
+      // Anyone can read (public)
       allow read: if true;
       
-      // Sadece admin yükleyebilir ve silebilir
+      // Only admin can upload and delete
       allow create, update: if isAdmin() && isValidImage() && isValidSize();
       allow delete: if isAdmin();
     }
     
-    // Diğer tüm dosyalar
+    // All other files
     match /{allPaths=**} {
       allow read: if false;
       allow write: if false;

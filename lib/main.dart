@@ -13,17 +13,17 @@ import 'screens/app_builder_screen.dart';
 import 'screens/managers_screen.dart';
 import 'screens/example_demos_screen.dart';
 import 'screens/articles_screen.dart';
+import 'screens/playground_screen.dart';
+import 'screens/playground_quiz_screen.dart';
 import 'services/auth_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // URL strategy - remove # from URLs
   usePathUrlStrategy();
-  
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
@@ -53,12 +53,14 @@ class MyApp extends StatelessWidget {
             builder: (context) => const HomeScreen(),
             settings: settings,
           );
-        } else if (settings.name == '/theme-builder' || settings.name == '/theme-builder/') {
+        } else if (settings.name == '/theme-builder' ||
+            settings.name == '/theme-builder/') {
           return MaterialPageRoute(
             builder: (context) => const ThemeBuilderScreen(),
             settings: settings,
           );
-        } else if (settings.name == '/class-builder' || settings.name == '/class-builder/') {
+        } else if (settings.name == '/class-builder' ||
+            settings.name == '/class-builder/') {
           return MaterialPageRoute(
             builder: (context) => const ClassBuilderScreen(),
             settings: settings,
@@ -73,7 +75,8 @@ class MyApp extends StatelessWidget {
             builder: (context) => const ManagersScreen(),
             settings: settings,
           );
-        } else if (settings.name == '/example-demos' || settings.name == '/example-demos/') {
+        } else if (settings.name == '/example-demos' ||
+            settings.name == '/example-demos/') {
           return MaterialPageRoute(
             builder: (context) => const ExampleDemosScreen(),
             settings: settings,
@@ -88,6 +91,17 @@ class MyApp extends StatelessWidget {
             builder: (context) => const ArticlesScreen(source: ArticlesSource.forum),
             settings: settings,
           );
+        } else if (settings.name == '/playground' || settings.name == '/playground/') {
+          return MaterialPageRoute(
+            builder: (context) => const PlaygroundScreen(),
+            settings: settings,
+          );
+        } else if (settings.name == '/playground/quiz' ||
+            settings.name == '/playground/quiz/') {
+          return MaterialPageRoute(
+            builder: (context) => const PlaygroundQuizScreen(),
+            settings: settings,
+          );
         } else if (settings.name == '/admin' || settings.name == '/admin/') {
           return MaterialPageRoute(
             builder: (context) {
@@ -99,7 +113,7 @@ class MyApp extends StatelessWidget {
                       body: Center(child: CircularProgressIndicator()),
                     );
                   }
-                  
+
                   if (snapshot.hasData) {
                     return const AdminDashboardScreen();
                   } else {
@@ -111,7 +125,7 @@ class MyApp extends StatelessWidget {
             settings: settings,
           );
         }
-        
+
         // Default route (404 - redirect to home)
         return MaterialPageRoute(
           builder: (context) => const HomeScreen(),

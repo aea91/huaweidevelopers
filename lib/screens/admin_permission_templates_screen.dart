@@ -6,10 +6,12 @@ class AdminPermissionTemplatesScreen extends StatefulWidget {
   const AdminPermissionTemplatesScreen({super.key});
 
   @override
-  State<AdminPermissionTemplatesScreen> createState() => _AdminPermissionTemplatesScreenState();
+  State<AdminPermissionTemplatesScreen> createState() =>
+      _AdminPermissionTemplatesScreenState();
 }
 
-class _AdminPermissionTemplatesScreenState extends State<AdminPermissionTemplatesScreen> {
+class _AdminPermissionTemplatesScreenState
+    extends State<AdminPermissionTemplatesScreen> {
   final _firestoreService = FirestoreService();
   final _controller = TextEditingController();
   List<String> _permissions = [];
@@ -43,7 +45,10 @@ class _AdminPermissionTemplatesScreenState extends State<AdminPermissionTemplate
       if (!mounted) return;
       setState(() => _loading = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Yükleme hatası: $e', style: GoogleFonts.inter()), backgroundColor: Colors.red),
+        SnackBar(
+          content: Text('Loading failed: $e', style: GoogleFonts.inter()),
+          backgroundColor: Colors.red,
+        ),
       );
     }
   }
@@ -51,17 +56,25 @@ class _AdminPermissionTemplatesScreenState extends State<AdminPermissionTemplate
   Future<void> _save() async {
     setState(() => _saving = true);
     try {
-      final unique = _permissions.toSet().where((e) => e.trim().isNotEmpty).toList()..sort();
+      final unique =
+          _permissions.toSet().where((e) => e.trim().isNotEmpty).toList()
+            ..sort();
       await _firestoreService.saveManagerPermissionTemplates(unique);
       if (!mounted) return;
       setState(() => _permissions = unique);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Şablonlar kaydedildi', style: GoogleFonts.inter()), backgroundColor: Colors.green),
+        SnackBar(
+          content: Text('Templates saved', style: GoogleFonts.inter()),
+          backgroundColor: Colors.green,
+        ),
       );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Kaydetme hatası: $e', style: GoogleFonts.inter()), backgroundColor: Colors.red),
+        SnackBar(
+          content: Text('Saving failed: $e', style: GoogleFonts.inter()),
+          backgroundColor: Colors.red,
+        ),
       );
     } finally {
       if (mounted) setState(() => _saving = false);
@@ -88,7 +101,10 @@ class _AdminPermissionTemplatesScreenState extends State<AdminPermissionTemplate
     return Scaffold(
       backgroundColor: const Color(0xFFF9FAFB),
       appBar: AppBar(
-        title: Text('Permission Templates', style: GoogleFonts.inter(fontWeight: FontWeight.bold)),
+        title: Text(
+          'Permission Templates',
+          style: GoogleFonts.inter(fontWeight: FontWeight.bold),
+        ),
         backgroundColor: const Color(0xFF5B21B6),
         foregroundColor: Colors.white,
       ),
@@ -106,7 +122,10 @@ class _AdminPermissionTemplatesScreenState extends State<AdminPermissionTemplate
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Yeni şablon ekle', style: GoogleFonts.inter(fontWeight: FontWeight.w600)),
+                      Text(
+                        'Add New Template',
+                        style: GoogleFonts.inter(fontWeight: FontWeight.w600),
+                      ),
                       const SizedBox(height: 10),
                       Row(
                         children: [
@@ -120,7 +139,10 @@ class _AdminPermissionTemplatesScreenState extends State<AdminPermissionTemplate
                             ),
                           ),
                           const SizedBox(width: 8),
-                          ElevatedButton(onPressed: _add, child: const Text('Ekle')),
+                          ElevatedButton(
+                            onPressed: _add,
+                            child: const Text('Add'),
+                          ),
                         ],
                       ),
                     ],
@@ -129,16 +151,28 @@ class _AdminPermissionTemplatesScreenState extends State<AdminPermissionTemplate
                 const SizedBox(height: 16),
                 Container(
                   padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12)),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   child: _permissions.isEmpty
-                      ? Text('Henüz şablon yok', style: GoogleFonts.inter(color: const Color(0xFF6B7280)))
+                      ? Text(
+                          'No templates yet',
+                          style: GoogleFonts.inter(
+                            color: const Color(0xFF6B7280),
+                          ),
+                        )
                       : Wrap(
                           spacing: 8,
                           runSpacing: 8,
                           children: _permissions.map((p) {
                             return Chip(
-                              label: Text(p, style: GoogleFonts.inter(fontSize: 12)),
-                              onDeleted: () => setState(() => _permissions.remove(p)),
+                              label: Text(
+                                p,
+                                style: GoogleFonts.inter(fontSize: 12),
+                              ),
+                              onDeleted: () =>
+                                  setState(() => _permissions.remove(p)),
                             );
                           }).toList(),
                         ),
@@ -150,10 +184,13 @@ class _AdminPermissionTemplatesScreenState extends State<AdminPermissionTemplate
                       ? const SizedBox(
                           width: 16,
                           height: 16,
-                          child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
                         )
                       : const Icon(Icons.save),
-                  label: const Text('Kaydet'),
+                  label: const Text('Save'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF5B21B6),
                     foregroundColor: Colors.white,
@@ -165,4 +202,3 @@ class _AdminPermissionTemplatesScreenState extends State<AdminPermissionTemplate
     );
   }
 }
-

@@ -1,55 +1,55 @@
-# 🔍 Resim Yükleme Sorununu Debug Etme
+# 🔍 Debug Image Upload Problem
 
-## Debug Adımları
+## Debug Steps
 
-### 1️⃣ Chrome Console'u Kontrol Edin
-1. Chrome'da **F12** veya **Cmd+Option+I** ile DevTools açın
-2. **Console** sekmesine gidin
-3. Şu log mesajlarını arayın:
+### 1️⃣ Check Chrome Console
+1. Open DevTools in Chrome with **F12** or **Cmd+Option+I**
+2. Go to the **Console** tab
+3. Look for these log messages:
    ```
    WidgetPreview gifPath: [URL_BURAYA]
    Is HTTP URL: true/false
    ```
 
-### 2️⃣ Firebase Console'da Verileri Kontrol Edin
-1. **Firestore'u kontrol edin**: https://console.firebase.google.com/project/arkuibuilder/firestore
-2. `widgets` koleksiyonunu açın
-3. Eklediğiniz widget'ı seçin
-4. **`gifUrl`** alanını kontrol edin:
-   - ✅ URL varsa ve `https://` ile başlıyorsa: URL'yi kopyalayın
-   - ❌ URL yoksa veya boşsa: Widget'ı yeniden yükleyin
+### 2️⃣ Check Data in Firebase Console
+1. **Check Firestore**: https://console.firebase.google.com/project/arkuibuilder/firestore
+2. Open the `widgets` collection
+3. Select the widget you added
+4. Check the field **`gifUrl`**:
+   - ✅ If the URL exists and starts with `https://`: copy the URL
+   - ❌ If URL is missing or empty: Reload widget
 
-### 3️⃣ Firebase Storage'ı Kontrol Edin
-1. **Storage'ı kontrol edin**: https://console.firebase.google.com/project/arkuibuilder/storage
-2. `widget_gifs/` klasörünü açın
-3. Yüklediğiniz resim var mı?
-   - ✅ Varsa: Dosyaya tıklayın, URL'yi kopyalayın
-   - ❌ Yoksa: Resim yükleme başarısız olmuş
+### 3️⃣ Check Firebase Storage
+1. **Check Storage**: https://console.firebase.google.com/project/arkuibuilder/storage
+2. Open the `widget_gifs/` folder
+3. Do you have any images uploaded?
+   - ✅ If available: Click on file, copy URL
+   - ❌ Otherwise: Image upload failed
 
-### 4️⃣ CORS Sorunu Kontrolü
-Chrome Console'da şu hatayı görüyor musunuz?
+### 4️⃣ CORS Issue Checking
+Do you see this error in Chrome Console?
 ```
 Access to fetch at 'https://...' has been blocked by CORS policy
 ```
 
-Eğer görüyorsanız, Firebase Storage CORS ayarlarını yapmalıyız.
+If you see it, we need to set Firebase Storage CORS settings.
 
-## 🆘 Hızlı Test
+## 🆘 Quick Test
 
-Chrome Console'a şunu yazın:
+In the Chrome Console, type:
 ```javascript
 console.log(document.querySelector('img'))
 ```
 
-Resim elementi var mı? `src` attribute'u ne?
+Is there a picture element? What is the `src` attribute?
 
 ---
 
 ## Bana Bildirecekleriniz:
 
-1. **Chrome Console'da ne yazıyor?**
-2. **Firebase Firestore'da `gifUrl` değeri ne?**
-3. **Firebase Storage'da resim var mı?**
-4. **Hangi hata mesajını görüyorsunuz?** (ekran görüntüsü alabilirsiniz)
+1. **What does it say in Chrome Console?**
+2. **What is the value of `gifUrl` in Firebase Firestore?**
+3. **Are there images in Firebase Storage?**
+4. **What error message do you see?** (you can take a screenshot)
 
-Bu bilgilerle sorunu kesin çözeriz! 🔧
+With this information, we will definitely solve the problem! 🔧

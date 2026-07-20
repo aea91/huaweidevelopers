@@ -1,8 +1,8 @@
-# 🔥 Firebase Admin Panel - Setup Kılavuzu
+# 🔥 Firebase Admin Panel - Setup Guide
 
-Firebase entegrasyonu tamamlandı! Admin panel ile widget yönetimi aktif.
+Firebase integration complete! Widget management is active with the admin panel.
 
-## 🎯 Yeni Özellikler
+## 🎯 New Features
 
 ### ✅ Tamamlananlar:
 - 🔐 Firebase Authentication (Admin login)
@@ -10,65 +10,65 @@ Firebase entegrasyonu tamamlandı! Admin panel ile widget yönetimi aktif.
 - 📦 Firebase Storage (GIF upload)
 - 👤 Admin Panel (Full CRUD)
 - 🔒 Security Rules (Firestore & Storage)
-- 🌐 Public Ana Sayfa (Firebase entegre)
+- 🌐 Public Home Page (Firebase integrated)
 
 ---
 
-## 🚀 Hızlı Başlangıç
+## 🚀 Quick Start
 
-### 1. Firebase Console'da Authentication Aktifle
+### 1. Enable Authentication in Firebase Console
 
 ```bash
 1. https://console.firebase.google.com/project/arkuibuilder/authentication
-2. "Get started" tıklayın
-3. "Email/Password" provider'ı enable edin
-4. "Users" tab'ına gidin
-5. "Add user" tıklayın
-6. Email ve şifre girin (bu ilk admin kullanıcınız)
+2. Click "Get started"
+3. Enable the "Email/Password" provider
+4. Go to the "Users" tab
+5. Click "Add user"
+6. Enter email and password (this is your first admin user)
 ```
 
-### 2. Firestore Database Oluştur
+### 2. Create Firestore Database
 
 ```bash
 1. https://console.firebase.google.com/project/arkuibuilder/firestore
-2. "Create database" tıklayın
-3. "Start in production mode" seçin
-4. Location seçin (europe-west)
-5. "Enable" tıklayın
+2. Click "Create database"
+3. Select "Start in production mode"
+4. Select Location (europe-west)
+5. Click "Enable"
 ```
 
 ### 3. Storage Aktifle
 
 ```bash
 1. https://console.firebase.google.com/project/arkuibuilder/storage
-2. "Get started" tıklayın
-3. "Start in production mode" seçin
-4. "Done" tıklayın
+2. Click "Get started"
+3. Select "Start in production mode"
+4. Click "Done"
 ```
 
-### 4. Security Rules Deploy Et
+### 4. Deploy Security Rules
 
 ```bash
-# Rules'ları deploy et
+# Deploy rules
 firebase deploy --only firestore:rules
 firebase deploy --only storage:rules
 ```
 
-### 5. Uygulamayı Test Edin
+### 5. Test the App
 
 ```bash
 # Local test
 flutter run -d chrome
 
-# Admin panele gidin
-1. Header'daki admin ikonuna tıklayın
-2. Firebase'de oluşturduğunuz email/password ile giriş yapın
-3. Widget ekleyin!
+# Go to admin panel
+1. Click the admin icon in the header
+2. Log in with the email/password you created in Firebase
+3. Add widgets!
 ```
 
 ---
 
-## 📋 Firestore Database Yapısı
+## 📋 Firestore Database Structure
 
 ### `widgets` Collection
 
@@ -76,8 +76,8 @@ flutter run -d chrome
 {
   "widgets": {
     "{widgetId}": {
-      "title": "Widget Başlığı",
-      "description": "Widget açıklaması",
+      "title": "Widget Title",
+      "description": "Widget description",
       "category": "Navigation",
       "gifUrl": "https://firebasestorage.../widget.gif",
       "code": "@Component\nstruct ...",
@@ -89,13 +89,13 @@ flutter run -d chrome
 }
 ```
 
-### İndeks (Gerekirse)
+### Index (If necessary)
 
-Firestore Console'da otomatik önerilecek.
+It will be automatically suggested in Firestore Console.
 
 ---
 
-## 📦 Storage Yapısı
+## 📦 Storage Structure
 
 ```
 widget_gifs/
@@ -138,61 +138,61 @@ service firebase.storage {
 
 ---
 
-## 🎨 Admin Panel Kullanımı
+## 🎨 Admin Panel Usage
 
-### Admin Girişi
+### Admin Login
 
 ```
 URL: https://arkuibuilder.web.app
-1. Header'daki admin ikonuna tıklayın
-2. Email ve şifre girin
-3. "Giris Yap" tıklayın
+1. Click the admin icon in the header
+2. Enter email and password
+3. Click "Sign In"
 ```
 
-### Widget Ekleme
+### Adding Widgets
 
 ```
-1. "Widget Ekle" butonuna tıklayın
-2. GIF dosyası seçin (max 5MB)
-3. Form alanlarını doldurun:
-   - Başlık: "Bottom Nav Bar"
-   - Açıklama: "Modern navigation bar"
-   - Kategori: "Navigation"
+1. Click the "Add Widget" button
+2. Select GIF file (max 5MB)
+3. Fill in the form fields:
+   - Title: "Bottom Nav Bar"
+   - Description: "Modern navigation bar"
+   - Category: "Navigation"
    - Tagler: "navigation, gradient, animated"
-   - ArkTS Kodu: Widget kodunu yapıştırın
-4. "Kaydet" tıklayın
+   - ArkTS Code: Paste the widget code
+4. Click "Save"
 ```
 
-### Widget Düzenleme
+### Widget Editing
 
 ```
-1. Admin Dashboard'da widget listesinde
-2. Edit ikonuna tıklayın
-3. Değişiklikleri yapın
-4. "Guncelle" tıklayın
+1. In the widget list in Admin Dashboard
+2. Click on the edit icon
+3. Make the changes
+4. Click "Update"
 ```
 
 ### Widget Silme
 
 ```
-1. Admin Dashboard'da delete ikonuna tıklayın
-2. Onaylayın
+1. Click the delete icon in the Admin Dashboard
+2. Confirm
 ```
 
 ---
 
 ## 🔄 Full Deployment
 
-### Her Şeyi Deploy Et
+### Deploy Everything
 
 ```bash
 # Build
 flutter build web --release
 
 # Deploy (hosting + rules)
-firebase deploy
+deploy firebase
 
-# Veya tek tek:
+# Or one by one:
 firebase deploy --only hosting
 firebase deploy --only firestore:rules
 firebase deploy --only storage:rules
@@ -200,141 +200,141 @@ firebase deploy --only storage:rules
 
 ---
 
-## 🧪 Test Senaryoları
+## 🧪 Test Scenarios
 
 ### 1. Admin Login Testi
 ```
-✅ Email/password ile giriş
-✅ Hatalı şifre testi
+✅ Login with email/password
+✅ Incorrect password test
 ✅ Logout testi
 ```
 
 ### 2. Widget CRUD Testi
 ```
-✅ Widget ekleme (GIF + kod)
-✅ Widget listesi görüntüleme
-✅ Widget güncelleme
+✅ Add widget (GIF + code)
+✅ View widget list
+✅ Widget update
 ✅ Widget silme
 ```
 
-### 3. Public Görünüm Testi
+### 3. Public View Test
 ```
-✅ Ana sayfada widget'lar görünüyor
-✅ Arama çalışıyor
-✅ Kategori filtreleme çalışıyor
-✅ Kod kopyalama çalışıyor
+✅ Widgets appear on the home page
+✅ Search works
+✅ Category filtering works
+✅ Code copying works
 ```
 
 ### 4. GIF Upload Testi
 ```
-✅ GIF yükleme (< 5MB)
-✅ Boyut kontrolü (> 5MB reject)
-✅ Format kontrolü (.gif only)
-✅ Storage'da görünüm
+✅ GIF upload (< 5MB)
+✅ Size control (> 5MB reject)
+✅ Format control (.gif only)
+✅ Appearance in Storage
 ```
 
 ---
 
-## 📊 Firestore Console Komutları
+## 📊 Firestore Console Commands
 
-### Collection Oluşturma (Manuel)
+### Creating a Collection (Manual)
 ```
 1. Firestore Console
 2. "Start collection"
 3. Collection ID: "widgets"
-4. İlk document ekle (test için)
+4. Add first document (for testing)
 ```
 
 ### Data Import (Toplu)
 ```javascript
 // Firebase Console > Firestore > Import/Export
-// Veya Firebase Admin SDK ile script
+// Or script with Firebase Admin SDK
 ```
 
 ---
 
-## 🐛 Sorun Giderme
+## 🐛 Troubleshooting
 
-### Authentication Hatası
+### Authentication Error
 ```bash
 Problem: "User not found"
-Çözüm: Firebase Console > Authentication > Users bölümünden user ekleyin
+Solution: Add a user from Firebase Console > Authentication > Users
 ```
 
 ### Firestore Permission Denied
 ```bash
 Problem: "Missing or insufficient permissions"
-Çözüm: 
-1. Rules deploy edildi mi kontrol edin
+Solution:
+1. Check if rules are deployed
 2. firebase deploy --only firestore:rules
 ```
 
-### Storage Upload Hatası
+### Storage Upload Error
 ```bash
 Problem: "Storage object not found"
-Çözüm:
-1. Storage aktif mi kontrol edin
+Solution:
+1. Check if storage is active
 2. firebase deploy --only storage:rules
 ```
 
-### GIF Görünmüyor
+### GIF Not Appearing
 ```bash
-Problem: CORS hatası
-Çözüm: 
+Problem: CORS error
+Solution:
 1. Firebase Storage > Files > bucket settings
-2. CORS yapılandırması ekleyin (otomatik)
+2. Add CORS configuration (automatic)
 ```
 
 ---
 
-## 🔐 Güvenlik Best Practices
+## 🔐 Security Best Practices
 
-### 1. Admin Kullanıcı Yönetimi
+### 1. Admin User Management
 ```
-- İlk admin Firebase Console'dan oluşturun
-- Güçlü şifre kullanın (min 12 karakter)
-- Email verification aktif tutun
+- Create first admin from Firebase Console
+- Use strong password (min 12 characters)
+- Keep email verification active
 ```
 
 ### 2. Firestore Rules
 ```
-- Write işlemleri sadece authenticated users
-- Sensitive data için field-level rules
-- Production'da test mode kapatın
+- Write operations only for authenticated users
+- Field-level rules for sensitive data
+- Turn off test mode in Production
 ```
 
 ### 3. Storage Rules
 ```
-- Dosya boyutu limiti (5MB)
-- Dosya tipi kontrolü (.gif only)
-- Rate limiting düşünün
+- File size limit (5MB)
+- File type check (.gif only)
+- Consider rate limiting
 ```
 
 ---
 
-## 📈 Monitoring ve Analytics
+## 📈 Monitoring and Analytics
 
-### Firebase Console'da İzleme
+### Tracking in Firebase Console
 
 **Authentication:**
 ```
 console.firebase.google.com/project/arkuibuilder/authentication/users
-- Aktif kullanıcı sayısı
-- Son giriş zamanları
+- Number of active users
+- Last login times
 ```
 
 **Firestore:**
 ```
 console.firebase.google.com/project/arkuibuilder/firestore/data
-- Document sayısı
+- Number of documents
 - Read/Write operations
 ```
 
 **Storage:**
 ```
 console.firebase.google.com/project/arkuibuilder/storage
-- Toplam dosya boyutu
-- Bandwidth kullanımı
+- Total file size
+- Bandwidth usage
 ```
 
 ---
@@ -366,21 +366,21 @@ console.firebase.google.com/project/arkuibuilder/storage
 
 ## 🚀 Production Checklist
 
-Deployment öncesi kontroller:
+Pre-deployment checks:
 
-- [ ] Firebase Authentication aktif
-- [ ] Firestore database oluşturuldu
-- [ ] Storage aktif
-- [ ] Security rules deploy edildi
-- [ ] İlk admin user oluşturuldu
-- [ ] Test widget eklendi
+- [ ] Firebase Authentication is active
+- [ ] Firestore database created
+- [ ] Storage active
+- [ ] Security rules deployed
+- [ ] First admin user created
+- [ ] Test widget added
 - [ ] Production build test edildi
-- [ ] CORS yapılandırması OK
+- [ ] CORS configuration OK
 - [ ] Monitoring kuruldu
 
 ---
 
-## 📞 Faydalı Linkler
+## 📞 Useful Links
 
 **Firebase Console:**
 - Project: https://console.firebase.google.com/project/arkuibuilder
@@ -396,23 +396,23 @@ Deployment öncesi kontroller:
 
 ---
 
-## ✅ Özet
+## ✅ Summary
 
-Firebase backend tamamen kuruldu ve hazır! 🎉
+Firebase backend is fully installed and ready! 🎉
 
-**Yapmanız Gerekenler:**
+**What You Need to Do:**
 1. ✅ Authentication aktifleyin
-2. ✅ Firestore oluşturun
+2. ✅ Create Firestore
 3. ✅ Storage aktifleyin
-4. ✅ Rules deploy edin
-5. ✅ İlk admin kullanıcı oluşturun
-6. ✅ Test edin
-7. ✅ Deploy edin!
+4. ✅ Deployment rules
+5. ✅ Create first admin user
+6. ✅ Test it
+7. ✅ Deploy!
 
-**Artık:**
+**Now:**
 - Admin panelden widget ekleyebilirsiniz
 - GIF'leri upload edebilirsiniz
-- Tüm veriler Firebase'de saklanır
-- Ana sayfa otomatik güncellenir
+- All data is stored in Firebase
+- Home page is updated automatically
 
-**Harika iş! 🚀**
+**Great job! 🚀**

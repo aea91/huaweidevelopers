@@ -1,40 +1,40 @@
-# 🎉 Projeniz Hazır!
+# 🎉 Your Project is Ready!
 
-Tebrikler! **ArkUI Build** - Component Library Showcase uygulamanız başarıyla oluşturuldu.
+Congratulations! **ArkUI Build** - Your Component Library Showcase application has been successfully created.
 
-## 🚀 Uygulama Şu Anda Çalışıyor!
+## 🚀 App is Working Now!
 
-Tarayıcınızda uygulamanız açık olmalı. Eğer açık değilse:
+Your application must be open in your browser. If it's not clear:
 
 ```bash
 flutter run -d chrome
 ```
 
-## 📸 Ne Görmelisiniz?
+## 📸 What Should You See?
 
-### Ana Ekran:
-- **🎨 Mor gradient header** (ArkUI Build logosu ile)
-- **🔍 Arama kutusu** (Widget'ları aramak için)
-- **🏷️ Kategori chip'leri** (All, Navigation, Cards, Input, Buttons)
-- **📱 Sol sidebar** (Widget listesi)
-- **👁️ Sağ panel** (Preview ve kod)
+### Main Screen:
+- **🎨 Purple gradient header** (with ArkUI Build logo)
+- **🔍 Search box** (To search for widgets)
+- **🏷️ Category chips** (All, Navigation, Cards, Input, Buttons)
+- **📱 Left sidebar** (Widget list)
+- **👁️ Right panel** (Preview and code)
 
 ### Widget Preview:
-- Sol tarafta: GIF preview (şu an placeholder)
-- Sağ tarafta: ArkTS kodu (dark theme editör)
-- "Copy Code" butonu (tek tıkla kopyalama)
+- On the left: GIF preview (currently placeholder)
+- On the right: ArkTS code (dark theme editor)
+- "Copy Code" button (one-click copying)
 
-## 🎯 İlk Adımlar
+## 🎯 First Steps
 
-### 1. Kendi Widget'larınızı Ekleyin
+### 1. Add Your Own Widgets
 
 ```bash
-# Adım 1: Bir widget seçin veya yeni oluşturun
-# Adım 2: lib/data/sample_widgets.dart dosyasını açın
-# Adım 3: WIDGET_TEMPLATE.dart dosyasındaki şablonu kullanın
+# Step 1: Select a widget or create a new one
+# Step 2: Open lib/data/sample_widgets.dart
+# Step 3: Use the template in the WIDGET_TEMPLATE.dart file
 ```
 
-**Örnek:**
+**Example:**
 ```dart
 WidgetShowcase(
   id: 'my_custom_button',
@@ -47,127 +47,127 @@ WidgetShowcase(
 ),
 ```
 
-### 2. GIF'leri Ekleyin
+### 2. Add GIFs
 
 ```bash
-# GIF hazırlama kılavuzu için:
-# GIF_GUIDE.md dosyasını okuyun
+# For GIF making guide:
+# Read GIF_GUIDE.md
 
-# Hızlı yöntem:
-1. Widget'ınızı kaydedin
-2. GIF'e dönüştürün (giphy.com, cloudconvert.com)
-3. assets/gifs/ klasörüne kopyalayın
-4. Widget tanımında yolu güncelleyin
+# Quick method:
+1. Save your widget
+2. Convert to GIF (giphy.com, cloudconvert.com)
+3. Copy to assets/gifs/ folder
+4. Update the path in the widget definition
 ```
 
-### 3. Uygulamayı Test Edin
+### 3. Test the App
 
 ```bash
-# Hot reload (değişiklikler için)
-Terminal'de 'r' tuşuna basın
+# Hot reload (for changes)
+Press 'r' in Terminal
 
 # Hot restart (full restart)
-Terminal'de 'R' tuşuna basın
+Press 'R' in Terminal
 
-# Çıkış
-Terminal'de 'q' tuşuna basın
+# Exit
+Press 'q' in Terminal
 ```
 
-## 📁 Proje Dosyaları
+## 📁 Project Files
 
-### Kod Dosyaları:
+### Code Files:
 ```
 lib/
-├── main.dart                    # Ana uygulama
+├── main.dart # Main application
 ├── models/
 │   └── widget_showcase.dart     # Widget modeli
 ├── data/
-│   └── sample_widgets.dart      # Widget verileri (BURAYA EKLEYİN!)
+│ └── sample_widgets.dart # Widget data (INSERT HERE!)
 ├── screens/
-│   └── home_screen.dart         # Ana ekran
+│ └── home_screen.dart # Home screen
 └── widgets/
-    ├── category_chip.dart       # Kategori chip
-    ├── code_viewer.dart         # Kod görüntüleyici
+    ├── category_chip.dart # Category chip
+    ├── code_viewer.dart # Code viewer
     └── widget_preview.dart      # GIF preview
 ```
 
-### Dokümantasyon:
+### Documentation:
 ```
-README.md              # Genel bilgi ve kurulum
-QUICKSTART.md          # Hızlı başlangıç kılavuzu
-USAGE_GUIDE.md         # Detaylı kullanım kılavuzu
-GIF_GUIDE.md           # GIF hazırlama rehberi
-WIDGET_TEMPLATE.dart   # Widget ekleme şablonu
-PROJECT_OVERVIEW.dart  # Proje özeti ve notlar
-START_HERE.md          # Bu dosya!
+README.md # General information and installation
+QUICKSTART.md # Quick start guide
+USAGE_GUIDE.md # Detailed user guide
+GIF_GUIDE.md # GIF preparation guide
+WIDGET_TEMPLATE.dart # Template for adding widgets
+PROJECT_OVERVIEW.dart # Project summary and notes
+START_HERE.md # This file!
 ```
 
-## 🎨 Özelleştirme
+## 🎨 Customization
 
-### Renkleri Değiştir:
-`lib/main.dart` dosyasında:
+### Change Colors:
+In file `lib/main.dart`:
 ```dart
-seedColor: const Color(0xFF5B21B6), // Mor → İstediğiniz renk
+seedColor: const Color(0xFF5B21B6), // Purple → The color you want
 ```
 
-### Logo Ekle:
-`lib/screens/home_screen.dart` → `_buildHeader()` metodunu düzenleyin
+### Add Logo:
+Edit method `lib/screens/home_screen.dart` → `_buildHeader()`
 
-### Font Değiştir:
-`lib/main.dart` dosyasında:
+### Change Font:
+In file `lib/main.dart`:
 ```dart
-textTheme: GoogleFonts.interTextTheme(), // Inter → Başka font
+textTheme: GoogleFonts.interTextTheme(), // Inter → Another font
 ```
 
-## 🐛 Bilinen "Sorunlar" (Aslında Normal!)
+## 🐛 Known "Issues" (Actually Normal!)
 
-### GIF'ler görünmüyor ❌
-**Normal!** Henüz GIF eklemedik. Placeholder gösterilir.
-- **Çözüm**: GIF'lerinizi ekleyin veya şimdilik kodu test edin
+### GIFs not visible ❌
+**Normal!** We haven't added GIFs yet. Placeholder is shown.
+- **Solution**: Add your GIFs or test the code for now
 
-### Asset yükleme hataları ❌
-**Normal!** Terminal'de GIF bulunamadı mesajları.
-- **Çözüm**: GIF'leri ekledikten sonra düzelir
+### Asset loading errors ❌
+**Normal!** GIF not found messages in Terminal.
+- **Solution**: Fixes after adding GIFs
 
-### Her şey çalışıyor ✅
-**Harika!** Uygulama doğru çalışıyor demektir.
+### Everything works ✅
+**Great!** The app is working correctly.
 
-## 📊 Şu An Neler Var?
+## 📊 What's On Now?
 
-### ✅ Hazır Özellikler:
-- [x] 5 örnek widget (Navigation, Card, Search, Button, Profile)
-- [x] Kod syntax highlighting (ArkTS)
-- [x] Kod kopyalama özelliği
-- [x] Kategori filtreleme
-- [x] Arama fonksiyonu
-- [x] Responsive tasarım
+### ✅ Ready Features:
+- [x] 5 sample widgets (Navigation, Card, Search, Button, Profile)
+- [x] Code syntax highlighting (ArkTS)
+- [x] Code copy feature
+- [x] Category filtering
+- [x] Search function
+- [x] Responsive design
 - [x] Modern UI/UX
 
-### 📝 Yapmanız Gerekenler:
-- [ ] GIF'lerinizi ekleyin
-- [ ] Kendi widget'larınızı ekleyin
-- [ ] Renkleri özelleştirin (opsiyonel)
-- [ ] Logo ekleyin (opsiyonel)
-- [ ] Deploy edin (opsiyonel)
+### 📝 What You Need to Do:
+- [ ] Add your GIFs
+- [ ] Add your own widgets
+- [ ] Customize colors (optional)
+- [ ] Add logo (optional)
+- [ ] Deploy (optional)
 
-## 🚀 Production'a Almak
+## 🚀 Putting it in Production
 
-### 1. Build Oluştur:
+### 1. Create Build:
 ```bash
 flutter build web --release
 ```
 
-### 2. Deploy Et (Seçenekler):
+### 2. Deploy (Options):
 
 **GitHub Pages:**
 ```bash
-# build/web/ klasörünü GitHub'a push edin
+# push the build/web/ folder to GitHub
 ```
 
 **Firebase Hosting:**
 ```bash
 firebase init hosting
-firebase deploy
+deploy firebase
 ```
 
 **Vercel:**
@@ -177,13 +177,13 @@ vercel --prod
 
 **Netlify:**
 ```bash
-# Web arayüzünden build/web/ klasörünü sürükle-bırak
+# Drag and drop the build/web/ folder from the web interface
 ```
 
-## 🎓 Öğrenme Kaynakları
+## 🎓 Learning Resources
 
 ### ArkTS / HarmonyOS:
-- [ArkTS Başlangıç](https://developer.harmonyos.com/en/docs/documentation/doc-guides-V3/arkts-get-started-0000001504769321-V3)
+- [ArkTS Start](https://developer.harmonyos.com/en/docs/documentation/doc-guides-V3/arkts-get-started-0000001504769321-V3)
 - [ArkUI Components](https://developer.harmonyos.com/en/docs/documentation/doc-references-V3/ts-components-summary-0000001478181369-V3)
 - [HarmonyOS DevEco Studio](https://developer.harmonyos.com/en/develop/deveco-studio)
 
@@ -192,79 +192,79 @@ vercel --prod
 - [Flutter Widget Catalog](https://flutter.dev/docs/development/ui/widgets)
 - [Google Fonts Package](https://pub.dev/packages/google_fonts)
 
-## 💬 Destek ve Yardım
+## 💬 Support and Help
 
-### Sorun mu var?
-1. **Dokümantasyonu kontrol edin** (özellikle USAGE_GUIDE.md)
-2. **Terminal çıktısını okuyun** (hata mesajları çok bilgilendirici)
-3. **Hot reload deneyin** ('r' tuşu)
-4. **Uygulamayı yeniden başlatın** ('q' sonra `flutter run`)
+### Problems?
+1. **Check the documentation** (especially USAGE_GUIDE.md)
+2. **Read the terminal output** (error messages are very informative)
+3. **Try hot reload** ('r' key)
+4. **Restart the application** ('q' then `flutter run`)
 
-### Sık Sorulan Sorular:
+### Frequently Asked Questions:
 
-**S: GIF'ler neden görünmüyor?**
-C: Henüz eklemedik! assets/gifs/ klasörüne GIF ekleyin.
+**Q: Why don't GIFs appear?**
+A: We haven't added it yet! Add GIF to assets/gifs/ folder.
 
-**S: Yeni widget ekledim ama görünmüyor?**
-C: Hot reload yapın ('r' tuşu). Hala görünmüyorsa hot restart ('R' tuşu).
+**Q: I added a new widget but it doesn't appear?**
+A: Do hot reload ('r' key). If it still doesn't show up, hot restart ('R' key).
 
-**S: Renkleri nasıl değiştiririm?**
-C: lib/main.dart dosyasındaki seedColor değerini değiştirin.
+**Q: How do I change the colors?**
+C: Change the seedColor value in the lib/main.dart file.
 
-**S: Production build nasıl yapılır?**
-C: `flutter build web --release` komutunu çalıştırın.
+**Q: How to do a production build?**
+C: Run the command `flutter build web --release`.
 
-**S: Mobil'de çalışır mı?**
-C: Evet! Responsive tasarım sayesinde mobil, tablet ve desktop'ta çalışır.
+**Q: Does it work on mobile?**
+A: Yes! Thanks to its responsive design, it works on mobile, tablet and desktop.
 
-## 🎉 Sonraki Adımlar
+## 🎉 Next Steps
 
-### Şimdi Yapabilecekleriniz:
+### Now You Can:
 
-1. **Widget'ları keşfedin** → Sidebar'dan farklı widget'ları deneyin
-2. **Kod kopyalayın** → "Copy Code" butonunu test edin
-3. **Arama yapın** → Arama kutusunda "button" yazın
-4. **Kategori filtreleyin** → "Cards" kategorisini seçin
-5. **Kendi widget'ınızı ekleyin** → WIDGET_TEMPLATE.dart kullanın
+1. **Explore widgets** → Try different widgets from Sidebar
+2. **Copy code** → Test the "Copy Code" button
+3. **Search** → Type "button" in the search box
+4. **Filter by category** → select "Cards" category
+5. **Add your own widget** → use WIDGET_TEMPLATE.dart
 
-### Sonra Yapabilecekleriniz:
+### Then You Can:
 
-1. **GIF'leri ekleyin** → GIF_GUIDE.md okuyun
-2. **Daha fazla widget** → Widget koleksiyonunuzu büyütün
-3. **Özelleştirin** → Renk, logo, font değiştirin
-4. **Deploy edin** → Dünya ile paylaşın
-5. **Paylaşın** → Community'ye katkıda bulunun
+1. **Insert GIFs** → Read GIF_GUIDE.md
+2. **More widgets** → Grow your widget collection
+3. **Customize** → Change color, logo, font
+4. **Deploy** → Share with the world
+5. **Share** → Contribute to the Community
 
-## 📞 İletişim
+## 📞 Contact
 
-Sorularınız, önerileriniz veya geri bildirimleriniz için:
-- GitHub Issues açabilirsiniz
-- Pull request gönderebilirsiniz
-- Community'ye katılabilirsiniz
-
----
-
-## 🎊 Hazırsınız!
-
-Artık kendi ArkUI widget koleksiyonunuzu oluşturabilirsiniz!
-
-**İyi kodlamalar! 🚀**
+For your questions, suggestions or feedback:
+- You can open GitHub Issues
+- You can send a pull request
+- You can join the Community
 
 ---
 
-### 🔗 Hızlı Linkler:
-- [📖 QUICKSTART.md](./QUICKSTART.md) - Hızlı başlangıç
-- [📚 USAGE_GUIDE.md](./USAGE_GUIDE.md) - Detaylı kullanım
-- [🎬 GIF_GUIDE.md](./GIF_GUIDE.md) - GIF hazırlama
-- [📝 WIDGET_TEMPLATE.dart](./WIDGET_TEMPLATE.dart) - Widget şablonu
-- [🎨 PROJECT_OVERVIEW.dart](./PROJECT_OVERVIEW.dart) - Proje detayları
+## 🎊 You are ready!
 
-### 📊 Proje İstatistikleri:
-- **Toplam Dosya**: 7 Dart dosyası
-- **Örnek Widget**: 5 adet
-- **Kategori**: 4 adet
-- **Dokümantasyon**: 6 dosya
-- **Satır Sayısı**: ~1000+ satır kod
-- **Paket Sayısı**: 4 (google_fonts, flutter_highlight, url_launcher, cupertino_icons)
+Now you can create your own ArkUI widget collection!
 
-**Tüm özellikler çalışıyor ve hazır! ✅**
+**Happy coding! 🚀**
+
+---
+
+### 🔗 Quick Links:
+- [📖 QUICKSTART.md](./QUICKSTART.md) - Quick start
+- [📚 USAGE_GUIDE.md](./USAGE_GUIDE.md) - Detailed usage
+- [🎬 GIF_GUIDE.md](./GIF_GUIDE.md) - GIF preparation
+- [📝 WIDGET_TEMPLATE.dart](./WIDGET_TEMPLATE.dart) - Widget template
+- [🎨 PROJECT_OVERVIEW.dart](./PROJECT_OVERVIEW.dart) - Project details
+
+### 📊 Project Statistics:
+- **Total Files**: 7 Dart files
+- **Sample Widget**: 5 pieces
+- **Category**: 4 pieces
+- **Documentation**: 6 files
+- **Number of Lines**: ~1000+ lines of code
+- **Number of Packages**: 4 (google_fonts, flutter_highlight, url_launcher, cupertino_icons)
+
+**All features working and ready! ✅**

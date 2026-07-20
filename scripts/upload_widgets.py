@@ -5,24 +5,24 @@ import subprocess
 import sys
 
 def main():
-    print("🚀 Firebase'e sample widget'lar ekleniyor...\n")
+    print("🚀 Sample widgets are being added to Firebase...\n")
     
-    # JSON dosyasını oku
+    # Read JSON file
     with open('scripts/sample_widgets.json', 'r') as f:
         data = json.load(f)
     
     widgets = data['widgets']
-    print(f"📦 {len(widgets)} adet widget yüklenecek...\n")
+    print(f"📦 {len(widgets)} widgets will be loaded...\n")
     
     success_count = 0
     error_count = 0
     
     for widget in widgets:
         try:
-            # Firebase CLI ile Firestore'a veri ekle
+            # Add data to Firestore with Firebase CLI
             widget_json = json.dumps(widget)
             
-            # Firestore'a ekle
+            # Add to Firestore
             cmd = [
                 'firebase', 'firestore:write',
                 f'widgets/{success_count + 1}',
@@ -33,21 +33,21 @@ def main():
             result = subprocess.run(cmd, capture_output=True, text=True)
             
             if result.returncode == 0:
-                print(f"✅ \"{widget['title']}\" eklendi!")
+                print(f"✅ \"{widget['title']}\" added!")
                 success_count += 1
             else:
-                print(f"❌ \"{widget['title']}\" eklenirken hata: {result.stderr}")
+                print(f"❌ Error adding \"{widget['title']}\": {result.stderr}")
                 error_count += 1
                 
         except Exception as e:
-            print(f"❌ \"{widget['title']}\" eklenirken hata: {e}")
+            print(f"❌ Error adding \"{widget['title']}\": {e}")
             error_count += 1
     
     print('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
-    print(f'✅ Başarılı: {success_count}')
-    print(f'❌ Hatalı: {error_count}')
+    print(f'✅ Success: {success_count}')
+    print(f'❌ Error: {error_count}')
     print('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
-    print('\n🎉 İşlem tamamlandı!')
+    print('\n🎉 Operation completed!')
 
 if __name__ == '__main__':
     main()

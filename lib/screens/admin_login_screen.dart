@@ -66,7 +66,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Logo ve Başlık
+                // Logo and title
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: const BoxDecoration(
@@ -80,17 +80,11 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 32),
-                Text(
-                  'Admin Panel',
-                  style: AppChrome.display(fontSize: 32),
-                ),
+                Text('Admin Panel', style: AppChrome.display(fontSize: 32)),
                 const SizedBox(height: 8),
                 Text(
-                  'Widgetları yönetmek için giriş yapın',
-                  style: AppChrome.body(
-                    fontSize: 14,
-                    color: AppChrome.muted,
-                  ),
+                  'Sign in to manage widgets',
+                  style: AppChrome.body(fontSize: 14, color: AppChrome.muted),
                 ),
                 const SizedBox(height: 40),
 
@@ -126,10 +120,10 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Email gerekli';
+                              return 'Email is required';
                             }
                             if (!value.contains('@')) {
-                              return 'Geçerli bir email girin';
+                              return 'Enter a valid email address';
                             }
                             return null;
                           },
@@ -141,7 +135,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                           controller: _passwordController,
                           obscureText: _obscurePassword,
                           decoration: InputDecoration(
-                            labelText: 'Şifre',
+                            labelText: 'Password',
                             prefixIcon: const Icon(Icons.lock_outline),
                             suffixIcon: IconButton(
                               icon: Icon(
@@ -161,10 +155,10 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Şifre gerekli';
+                              return 'Password is required';
                             }
                             if (value.length < 6) {
-                              return 'Şifre en az 6 karakter olmalı';
+                              return 'Password must be at least 6 characters';
                             }
                             return null;
                           },
@@ -187,7 +181,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                                     ),
                                   )
                                 : Text(
-                                    'Giriş Yap',
+                                    'Sign In',
                                     style: AppChrome.body(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
@@ -203,7 +197,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
 
                 const SizedBox(height: 24),
 
-                // İlk admin için bilgi
+                // Information for the first administrator
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
@@ -220,9 +214,9 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                             size: 20,
                           ),
                           const SizedBox(width: 8),
-                        Text(
-                          'İlk admin hesabı',
-                          style: AppChrome.body(
+                          Text(
+                            'First administrator account',
+                            style: AppChrome.body(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                               color: AppChrome.ink,
@@ -232,7 +226,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Firebase Console\'dan Authentication > Users bölümünden manuel olarak bir admin kullanıcısı oluşturmalısınız.',
+                        'You must manually create an administrator account in Firebase Console under Authentication > Users.',
                         style: AppChrome.body(
                           fontSize: 12,
                           color: AppChrome.muted,

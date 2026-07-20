@@ -1,85 +1,85 @@
-# 🔐 Gizli Admin Panel Erişimi
+# 🔐 Hidden Admin Panel Access
 
-Admin paneli artık gizli bir URL üzerinden erişilebilir! Header'da görünür bir admin butonu yok.
+Admin panel is now accessible via a hidden URL! There is no visible admin button in the header.
 
 ---
 
-## 🚪 Admin Panel Erişimi
+## 🚪 Admin Panel Access
 
-### Gizli URL:
+### Hidden URL:
 ```
 https://arkuibuilder.web.app/admin
 ```
 
-veya local test için:
+or for local testing:
 ```
 http://localhost:XXXX/admin
 ```
 
 ---
 
-## 🔒 Nasıl Çalışır?
+## 🔒 How Does It Work?
 
-### 1. Ana Sayfa (Public)
+### 1. Home Page (Public)
 - **URL:** `https://arkuibuilder.web.app/`
-- **Erişim:** Herkese açık
-- **Özellikler:** Widget'ları görüntüleme, arama, kod kopyalama
-- **Admin butonu:** YOK ❌
+- **Access:** Public
+- **Features:** View widgets, search, copy code
+- **Admin button:** NONE ❌
 
-### 2. Admin Panel (Gizli)
+### 2. Admin Panel (Hidden)
 - **URL:** `https://arkuibuilder.web.app/admin`
-- **Erişim:** Sadece URL'i bilenler
+- **Access:** Only those who know the URL
 - **Koruma:** Firebase Authentication
-- **İşlevler:** Widget CRUD, GIF upload
+- **Functions:** Widget CRUD, GIF upload
 
 ---
 
-## 🎯 Kullanım Akışı
+## 🎯 Usage Flow
 
-### Admin Olarak Giriş:
+### Login as Admin:
 
-**Adım 1:** Gizli URL'e git
+**Step 1:** Go to private URL
 ```
 https://arkuibuilder.web.app/admin
 ```
 
-**Adım 2:** Login ekranı açılacak
+**Step 2:** The login screen will open
 ```
 - Email: admin@yourdomain.com
 - Password: ********
 ```
 
-**Adım 3:** Giriş yap
+**Step 3:** Log in
 ```
-Dashboard otomatik açılır
+Dashboard opens automatically
 ```
 
-**Adım 4:** Widget Yönet
+**Step 4:** Manage Widget
 ```
-- Widget Ekle
-- Widget Düzenle
-- Widget Sil
+- Add Widgets
+- Edit Widget
+- Delete Widget
 - Logout
 ```
 
 ---
 
-## 🛡️ Güvenlik Katmanları
+## 🛡️ Layers of Security
 
-### 1. URL Gizli
+### 1. URL Hidden
 ```
-✅ Header'da admin butonu yok
-✅ Footer'da link yok
-✅ Ana sayfada ipucu yok
-✅ Sadece URL'i bilenler erişebilir
+✅ There is no admin button in the header
+✅ There is no link in the footer
+✅ No hints on home page
+✅ Only those who know the URL can access
 ```
 
 ### 2. Authentication
 ```
-✅ Login gerekli
+✅ Login required
 ✅ Firebase Authentication
-✅ Email/Password kontrolü
-✅ Session yönetimi
+✅ Email/Password control
+✅ Session management
 ```
 
 ### 3. Firestore Rules
@@ -98,23 +98,23 @@ Dashboard otomatik açılır
 
 ---
 
-## 📱 Erişim Yolları
+## 📱 Access Ways
 
 ### Desktop/Laptop:
 ```
-1. Browser'da direkt URL yaz:
+1. Write a direct URL in the browser:
    https://arkuibuilder.web.app/admin
 
-2. Bookmark ekle (kolaylık için)
+2. Add bookmark (for convenience)
 ```
 
 ### Mobil:
 ```
-1. Browser'da URL yaz
-2. Ana ekrana kısayol ekle
+1. Write URL in Browser
+2. Add shortcut to home screen
 ```
 
-### Geliştirme:
+### Development:
 ```
 1. Local: http://localhost:PORT/admin
 2. Test: flutter run -d chrome
@@ -123,119 +123,119 @@ Dashboard otomatik açılır
 
 ---
 
-## 🔐 Admin Kullanıcı Yönetimi
+## 🔐 Admin User Management
 
-### İlk Admin Oluşturma:
+### First Admin Creation:
 ```
 1. Firebase Console
 2. Authentication → Users
 3. Add user
 4. Email + Password
-5. Not: URL'i sadece güvendiğiniz kişilerle paylaşın!
+5. Note: Share the URL only with people you trust!
 ```
 
-### Ek Admin Ekleme:
+### Adding Additional Admin:
 ```
 1. Firebase Console → Authentication
-2. Add user (yeni admin email/password)
-3. Yeni admin'e gizli URL'i güvenli şekilde paylaşın
+2. Add user (new admin email/password)
+3. Securely share secret URL to new admin
 ```
 
 ### Admin Silme:
 ```
 1. Firebase Console → Authentication → Users
-2. Kullanıcı seç → Delete
+2. Select user → Delete
 ```
 
 ---
 
-## 💡 Güvenlik İpuçları
+## 💡 Safety Tips
 
 ### ✅ YAPILMASI GEREKENLER:
 
-1. **Güçlü Şifre**
+1. **Strong Password**
    ```
    Minimum 12 karakter
    Harf + Rakam + Sembol
    ```
 
-2. **URL'i Gizli Tut**
+2. **Keep URL Private**
    ```
-   Email ile paylaşma
+   Share via email
    Public notlarda yazma
-   Password manager kullan
+   Use password manager
    ```
 
-3. **Güvenli Paylaşım**
+3. **Secure Sharing**
    ```
-   Yüz yüze söyle
-   Şifreli mesajlaşma
-   Geçici erişim ver
+   Say it face to face
+   encrypted messaging
+   Grant temporary access
    ```
 
 4. **Logout Yap**
    ```
-   İşin bitince logout
-   Özellikle shared computer'da
+   Logout when you're done
+   Especially on shared computer
    ```
 
 ### ❌ YAPILMAMASI GEREKENLER:
 
-1. **Public Yerlerde URL Paylaşma**
+1. **Sharing URLs in Public Places**
    ```
-   ❌ Social media'da
-   ❌ Public GitHub repo'da
-   ❌ Email signature'da
-   ❌ Blog post'larında
+   ❌ On social media
+   ❌ Public on GitHub repo
+   ❌ In email signature
+   ❌ In blog posts
    ```
 
-2. **Zayıf Şifre**
+2. **Weak Password**
    ```
    ❌ 123456
    ❌ password
    ❌ admin123
    ```
 
-3. **Browser'da Save Edilmiş Login**
+3. **Saved Login in Browser**
    ```
-   ❌ Public computer'da "Remember me"
+   ❌ "Remember me" on public computer
    ```
 
 ---
 
 ## 🧪 Test Etme
 
-### Test 1: Ana Sayfa
+### Test 1: Home Page
 ```
 ✓ https://arkuibuilder.web.app
-✓ Admin butonu görünmüyor mu?
-✓ Widget'lar görünüyor mu?
+✓ Is the admin button not visible?
+✓ Are widgets visible?
 ```
 
 ### Test 2: Admin URL
 ```
 ✓ https://arkuibuilder.web.app/admin
-✓ Login ekranı açılıyor mu?
-✓ Login çalışıyor mu?
+✓ Does the login screen open?
+✓ Is login working?
 ```
 
 ### Test 3: Authentication
 ```
-✓ Hatalı şifre reject ediliyor mu?
-✓ Doğru şifre ile giriş oluyor mu?
-✓ Dashboard açılıyor mu?
+✓ Is incorrect password rejected?
+✓ Is it possible to log in with the correct password?
+✓ Does Dashboard open?
 ```
 
 ### Test 4: Logout
 ```
-✓ Logout butonu çalışıyor mu?
-✓ Ana sayfaya yönleniyor mu?
-✓ /admin'e gidince tekrar login istiyor mu?
+✓ Is the logout button working?
+✓ Does it redirect to the home page?
+✓ Does it ask for login again when I go to /admin?
 ```
 
 ---
 
-## 🔄 Route Yapısı
+## 🔄 Route Structure
 
 ```javascript
 Routes:
@@ -253,63 +253,63 @@ Routes:
 
 ---
 
-## 📊 Deployment Sonrası
+## 📊 Post Deployment
 
-### Build ve Deploy:
+### Build and Deploy:
 ```bash
 flutter build web --release
-firebase deploy
+deploy firebase
 ```
 
-### Test URL'ler:
+### Test URLs:
 ```
-Ana Sayfa: https://arkuibuilder.web.app/
+Home Page: https://arkuibuilder.web.app/
 Admin Panel: https://arkuibuilder.web.app/admin
 ```
 
-### Kontrol:
+### Control:
 ```
-✅ Ana sayfa admin butonu yok mu?
-✅ /admin URL'i çalışıyor mu?
-✅ Login korumalı mı?
+✅ Is there no home page admin button?
+✅ Is the /admin URL working?
+✅ Is the login protected?
 ```
 
 ---
 
 ## 🎊 Avantajlar
 
-### 🔒 Güvenlik:
+### 🔒 Security:
 ```
-✅ UI'da admin erişim ipucu yok
-✅ URL gizli
-✅ Authentication korumalı
-✅ Database rules aktif
-```
-
-### 👥 Kullanıcı Deneyimi:
-```
-✅ Public kullanıcılar admin şeylerini görmez
-✅ Clean ve professional görünüm
-✅ Admin için kolay erişim (bookmark)
+✅ No admin access hint in UI
+✅ URL is hidden
+✅ Authentication protected
+✅ Database rules are active
 ```
 
-### 🛡️ Kontrol:
+### 👥 User Experience:
 ```
-✅ Admin sayısı sınırlı
-✅ URL sadece güvenilen kişilerde
-✅ Firebase Authentication kontrolü
+✅ Public users do not see admin stuff
+✅ Clean and professional appearance
+✅ Easy access (bookmark) for admin
+```
+
+### 🛡️ Control:
+```
+✅ Number of admins is limited
+✅ URL only available to trusted people
+✅ Firebase Authentication check
 ```
 
 ---
 
-## 📞 Hızlı Referans
+## 📞 Quick Reference
 
-**Ana Sayfa (Public):**
+**Home Page (Public):**
 ```
 https://arkuibuilder.web.app/
 ```
 
-**Admin Panel (Gizli):**
+**Admin Panel (Hidden):**
 ```
 https://arkuibuilder.web.app/admin
 ```
@@ -321,23 +321,23 @@ https://console.firebase.google.com/project/arkuibuilder
 
 ---
 
-## ✅ Özet
+## ✅ Summary
 
-**Değişiklikler:**
-- ❌ Header'daki admin icon kaldırıldı
-- ✅ Gizli `/admin` route eklendi
-- ✅ Auth korumalı route
+**Changes:**
+- ❌ admin icon in Header has been removed
+- ✅ Added hidden `/admin` route
+- ✅ Auth protected route
 - ✅ Auto-redirect (login → dashboard)
 - ✅ Clean public interface
 
-**Artık:**
-- ✅ Ana sayfa tamamen public
-- ✅ Admin panele sadece URL ile erişim
-- ✅ Daha güvenli
-- ✅ Daha profesyonel
+**Now:**
+- ✅ Home page is completely public
+- ✅ Access to admin panel only via URL
+- ✅ Safer
+- ✅ More professional
 
-**Admin erişimi için URL'i bookmarkleyin!** 🔖
+**Bookmark the URL for admin access!** 🔖
 
 ---
 
-**Güvenli kodlamalar! 🚀**
+**Secure coding! 🚀**

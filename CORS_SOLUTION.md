@@ -1,57 +1,57 @@
-# 🎉 CORS Sorunu Çözüldü!
+# 🎉 CORS Problem Solved!
 
-## ❌ Sorun
-Localhost'ta CORS hatası: 
+## ❌ Problem
+CORS error on localhost:
 ```
 Access to XMLHttpRequest blocked by CORS policy
 ```
 
-## ✅ Çözüm
-Production ortamında CORS sorunu YOK çünkü:
+## ✅ Solution
+There is NO CORS problem in the production environment because:
 - Website: `arkuibuilder.web.app`
 - Storage: `firebasestorage.googleapis.com`
-- Aynı Firebase projesi, CORS izni var!
+- Same Firebase project, with CORS permission!
 
-## 🌐 Production'da Test Edin
+## 🌐 Test in Production
 
-**1. Production URL'i açın:**
+**1. Open Production URL:**
 https://arkuibuilder.web.app
 
-**2. Widget'ınızı görün:**
-- Ana sayfada widget listesi
-- Widget'a tıklayın
-- **RESİM GÖRÜNECEK!** ✅
+**2. See your widget:**
+- Widget list on home page
+- Click on the widget
+- **PICTURE WILL APPEAR!** ✅
 
-**3. Tüm özellikler çalışıyor:**
-- ✅ Resim gösterimi
-- ✅ Kod görüntüleme (24 satır + scroll)
-- ✅ Copy butonu
-- ✅ Responsive tasarım
+**3. All features working:**
+- ✅ Image display
+- ✅ Code view (24 lines + scroll)
+- ✅ Copy button
+- ✅ Responsive design
 
 ---
 
-## 🔧 Localhost CORS Sorunu İçin (Opsiyonel)
+## 🔧 For Localhost CORS Problem (Optional)
 
-Eğer localhost'ta da çalışmasını istiyorsanız:
+If you want it to work on localhost too:
 
-### Geçici Çözüm: Chrome'u CORS olmadan başlatın
+### Workaround: Start Chrome without CORS
 ```bash
 open -n -a "Google Chrome" --args --user-data-dir="/tmp/chrome_dev" --disable-web-security --disable-site-isolation-trials
 ```
 
-⚠️ **Uyarı**: Bu sadece development için! Production'da asla yapma!
+⚠️ **Warning**: This is for development only! Never do it in Production!
 
-### Kalıcı Çözüm: Google Cloud Console'dan CORS ayarla
-1. Google Cloud SDK yükle
+### Permanent Solution: Set CORS from Google Cloud Console
+1. Install Google Cloud SDK
 2. `gsutil cors set cors.json gs://arkuibuilder.appspot.com`
 
-Ama şimdilik production'da test yeterli! 🚀
+But for now, testing in production is enough! 🚀
 
 ---
 
-## 📊 Özet
-- ❌ Localhost: CORS hatası (normal)
-- ✅ Production: CORS yok, her şey çalışıyor!
+## 📊 Summary
+- ❌ Localhost: CORS error (normal)
+- ✅ Production: No CORS, everything works!
 - 🎯 Test URL: https://arkuibuilder.web.app
 
-**Şimdi production'da test edin! Resimler görünecek! 🎨**
+**Test it in production now! Pictures will appear! 🎨**

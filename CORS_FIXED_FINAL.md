@@ -1,25 +1,25 @@
-# ✅ CORS Sorunu Çözüldü!
+# ✅ CORS Issue Solved!
 
-## 🎯 Yapılan İşlemler
+## 🎯 Transactions Performed
 
 ### 1. Google Cloud SDK Kurulumu
 ```bash
 ✅ Google Cloud SDK 557.0.0 kuruldu
-✅ gsutil yüklendi
+✅ gsutil installed
 ```
 
-### 2. Google Cloud'a Giriş
+### 2. Introduction to Google Cloud
 ```bash
 ✅ gcloud auth login
-✅ Project: arkuibuilder ayarlandı
+✅ Project: arkuibuilder set
 ```
 
-### 3. CORS Konfigürasyonu Uygulandı
+### 3. CORS Configuration Implemented
 ```bash
 ✅ gsutil cors set cors.json gs://arkuibuilder.firebasestorage.app
 ```
 
-### 4. CORS Ayarları Doğrulandı
+### 4. CORS Settings Verified
 ```json
 {
   "origin": ["*"],
@@ -30,45 +30,45 @@
 
 ---
 
-## 🧪 Şimdi Test Edin!
+## 🧪 Test Now!
 
-### Production'da Test:
+### Testing in Production:
 **URL:** https://arkuibuilder.web.app
 
-1. Sayfayı **hard refresh** yapın: **Cmd+Shift+R** (Mac) veya **Ctrl+Shift+R** (Windows)
-2. Widget'ınıza tıklayın
-3. **RESİM ARTIK GÖRÜNECEK!** 🖼️✨
+1. **hard refresh** the page: **Cmd+Shift+R** (Mac) or **Ctrl+Shift+R** (Windows)
+2. Click on your widget
+3. **IMAGE WILL NOW VIEW!** 🖼️✨
 
-### Localhost'ta Test:
+### Testing on localhost:
 **URL:** http://localhost:XXXX
 
-1. Sayfayı yenileyin
-2. Artık localhost'ta da CORS hatası olmayacak!
-3. Tüm resimler yüklenecek!
+1. Refresh the page
+2. There will be no CORS errors on localhost anymore!
+3. All images will be uploaded!
 
 ---
 
-## 📊 CORS Ayarları Detayı
+## 📊 CORS Settings Detail
 
-**Ne Yapıldı:**
-- Tüm origin'lere (`*`) GET ve HEAD istekleri için izin verildi
-- Cache süresi: 3600 saniye (1 saat)
+**What Was Done:**
+- All origins (`*`) allowed for GET and HEAD requests
+- Cache time: 3600 seconds (1 hour)
 - Firebase Storage bucket: `arkuibuilder.firebasestorage.app`
 
-**Artık şunlar çalışıyor:**
+**The following now works:**
 - ✅ https://arkuibuilder.web.app → Firebase Storage
 - ✅ http://localhost:XXXX → Firebase Storage
-- ✅ Her origin → Firebase Storage resimleri
+- ✅ Every origin → Firebase Storage images
 
 ---
 
-## 🎉 Tüm Özellikler Hazır!
+## 🎉 All Features Ready!
 
-- ✅ Resim yükleme (PNG, JPG, GIF, WebP)
-- ✅ Resim gösterimi (CORS sorunu çözüldü)
-- ✅ Kod görüntüleme (24 satır + scroll)
+- ✅ Image upload (PNG, JPG, GIF, WebP)
+- ✅ Image display (CORS issue resolved)
+- ✅ Code view (24 lines + scroll)
 - ✅ Admin panel
 - ✅ Firebase entegrasyonu
-- ✅ Responsive tasarım
+- ✅ Responsive design
 
-**Projeniz tamamen hazır! 🚀**
+**Your project is completely ready! 🚀**

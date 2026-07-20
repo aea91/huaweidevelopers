@@ -30,8 +30,8 @@ class _AdminAddWidgetScreenState extends State<AdminAddWidgetScreen> {
   Uint8List? _selectedFileBytes;
   String? _selectedFileName;
   String? _existingGifUrl;
-  
-  // Ana kategori için dropdown
+
+  // Main category dropdown
   String _selectedMainCategory = 'Mobile';
   final List<String> _mainCategories = [
     'Mobile',
@@ -73,13 +73,13 @@ class _AdminAddWidgetScreenState extends State<AdminAddWidgetScreen> {
 
       if (result != null && result.files.isNotEmpty) {
         final file = result.files.first;
-        
+
         if (file.bytes == null) {
-          throw Exception('Dosya okunamadı');
+          throw Exception('Could not read the file');
         }
 
         if (!_storageService.isFileSizeValid(file.bytes!.length)) {
-          throw Exception('Dosya boyutu 5MB\'dan küçük olmalı');
+          throw Exception('The file must be smaller than 5 MB');
         }
 
         setState(() {
@@ -89,7 +89,7 @@ class _AdminAddWidgetScreenState extends State<AdminAddWidgetScreen> {
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('${file.name} seçildi'),
+            content: Text('Selected ${file.name}'),
             backgroundColor: Colors.green,
           ),
         );
@@ -98,7 +98,7 @@ class _AdminAddWidgetScreenState extends State<AdminAddWidgetScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Dosya seçme hatası: ${e.toString()}'),
+            content: Text('Failed to select file: ${e.toString()}'),
             backgroundColor: Colors.red,
           ),
         );
@@ -112,7 +112,7 @@ class _AdminAddWidgetScreenState extends State<AdminAddWidgetScreen> {
     if (_selectedFileBytes == null && _existingGifUrl == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Lütfen bir resim dosyası seçin'),
+          content: Text('Please select an image file'),
           backgroundColor: Colors.orange,
         ),
       );
@@ -124,7 +124,7 @@ class _AdminAddWidgetScreenState extends State<AdminAddWidgetScreen> {
     try {
       String gifUrl = _existingGifUrl ?? '';
 
-      // Yeni GIF yüklendiyse
+      // Upload the newly selected GIF
       if (_selectedFileBytes != null && _selectedFileName != null) {
         gifUrl = await _storageService.uploadGif(
           _selectedFileBytes!,
@@ -150,10 +150,10 @@ class _AdminAddWidgetScreenState extends State<AdminAddWidgetScreen> {
       );
 
       if (widget.widget == null) {
-        // Yeni widget ekle
+        // Add a new widget
         await _firestoreService.addWidget(newWidget, gifUrl);
       } else {
-        // Mevcut widget'ı güncelle
+        // Update the existing widget
         await _firestoreService.updateWidget(
           widget.widget!.id,
           newWidget,
@@ -166,8 +166,8 @@ class _AdminAddWidgetScreenState extends State<AdminAddWidgetScreen> {
           SnackBar(
             content: Text(
               widget.widget == null
-                  ? 'Widget basariyla eklendi'
-                  : 'Widget basariyla guncellendi',
+                  ? 'Widget added successfully'
+                  : 'Widget updated successfully',
             ),
             backgroundColor: Colors.green,
           ),
@@ -178,7 +178,7 @@ class _AdminAddWidgetScreenState extends State<AdminAddWidgetScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Hata: ${e.toString()}'),
+            content: Text('Error: ${e.toString()}'),
             backgroundColor: Colors.red,
           ),
         );
@@ -198,7 +198,7 @@ class _AdminAddWidgetScreenState extends State<AdminAddWidgetScreen> {
       backgroundColor: const Color(0xFFF9FAFB),
       appBar: AppBar(
         title: Text(
-          isEdit ? 'Widget Duzenle' : 'Yeni Widget Ekle',
+          isEdit ? 'Edit Widget' : 'Add New Widget',
           style: GoogleFonts.inter(fontWeight: FontWeight.bold),
         ),
         backgroundColor: const Color(0xFF5B21B6),
@@ -226,7 +226,7 @@ class _AdminAddWidgetScreenState extends State<AdminAddWidgetScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    'Widget Görseli',
+                    'Widget Image',
                     style: GoogleFonts.inter(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -276,7 +276,7 @@ class _AdminAddWidgetScreenState extends State<AdminAddWidgetScreen> {
                     onPressed: _isLoading ? null : _pickGifFile,
                     icon: const Icon(Icons.upload_file),
                     label: Text(
-                      _existingGifUrl != null ? 'Gorsel Degistir' : 'Gorsel Sec',
+                      _existingGifUrl != null ? 'Change Image' : 'Select Image',
                     ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF5B21B6),
@@ -319,13 +319,13 @@ class _AdminAddWidgetScreenState extends State<AdminAddWidgetScreen> {
                   TextFormField(
                     controller: _titleController,
                     decoration: const InputDecoration(
-                      labelText: 'Widget Basligi *',
+                      labelText: 'Widget Title *',
                       border: OutlineInputBorder(),
-                      hintText: 'orn: Bottom Nav Bar Gradient',
+                      hintText: 'example: Bottom Nav Bar Gradient',
                     ),
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return 'Baslik gerekli';
+                        return 'Title is required';
                       }
                       return null;
                     },
@@ -336,14 +336,14 @@ class _AdminAddWidgetScreenState extends State<AdminAddWidgetScreen> {
                   TextFormField(
                     controller: _descriptionController,
                     decoration: const InputDecoration(
-                      labelText: 'Aciklama *',
+                      labelText: 'Description *',
                       border: OutlineInputBorder(),
-                      hintText: 'Widgetin kisa aciklamasi',
+                      hintText: 'A short description of the widget',
                     ),
                     maxLines: 2,
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return 'Aciklama gerekli';
+                        return 'Description is required';
                       }
                       return null;
                     },
@@ -372,7 +372,7 @@ class _AdminAddWidgetScreenState extends State<AdminAddWidgetScreen> {
                     },
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Platform gerekli';
+                        return 'Platform is required';
                       }
                       return null;
                     },
@@ -383,13 +383,13 @@ class _AdminAddWidgetScreenState extends State<AdminAddWidgetScreen> {
                   TextFormField(
                     controller: _categoryController,
                     decoration: const InputDecoration(
-                      labelText: 'Widget Kategorisi *',
+                      labelText: 'Widget Category *',
                       border: OutlineInputBorder(),
-                      hintText: 'orn: Navigation, Cards, Buttons',
+                      hintText: 'example: Navigation, Cards, Buttons',
                     ),
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return 'Widget kategorisi gerekli';
+                        return 'Widget category is required';
                       }
                       return null;
                     },
@@ -400,9 +400,9 @@ class _AdminAddWidgetScreenState extends State<AdminAddWidgetScreen> {
                   TextFormField(
                     controller: _tagsController,
                     decoration: const InputDecoration(
-                      labelText: 'Tagler (virgülle ayirin)',
+                      labelText: 'Tags (comma-separated)',
                       border: OutlineInputBorder(),
-                      hintText: 'orn: navigation, gradient, animated',
+                      hintText: 'example: navigation, gradient, animated',
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -411,7 +411,7 @@ class _AdminAddWidgetScreenState extends State<AdminAddWidgetScreen> {
                   TextFormField(
                     controller: _codeController,
                     decoration: const InputDecoration(
-                      labelText: 'ArkTS Kodu *',
+                      labelText: 'ArkTS Code *',
                       border: OutlineInputBorder(),
                       hintText: '@Component\nstruct YourWidget {\n  ...\n}',
                     ),
@@ -419,7 +419,7 @@ class _AdminAddWidgetScreenState extends State<AdminAddWidgetScreen> {
                     style: GoogleFonts.jetBrainsMono(fontSize: 13),
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return 'Kod gerekli';
+                        return 'Code is required';
                       }
                       return null;
                     },
@@ -452,7 +452,7 @@ class _AdminAddWidgetScreenState extends State<AdminAddWidgetScreen> {
                         ),
                       )
                     : Text(
-                        isEdit ? 'Güncelle' : 'Kaydet',
+                        isEdit ? 'Update' : 'Save',
                         style: GoogleFonts.inter(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,

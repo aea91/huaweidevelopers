@@ -46,7 +46,7 @@ function sanitizeSuggestion(raw, catalog) {
     typeof value === 'string' && /^#[0-9A-Fa-f]{6}$/.test(value) ? value : fallback;
 
   return {
-    summary: typeof raw.summary === 'string' ? raw.summary : 'AI katalog önerisi hazır.',
+    summary: typeof raw.summary === 'string' ? raw.summary : 'AI catalog proposal is ready.',
     layoutDescription:
       typeof raw.layoutDescription === 'string' ? raw.layoutDescription : '',
     widgets,

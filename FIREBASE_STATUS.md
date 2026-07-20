@@ -1,32 +1,32 @@
-# ✅ Firebase Setup - Durum Kontrolü
+# ✅ Firebase Setup - Status Check
 
-## 🎯 TÜM SİSTEMLER AKTİF!
+## 🎯 ALL SYSTEMS ACTIVE!
 
-Tüm Firebase servisleri başarıyla kuruldu ve deploy edildi! ✅
+All Firebase services have been successfully installed and deployed! ✅
 
 ---
 
-## 📊 Servis Durumları
+## 📊 Service Statuses
 
 ### ✅ Firebase Hosting
 ```
-Status: AKTIF ve DEPLOY EDİLDİ
+Status: ACTIVE and DEPLOYED
 URL: https://arkuibuilder.web.app
-Dosyalar: 29 files uploaded
-Son deploy: Başarılı
+Files: 29 files uploaded
+Last deployment: Successful
 ```
 
 ### ✅ Cloud Firestore
 ```
-Status: AKTIF ve RULES DEPLOY EDİLDİ
+Status: ACTIVE and RULES DEPLOYED
 Rules: firestore.rules deployed
 Database: Ready to use
-Koleksiyon: widgets (oluşturulacak)
+Collection: widgets (to be created)
 ```
 
 ### ✅ Firebase Storage
 ```
-Status: AKTIF ve RULES DEPLOY EDİLDİ
+Status: ACTIVE and RULES DEPLOYED
 Rules: storage.rules deployed
 Bucket: Ready for uploads
 Folder: widget_gifs/
@@ -36,8 +36,8 @@ Format: .gif only
 
 ### ⚠️ Firebase Authentication
 ```
-Status: MANUELSetup GEREKLI
-Action: Firebase Console'dan aktifleyin
+Status: MANUALSetup REQUIRED
+Action: Activate from Firebase Console
 ```
 
 ---
@@ -47,91 +47,91 @@ Action: Firebase Console'dan aktifleyin
 ### 1️⃣ Authentication Aktifleyin
 
 ```bash
-# Firebase Console'da:
+# In Firebase Console:
 1. https://console.firebase.google.com/project/arkuibuilder/authentication
 2. "Get started" → "Email/Password" ENABLE
 3. "Users" tab → "Add user"
 4. Email: admin@yourdomain.com
-5. Password: (güçlü şifre - min 6 karakter)
-6. "Add user" tıklayın
+5. Password: (strong password - min 6 characters)
+6. Click "Add user"
 ```
 
-### 2️⃣ Firestore Database Oluşturun
+### 2️⃣ Create Firestore Database
 
 ```bash
-# Firebase Console'da:
+# In Firebase Console:
 1. https://console.firebase.google.com/project/arkuibuilder/firestore
 2. "Create database"
 3. "Start in production mode"
-4. Location: europe-west (veya yakın)
+4. Location: europe-west (or close)
 5. "Enable"
 ```
 
-### 3️⃣ İlk Widget Ekleyin!
+### 3️⃣ Add Widget First!
 
 ```bash
 1. https://arkuibuilder.web.app
 2. Header'daki admin icon → Login
-3. Admin email/password ile giriş
-4. "Widget Ekle" butonu
-5. GIF seç + Form doldur
-6. Kaydet!
+3. Login with admin email/password
+4. "Add Widget" button
+5. Select GIF + Fill form
+6. Save!
 ```
 
 ---
 
-## 🧪 TEST: Sistemin Çalıştığını Doğrulayın
+## 🧪 TEST: Verify System Working
 
-### Test 1: Ana Sayfa ✅
+### Test 1: Home Page ✅
 ```
-✓ https://arkuibuilder.web.app açılıyor
-✓ Header ve logo görünüyor
-✓ Arama kutusu çalışıyor
-✓ Kategori filtreleri var
+✓ https://arkuibuilder.web.app is opening
+✓ Header and logo appear
+✓ Search box works
+✓ There are category filters
 ```
 
-### Test 2: Admin Login (Authentication setup sonrası)
+### Test 2: Admin Login (after Authentication setup)
 ```
 1. Admin icon → Login screen
 2. Email/password gir
-3. "Giris Yap" → Dashboard açılmalı
+3. "Sign In" → Dashboard should open
 ```
 
-### Test 3: Widget Ekleme (Tüm setup sonrası)
+### Test 3: Adding Widgets (After all setup)
 ```
-1. Dashboard → "Widget Ekle"
-2. GIF seç (max 5MB)
+1. Dashboard → "Add Widget"
+2. Select GIF (max 5MB)
 3. Form doldur
-4. "Kaydet" → Success mesajı
-5. Ana sayfa → Widget görünüyor!
+4. "Save" → Success message
+5. Home → Widget appears!
 ```
 
 ### Test 4: GIF Upload
 ```
-1. Widget formunda "GIF Sec"
-2. .gif dosyası seç
-3. Preview görünmeli
-4. Kaydet
-5. Firebase Storage'da görünmeli
+1. "Select GIF" in widget form
+2. Select .gif file
+3. Preview should appear
+4. Save
+5. It should appear in Firebase Storage
 ```
 
 ---
 
-## 📋 Deployment Özeti
+## 📋 Deployment Summary
 
 ```
-✅ Flutter Web Build      → Başarılı (18.1s)
+✅ Flutter Web Build → Successful (18.1s)
 ✅ Firebase Hosting       → Deployed (29 files)
 ✅ Firestore Rules        → Deployed
 ✅ Storage Rules          → Deployed
-✅ CORS Configuration     → Otomatik
-✅ SSL/HTTPS              → Aktif
-✅ Global CDN             → Aktif
+✅ CORS Configuration → Automatic
+✅ SSL/HTTPS → Active
+✅ Global CDN → Active
 ```
 
 ---
 
-## 🔒 Security Rules - Deploy Edildi
+## 🔒 Security Rules - Deployed
 
 ### Firestore Rules ✅
 ```javascript
@@ -170,43 +170,43 @@ https://console.firebase.google.com/project/arkuibuilder/hosting/sites
 
 ---
 
-## 💡 Hızlı Komutlar
+## 💡 Quick Commands
 
 ```bash
-# Ana sayfayı aç
+# Open home page
 open https://arkuibuilder.web.app
 
 # Local test
 flutter run -d chrome
 
-# Rebuild ve deploy
+# Rebuild and deploy
 flutter build web --release
-firebase deploy
+deploy firebase
 
-# Sadece rules güncelle
+# Just update rules
 firebase deploy --only firestore:rules,storage:rules
 
-# Log'ları görüntüle
+# View logs
 firebase functions:log
 ```
 
 ---
 
-## 🎨 Örnek İlk Widget
+## 🎨 Sample First Widget
 
-İşte test için ekleyebileceğiniz örnek bir widget:
+Here's an example widget you can add for testing:
 
-**Başlık:**
+**Title:**
 ```
 Bottom Navigation Bar
 ```
 
-**Açıklama:**
+**Explanation:**
 ```
 Modern gradient bottom navigation bar with smooth animations
 ```
 
-**Kategori:**
+**Category:**
 ```
 Navigation
 ```
@@ -216,7 +216,7 @@ Navigation
 navigation, gradient, bottom bar, animated
 ```
 
-**ArkTS Kodu:**
+**ArkTS Code:**
 ```typescript
 @Component
 struct BottomNavBar {
@@ -256,51 +256,51 @@ struct BottomNavBar {
 
 ---
 
-## ✅ Kontrol Listesi
+## ✅ Checklist
 
 Setup durumu:
 - [x] Flutter web build
 - [x] Firebase Hosting deploy
 - [x] Firestore rules deploy
-- [x] Storage aktif
+- [x] Storage active
 - [x] Storage rules deploy
-- [ ] Authentication aktif (manuel - 2 dk)
-- [ ] Firestore database oluştur (manuel - 2 dk)
-- [ ] İlk admin user ekle (manuel - 1 dk)
-- [ ] İlk widget ekle (test)
+- [ ] Authentication active (manual - 2 min)
+- [ ] Create Firestore database (manual - 2 min)
+- [ ] Add first admin user (manual - 1 min)
+- [ ] Add first widget (test)
 
 ---
 
-## 🎊 Özet
+## 🎊 Summary
 
-**HAZIR OLANLAR:**
-✅ Web sitesi yayında
-✅ Admin panel deploy edildi
-✅ Database bağlantısı hazır
-✅ Storage yüklemesi hazır
-✅ Security rules aktif
+** READY FOR:**
+✅ Website is live
+✅ Admin panel has been deployed
+✅ Database connection is ready
+✅ Storage installation ready
+✅ Security rules are active
 
-**MANUEL SETUP GEREKLİ (5 dk):**
+**MANUAL SETUP REQUIRED (5 min):**
 ⚠️ Authentication aktifle
-⚠️ Firestore oluştur
-⚠️ İlk admin ekle
+⚠️ Create Firestore
+⚠️ Add first admin
 
-**SONRA:**
-🚀 Admin login yapın
-🚀 İlk widget'ı ekleyin
-🚀 Sistemi kullanmaya başlayın!
+**LATER:**
+🚀 Log in as admin
+🚀 Add the first widget
+🚀 Start using the system!
 
 ---
 
-## 📞 Destek
+## 📞 Support
 
-Sorun yaşarsanız:
-- `FIREBASE_ADMIN_SETUP.md` → Detaylı kılavuz
-- `SETUP_COMPLETE.md` → Hızlı başlangıç
+If you have problems:
+- `FIREBASE_ADMIN_SETUP.md` → Detailed guide
+- `SETUP_COMPLETE.md` → Quick start
 - Firebase Console → Logs
 
 ---
 
-**Neredeyse bitti! Son 2 manuel adımı tamamlayın! 🚀**
+**Almost finished! Complete the last 2 manual steps! 🚀**
 
-**Canlı URL:** https://arkuibuilder.web.app
+**Live URL:** https://arkuibuilder.web.app

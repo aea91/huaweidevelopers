@@ -1,78 +1,78 @@
-# 🎬 GIF Hazırlama Kılavuzu
+# 🎬 GIF Making Guide
 
-Widget'larınız için profesyonel GIF preview'ları nasıl hazırlarsınız? İşte adım adım rehber!
+How do you create professional GIF previews for your widgets? Here is the step by step guide!
 
-## 🛠️ Gerekli Araçlar
+## 🛠️ Tools Required
 
-### Ekran Kaydı İçin:
+### For Screen Recording:
 - **HarmonyOS DevEco Studio**: Built-in screen recorder
-- **OBS Studio** (Ücretsiz): Windows, macOS, Linux için güçlü
-- **QuickTime Player** (macOS): Sistem uygulaması
-- **Windows Game Bar** (Windows): Win + G tuşları
-- **AZ Screen Recorder** (Android): Mobil cihaz için
+- **OBS Studio** (Free): Powerful for Windows, macOS, Linux
+- **QuickTime Player** (macOS): System application
+- **Windows Game Bar** (Windows): Win + G keys
+- **AZ Screen Recorder** (Android): For mobile device
 
-### GIF Dönüştürme İçin:
-- **GIPHY Capture** (macOS): En kolay çözüm
-- **ScreenToGif** (Windows): Hem kayıt hem dönüştürme
-- **CloudConvert** (Web): Online dönüştürme
-- **FFmpeg** (Terminal): Profesyonel kullanım
-- **ezgif.com** (Web): Online GIF editörü
+### For GIF Conversion:
+- **GIPHY Capture** (macOS): The easiest solution
+- **ScreenToGif** (Windows): Both recording and conversion
+- **CloudConvert** (Web): Online conversion
+- **FFmpeg** (Terminal): Professional use
+- **ezgif.com** (Web): Online GIF editor
 
-## 📹 Ekran Kaydı Alma
+## 📹 Screen Recording
 
-### 1. DevEco Studio'da
+### 1. In DevEco Studio
 
 ```bash
-# HarmonyOS Emulator veya device'ta
-1. Uygulamanızı çalıştırın
+# On HarmonyOS Emulator or device
+1. Run your app
 2. DevEco Studio → Tools → Screen Recorder
-3. Widget'ınızı kullanın (2-5 saniye)
-4. Stop tuşuna basın
+3. Use your widget (2-5 seconds)
+4. Press the Stop key
 5. Video'yu kaydedin
 ```
 
-### 2. macOS'ta (QuickTime)
+### 2. on macOS (QuickTime)
 
 ```bash
-1. QuickTime Player açın
+1. Open QuickTime Player
 2. File → New Screen Recording
-3. Kayıt alanını seçin
-4. Widget'ınızı gösterin
-5. Stop tuşuna basın
-6. Video'yu kaydedin (.mov format)
+3. Select the recording area
+4. Show off your widget
+5. Press the Stop key
+6. Save the video (.mov format)
 ```
 
-### 3. Windows'ta (Game Bar)
+### 3. In Windows (Game Bar)
 
 ```bash
-1. Win + G tuşlarına basın
-2. Capture widget'ını açın
-3. Record tuşuna basın
-4. Widget'ınızı gösterin
-5. Stop tuşuna basın
+1. Press Win + G
+2. Open the Capture widget
+3. Press Record
+4. Show off your widget
+5. Press the Stop key
 6. Video'yu kaydedin
 ```
 
-## 🎨 GIF'e Dönüştürme
+## 🎨 Convert to GIF
 
-### Yöntem 1: GIPHY Capture (macOS)
+### Method 1: GIPHY Capture (macOS)
 
 ```bash
-1. GIPHY Capture'ı açın
+1. Open GIPHY Capture
 2. File → Import Video
-3. Video'nuzu seçin
-4. Gereksiz kısımları kesin
-5. Boyutu ayarlayın (300-500px genişlik)
+3. Select your video
+4. Cut out unnecessary parts
+5. Adjust the size (300-500px width)
 6. FPS: 15-24
 7. Export → Save as GIF
 ```
 
-### Yöntem 2: ScreenToGif (Windows)
+### Method 2: ScreenToGif (Windows)
 
 ```bash
-1. ScreenToGif'i açın
+1. Open ScreenToGif
 2. Editor → File → Load
-3. Video'nuzu yükleyin
+3. Upload your video
 4. Resize → Width: 400px
 5. Frame rate: 20 FPS
 6. File → Save as → GIF
@@ -81,11 +81,11 @@ Widget'larınız için profesyonel GIF preview'ları nasıl hazırlarsınız? İ
    - Repeat: Forever
 ```
 
-### Yöntem 3: CloudConvert (Web)
+### Method 3: CloudConvert (Web)
 
 ```bash
-1. cloudconvert.com adresine gidin
-2. "Select File" → Video'nuzu yükleyin
+1. Go to cloudconvert.com
+2. "Select File" → Upload your video
 3. Convert to: GIF
 4. Settings:
    - Width: 400px
@@ -95,44 +95,44 @@ Widget'larınız için profesyonel GIF preview'ları nasıl hazırlarsınız? İ
 6. Download
 ```
 
-### Yöntem 4: FFmpeg (Terminal) - Pro
+### Method 4: FFmpeg (Terminal) - Pro
 
 ```bash
-# Video'dan GIF oluştur
+# Create GIF from Video
 ffmpeg -i input.mp4 -vf "fps=20,scale=400:-1:flags=lanczos" \
        -c:v gif output.gif
 
-# Optimize et
+# Optimize
 ffmpeg -i input.gif -vf "split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" \
        -loop 0 output_optimized.gif
 ```
 
-## ⚙️ Optimizasyon Ayarları
+## ⚙️ Optimization Settings
 
-### İdeal Ayarlar:
+### Ideal Settings:
 
-| Parametre | Değer | Açıklama |
+| Parameter | Value | Description |
 |-----------|-------|----------|
-| Genişlik | 300-500px | Yeterli detay, hızlı yükleme |
-| Yükseklik | Auto | Aspect ratio korunur |
-| FPS | 15-24 | Smooth ama ağır değil |
-| Süre | 2-5 saniye | Loop için ideal |
-| Dosya Boyutu | < 3MB | Web için optimal |
-| Loop | Forever | Sürekli oynatım |
-| Kalite | 80-90% | İyi görünüm, makul boyut |
+| Width | 300-500px | Decent detail, fast loading |
+| Height | Auto | Aspect ratio is preserved |
+| FPS | 15-24 | Smooth but not heavy |
+| Duration | 2-5 seconds | Ideal for loop |
+| File Size | < 3MB | Optimal for web |
+| Loop | Forever | Continuous playback |
+| Quality | 80-90% | Good appearance, reasonable size |
 
-### Boyut Küçültme İpuçları:
+### Size Reduction Tips:
 
-1. **FPS'i düşür**: 30 → 20 → 15
-2. **Boyutu küçült**: 500px → 400px → 300px
-3. **Süreyi kısalt**: 5s → 3s → 2s
-4. **Renk paletini sınırla**: 256 → 128 renk
-5. **Gereksiz frame'leri sil**: Beklemeler, boş anlar
-6. **Optimize araçları kullan**: gifsicle, ezgif.com
+1. **Reduce FPS**: 30 → 20 → 15
+2. **Reduce size**: 500px → 400px → 300px
+3. **Shorten the time**: 5s → 3s → 2s
+4. **Limit color palette**: 256 → 128 colors
+5. **Delete unnecessary frames**: Waits, empty moments
+6. **Use optimized tools**: gifsicle, ezgif.com
 
-## 📐 Kompozisyon İpuçları
+## 📐 Composition Tips
 
-### Widget'ı Çerçeveleme:
+### Framing the Widget:
 
 ```
 ┌─────────────────────┐
@@ -145,77 +145,77 @@ ffmpeg -i input.gif -vf "split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" \
 └─────────────────────┘
 ```
 
-### İyi Pratikler:
+### Good Practices:
 
 ✅ Widget odakta olsun
-✅ Yeterli padding bırakın
-✅ Temiz arka plan kullanın
-✅ Animasyonları gösterin
-✅ Kullanıcı etkileşimini gösterin
-✅ Loop sorunsuz olsun (son frame = ilk frame)
+✅ Leave enough padding
+✅ Use clean background
+✅ Show animations
+✅ Show user interaction
+✅ Let the loop be smooth (last frame = first frame)
 
-❌ Çok fazla içerik
-❌ Karmaşık arka plan
-❌ Hızlı geçişler
-❌ Uzun bekleme süreleri
+❌ Too much content
+❌ Complex background
+❌ Fast transitions
+❌ Long waiting times
 ❌ Kesik loop
 
-## 📱 Cihaz Frame Ekleme (Opsiyonel)
+## 📱 Adding Device Frame (Optional)
 
-### Online Araçlar:
-- **mockuphone.com**: Ücretsiz
-- **shotsnapp.com**: Modern çerçeveler
+### Online Tools:
+- **mockuphone.com**: Free
+- **shotsnapp.com**: Modern frames
 - **facebook.com/devices**: Facebook Design
-- **deviceframes.com**: Çok çeşitli
+- **deviceframes.com**: Huge variety
 
-### Örnek Kullanım:
+### Example Usage:
 ```bash
-1. GIF'inizi hazırlayın
-2. mockuphone.com'a gidin
-3. HarmonyOS veya Android cihaz seçin
-4. GIF'i yükleyin
+1. Prepare your GIF
+2. Go to mockuphone.com
+3. Select HarmonyOS or Android device
+4. Upload GIF
 5. Frame'li versiyonu indirin
 ```
 
-## 🎬 Çekim Senaryosu Örnekleri
+## 🎬 Shooting Script Examples
 
 ### Button Widget:
 ```
-0-1s: Normal durum
-1-2s: Hover efekti
+0-1s: Normal status
+1-2s: Hover effect
 2-3s: Click animasyonu
-3-4s: Normal duruma dön
+3-4s: Return to normal state
 [Loop]
 ```
 
 ### Card Widget:
 ```
-0-2s: Kartı göster
-2-3s: Hover efekti
-3-4s: Genişleme animasyonu
-4-5s: Normal duruma dön
+0-2s: Show card
+2-3s: Hover effect
+3-4s: Expansion animation
+4-5s: Return to normal state
 [Loop]
 ```
 
 ### Navigation Bar:
 ```
-0-1s: Ana sayfa seçili
-1-2s: İkinci sekmeye geç
-2-3s: Üçüncü sekmeye geç
-3-4s: Ana sayfaya dön
+0-1s: Home page selected
+1-2s: Switch to second tab
+2-3s: Switch to third tab
+3-4s: Return to home page
 [Loop]
 ```
 
 ### Search Bar:
 ```
-0-1s: Boş durum
+0-1s: Idle state
 1-2s: Focus olma
-2-3s: Metin yazma animasyonu
-3-4s: Temizle ve başa dön
+2-3s: Text typing animation
+3-4s: Clear and return to the beginning
 [Loop]
 ```
 
-## 💾 Dosya Organizasyonu
+## 💾 File Organization
 
 ```
 assets/
@@ -238,37 +238,37 @@ assets/
         └── form_input.gif
 ```
 
-## 🔧 Sorun Giderme
+## 🔧 Troubleshooting
 
-### GIF çok büyük (>3MB)
+### GIF too large (>3MB)
 ```bash
-- FPS'i 15'e düşür
-- Genişliği 400px'e küçült
-- Süreyi kısalt
-- ezgif.com/optimize kullan
+- Reduce FPS to 15
+- Reduce width to 400px
+- Shorten the time
+- Use ezgif.com/optimize
 ```
 
-### GIF kalitesiz görünüyor
+### GIF looks poor quality
 ```bash
-- Kayıt çözünürlüğünü artır
-- Kalite ayarını yükselt
-- Dithering ekle
-- Renk paletini artır
+- Increase recording resolution
+- Increase quality setting
+- Add dithering
+- Increase color palette
 ```
 
-### Loop sorunsuz değil
+### Loop is not smooth
 ```bash
-- Son frame'i düzenle
-- İlk ve son frame aynı olmalı
-- Geçiş frame'i ekle
+- Edit last frame
+- First and last frame must be the same
+- Add transition frame
 - Reverse playback dene
 ```
 
-### Animasyon hızlı/yavaş
+### Animation fast/slow
 ```bash
-- FPS ayarla: 15-24 arası
-- Frame'leri duplicate et (yavaşlatmak için)
-- Frame'leri sil (hızlandırmak için)
+- Set FPS: between 15-24
+- Duplicate frames (to slow down)
+- Delete frames (to speed up)
 ```
 
 ## 📚 Ek Kaynaklar
@@ -277,18 +277,18 @@ assets/
 - [FFmpeg Documentation](https://ffmpeg.org/documentation.html)
 - [GIF Optimization Guide](https://developers.google.com/speed/docs/insights/OptimizeImages)
 
-## ✅ Kontrol Listesi
+## ✅ Checklist
 
-Yüklemeden önce:
-- [ ] Boyut: 300-500px genişlik
-- [ ] Dosya boyutu: < 3MB
+Before installing:
+- [ ] Size: 300-500px width
+- [ ] File size: < 3MB
 - [ ] FPS: 15-24
-- [ ] Süre: 2-5 saniye
+- [ ] Duration: 2-5 seconds
 - [ ] Loop: Sorunsuz
-- [ ] Kalite: Net ve açık
+- [ ] Quality: Clear and clear
 - [ ] Format: .gif
-- [ ] Dosya adı: anlamlı ve lowercase
+- [ ] Filename: significant and lowercase
 
 ---
 
-**İyi çekimler! 🎬**
+**Happy shooting! 🎬**

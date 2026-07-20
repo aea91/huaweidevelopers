@@ -1,78 +1,78 @@
 # ArkUI Build - Component Library Showcase
 
-Modern, FlutterBricks tarzında ArkUI widget'ları için showcase web uygulaması. ArkTS kod örneklerini GIF preview'ları ile birlikte sunan profesyonel bir platform.
+Showcase web app for ArkUI widgets in a modern, FlutterBricks style. ArkTS is a professional platform that offers code samples with GIF previews.
 
-## 🎨 Özellikler
+## 🎨 Features
 
-- **Split-Screen Layout**: Sol tarafta animasyonlu GIF preview, sağ tarafta kopyalanabilir ArkTS kodu
-- **Kod Vurgulama**: ArkTS için syntax highlighting desteği
-- **Kopyala Butonu**: Tek tıkla kod kopyalama özelliği
-- **Kategori Filtreleme**: Widget'ları kategorilere göre filtreleme
-- **Arama Fonksiyonu**: Widget'ları isim, açıklama veya tag'lere göre arama
-- **Responsive Tasarım**: Mobil, tablet ve masaüstü desteği
-- **Modern UI**: Gradient renkler, animasyonlar ve gölgeler ile modern arayüz
+- **Split-Screen Layout**: Animated GIF preview on the left, copyable ArkTS code on the right
+- **Code Highlighting**: Syntax highlighting support for ArkTS
+- **Copy Button**: One-click code copy feature
+- **Category Filter**: Filter widgets by categories
+- **Search Function**: Search for widgets by name, description or tags
+- **Responsive Design**: Mobile, tablet and desktop support
+- **Modern UI**: Modern interface with gradient colors, animations and shadows
 
-## 🚀 Kurulum
+## 🚀 Installation
 
-### Gereksinimler
+### Requirements
 
-- Flutter SDK (3.8.1 veya üzeri)
+- Flutter SDK (3.8.1 or above)
 - Dart SDK
-- Firebase CLI (deploy için)
+- Firebase CLI (for deployment)
 
-### Adımlar
+### Steps
 
-1. Projeyi klonlayın:
+1. Clone the project:
 ```bash
 git clone <your-repo-url>
 cd arkuibuild
 ```
 
-2. Bağımlılıkları yükleyin:
+2. Install dependencies:
 ```bash
 flutter pub get
 ```
 
-3. Uygulamayı çalıştırın:
+3. Run the application:
 ```bash
 flutter run -d chrome
 ```
 
-4. Firebase Deploy (Opsiyonel):
+4. Firebase Deploy (Optional):
 ```bash
 ./deploy.sh
-# veya
+# or
 flutter build web --release
-firebase deploy
+deploy firebase
 ```
 
-## 📁 Proje Yapısı
+## 📁 Project Structure
 
 ```
 lib/
 ├── data/
-│   └── sample_widgets.dart      # Örnek widget verileri
+│ └── sample_widgets.dart # Sample widget data
 ├── models/
-│   └── widget_showcase.dart     # Widget model sınıfı
+│ └── widget_showcase.dart # Widget model class
 ├── screens/
-│   └── home_screen.dart         # Ana sayfa
+│ └── home_screen.dart # Home page
 ├── widgets/
-│   ├── category_chip.dart       # Kategori chip widget'ı
-│   ├── code_viewer.dart         # Kod görüntüleme widget'ı
-│   └── widget_preview.dart      # GIF preview widget'ı
-└── main.dart                    # Uygulama giriş noktası
+│ ├── category_chip.dart # Category chip widget
+│ ├── code_viewer.dart # Code viewer widget
+│ └── widget_preview.dart # GIF preview widget
+└── main.dart # Application entry point
 ```
 
-## 🎯 Yeni Widget Ekleme
+## 🎯 Add New Widget
 
-Yeni bir widget eklemek için `lib/data/sample_widgets.dart` dosyasına yeni bir `WidgetShowcase` nesnesi ekleyin:
+To add a new widget, add a new `WidgetShowcase` object to the `lib/data/sample_widgets.dart` file:
 
 ```dart
 WidgetShowcase(
   id: 'unique_id',
-  title: 'Widget Başlığı',
-  description: 'Widget açıklaması',
-  category: 'Kategori',
+  title: 'Widget Title',
+  description: 'Widget description',
+  category: 'Category',
   gifPath: 'assets/gifs/your_gif.gif',
   code: '''
 // ArkTS kodunuz buraya
@@ -87,22 +87,22 @@ struct YourComponent {
 ),
 ```
 
-## 📦 GIF'leri Ekleme
+## 📦 Add GIFs
 
-1. GIF dosyalarınızı `assets/gifs/` klasörüne ekleyin
-2. `pubspec.yaml` dosyasının assets bölümüne dahil edildiğinden emin olun (zaten yapılandırılmış)
-3. Widget tanımınızda doğru yolu kullanın: `assets/gifs/your_gif.gif`
+1. Add your GIF files to `assets/gifs/` folder
+2. Make sure that `pubspec.yaml` is included in the assets section (already configured)
+3. Use the correct path in your widget definition: `assets/gifs/your_gif.gif`
 
-## 🛠️ Kullanılan Teknolojiler
+## 🛠️ Technologies Used
 
-- **Flutter**: Web uygulaması framework'ü
-- **Google Fonts**: Inter ve JetBrains Mono fontları
-- **flutter_highlight**: ArkTS kod syntax highlighting
-- **url_launcher**: Dış linkleri açma
+- **Flutter**: Web application framework
+- **Google Fonts**: Inter and JetBrains Mono fonts
+- **flutter_highlight**: ArkTS code syntax highlighting
+- **url_launcher**: Opening external links
 - **Firebase Hosting**: Production deployment
-- **Firebase Core**: Web konfigürasyonu
+- **Firebase Core**: Web configuration
 
-## 🎨 Tasarım Özellikleri
+## 🎨 Design Features
 
 - **Renk Paleti**: 
   - Primary: #5B21B6 (Purple)
@@ -120,36 +120,36 @@ struct YourComponent {
 - **Tablet**: 768px - 1024px
 - **Desktop**: > 1024px
 
-## 🤝 Katkıda Bulunma
+## 🤝 Contribute
 
-1. Fork edin
-2. Feature branch oluşturun (`git checkout -b feature/amazing-feature`)
-3. Değişikliklerinizi commit edin (`git commit -m 'Add some amazing feature'`)
-4. Branch'inizi push edin (`git push origin feature/amazing-feature`)
-5. Pull Request oluşturun
+1. Fork
+2. Create feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push your branch (`git push origin feature/amazing-feature`)
+5. Create a Pull Request
 
 ## 🌐 Deployment
 
-### Firebase Hosting (Önerilen)
+### Firebase Hosting (Recommended)
 ```bash
-# Hızlı deploy
+#Fastdeploy
 ./deploy.sh
 
-# veya manuel
+# or manual
 flutter build web --release
 firebase deploy --only hosting
 ```
 
 **Production URL**: https://arkuibuilder.web.app
 
-Detaylı deployment bilgisi için `FIREBASE_DEPLOYMENT.md` dosyasına bakın.
+For detailed deployment information, see file `FIREBASE_DEPLOYMENT.md`.
 
-### Diğer Deployment Seçenekleri
+### Other Deployment Options
 
 **GitHub Pages:**
 ```bash
 flutter build web --release
-# build/web/ klasörünü GitHub Pages'e push edin
+# push the build/web/ folder to GitHub Pages
 ```
 
 **Vercel:**
@@ -159,23 +159,23 @@ vercel --prod
 ```
 
 **Netlify:**
-- Web arayüzünden `build/web/` klasörünü deploy edin
+- Deploy `build/web/` folder from the web interface
 
 ## 📄 Lisans
 
-Bu proje MIT lisansı altında lisanslanmıştır.
+This project is licensed under the MIT license.
 
-## 🔗 İlgili Linkler
+## 🔗 Related Links
 
 - [HarmonyOS Documentation](https://developer.harmonyos.com/)
 - [ArkTS Documentation](https://developer.harmonyos.com/en/docs/documentation/doc-guides-V3/arkts-get-started-0000001504769321-V3)
 - [Flutter Documentation](https://flutter.dev/docs)
 
-## 📸 Ekran Görüntüleri
+## 📸 Screenshots
 
-(Web uygulamanızın ekran görüntülerini buraya ekleyebilirsiniz)
+(You can add screenshots of your web application here)
 
 ---
 
-**Not**: Bu proje FlutterBricks'ten ilham alınarak ArkUI ekosistemi için geliştirilmiştir.
+**Note**: This project was developed for the ArkUI ecosystem, inspired by FlutterBricks.
 # huaweidevelopers

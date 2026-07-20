@@ -1,115 +1,115 @@
-# 🧪 Test Rehberi - Grid Görünümü
+# 🧪 Test Guide - Grid View
 
-## ✅ Uygulama Başlatıldı!
+## ✅ Application Launched!
 
-Flutter uygulaması Chrome'da otomatik açıldı.
+Flutter application opened automatically in Chrome.
 
 ---
 
-## 🎯 Test Senaryoları
+## 🎯 Test Scenarios
 
-### 1️⃣ Grid Görünümü Testi (All Kategorisi)
+### 1️⃣ Grid View Test (All Category)
 
-**Adımlar:**
-1. Ana sayfada kategori chip'lerini görün
-2. **"All"** kategorisine tıklayın
-3. ✅ **Kontrol edin:**
-   - Sol sidebar kayboldu mu?
-   - Widget'lar grid şeklinde mi gösteriliyor?
-   - Desktop'ta 3 sütun var mı?
-   - Her kartta resim + bilgi görünüyor mu?
+**Steps:**
+1. See category chips on the home page
+2. Click on the **"All"** category
+3. ✅ **Check:**
+   - Has the left sidebar disappeared?
+   - Are widgets displayed in a grid?
+   - Does Desktop have 3 columns?
+   - Do pictures + information appear on each card?
 
-### 2️⃣ Widget Kartı Testi
+### 2️⃣ Widget Card Test
 
-**Adımlar:**
-1. Grid görünümünde bir widget kartına tıklayın
-2. ✅ **Kontrol edin:**
-   - Detay sayfası açıldı mı?
-   - Widget'ın kategorisi otomatik seçildi mi?
-   - Sol tarafta sidebar + liste göründü mü?
-   - Sağ tarafta resim + kod göründü mü?
+**Steps:**
+1. Click a widget card in the grid view
+2. ✅ **Check:**
+   - Is the detail page opened?
+   - Is the widget's category automatically selected?
+   - Did the sidebar + list appear on the left?
+   - Did the image + code appear on the right?
 
-### 3️⃣ Resim Gösterimi Testi
+### 3️⃣ Image Display Test
 
-**Adımlar:**
-1. Bir widget seçin
-2. ✅ **Kontrol edin:**
-   - Resim yükleniyor mu?
-   - Resim kod alanına göre ortalanmış mı?
-   - CORS hatası yok mu? (F12 Console'da)
+**Steps:**
+1. Choose a widget
+2. ✅ **Check:**
+   - Is the image loading?
+   - Is the image centered according to the code field?
+   - No CORS errors? (on F12 Console)
 
-### 4️⃣ Kod Görüntüleme Testi
+### 4️⃣ Code View Test
 
-**Adımlar:**
-1. Kod alanını inceleyin
-2. ✅ **Kontrol edin:**
-   - İlk 24 satır görünüyor mu?
-   - Scroll çalışıyor mu?
-   - "Copy Code" butonu var mı?
-   - Syntax highlighting doğru mu?
+**Steps:**
+1. Examine the code field
+2. ✅ **Check:**
+   - Are the first 24 lines visible?
+   - Does scroll work?
+   - Is there a "Copy Code" button?
+   - Is syntax highlighting correct?
 
-### 5️⃣ Kategori Filtreleme Testi
+### 5️⃣ Category Filtering Test
 
-**Adımlar:**
-1. Farklı kategorilere tıklayın (Navigation, Cards, Input, etc.)
-2. ✅ **Kontrol edin:**
-   - Sol sidebar + liste görünümü açıldı mı?
-   - Sadece o kategorideki widget'lar gösteriliyor mu?
-   - Widget seçimi çalışıyor mu?
+**Steps:**
+1. Click on different categories (Navigation, Cards, Input, etc.)
+2. ✅ **Check:**
+   - Is left sidebar + list view enabled?
+   - Are only widgets from that category shown?
+   - Does widget selection work?
 
-### 6️⃣ Arama Testi
+### 6️⃣ Search Test
 
-**Adımlar:**
-1. Üst kısımdaki arama kutusuna bir şey yazın
-2. ✅ **Kontrol edin:**
-   - Widget'lar filtreleniyor mu?
-   - Sonuçlar anlık günceleniyor mu?
+**Steps:**
+1. Type anything in the search box at the top
+2. ✅ **Check:**
+   - Are widgets filtered?
+   - Are the results updated instantly?
 
 ### 7️⃣ Responsive Testi
 
-**Adımlar:**
-1. Tarayıcı penceresini küçültün/büyütün
-2. ✅ **Kontrol edin:**
-   - Desktop: 3 sütun grid
-   - Tablet: 2 sütun grid  
-   - Mobil: Liste görünümü
+**Steps:**
+1. Minimize/maximize browser window
+2. ✅ **Check:**
+   - Desktop: 3 column grid
+   - Tablet: 2 column grid
+   - Mobile: List view
 
 ---
 
-## 🐛 Olası Sorunlar
+## 🐛 Possible Problems
 
-### CORS Hatası (Localhost)
-**Belirti:** Resimler yüklenmiyor
-**Çözüm:** Normal! CORS zaten yapılandırıldı, ama localhost'ta hala sorun olabilir.
-**Alternatif:** Production'da test edin: https://arkuibuilder.web.app
+### CORS Error (Localhost)
+**Symptom:** Images not loading
+**Solution:** Normal! CORS is already configured, but there may still be problems on localhost.
+**Alternative:** Test in Production: https://arkuibuilder.web.app
 
-### Resim Bulunamadı
-**Belirti:** Placeholder icon görünüyor
-**Çözüm:** Admin panelden widget eklerken resim yüklendiğinden emin olun.
+### No Image Found
+**Symptom:** Placeholder icon appears
+**Solution:** Make sure to upload an image when adding widgets from the admin panel.
 
 ---
 
-## 📊 Test Sonuçları Formu
+## 📊 Test Results Form
 
-Lütfen test sonuçlarını paylaşın:
+Please share your test results:
 
-- [ ] Grid görünümü çalışıyor mu? (All kategorisi)
-- [ ] Widget kartları doğru görünüyor mu?
-- [ ] Kart tıklaması çalışıyor mu?
-- [ ] Resimler yükleniyor mu?
-- [ ] Resim ortalanmış mı?
-- [ ] Kod alanı 24 satır + scroll mu?
-- [ ] Kategori filtreleme çalışıyor mu?
-- [ ] Arama çalışıyor mu?
-- [ ] Responsive tasarım doğru mu?
+- [ ] Is the grid view working? (All category)
+- [ ] Do the widget cards appear correctly?
+- [ ] Does card click work?
+- [ ] Are the images loading?
+- [ ] Is the image centered?
+- [ ] Is the code area 24 lines + scroll?
+- [ ] Does category filtering work?
+- [ ] Is the search working?
+- [ ] Is responsive design correct?
 
 ---
 
 ## 🌐 Production Test
 
-Localhost'ta sorun varsa:
+If there is a problem with localhost:
 **https://arkuibuilder.web.app**
 
-Production'da her şey mükemmel çalışacak! 🚀
+Everything will work perfectly in Production! 🚀
 
-Sonuçları paylaşın! 🎯
+Share the results! 🎯

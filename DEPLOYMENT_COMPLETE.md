@@ -1,66 +1,66 @@
-# 🎉 Production Deploy Tamamlandı!
+# 🎉 Production Deploy Completed!
 
-## ✅ Deploy Özeti
+## ✅ Deploy Summary
 
 **Tarih:** 2026-02-20  
 **Platform:** Firebase Hosting  
-**Durum:** ✅ Başarılı
+**Status:** ✅ Successful
 
 ---
 
 ## 🚀 Deployed Services
 
-- ✅ **Firestore Rules** - Güvenlik kuralları
-- ✅ **Storage Rules** - Resim erişim kuralları (CORS yapılandırmalı)
-- ✅ **Hosting** - Web uygulaması
+- ✅ **Firestore Rules** - Security rules
+- ✅ **Storage Rules** - Image access rules (CORS configured)
+- ✅ **Hosting** - Web application
 
 ---
 
-## 🆕 Bu Deploy'daki Yeni Özellikler
+## 🆕 New Features in This Deploy
 
-### 1. Grid Görünümü (All Kategorisi)
-- Tüm widget'lar grid formatında
-- 3 sütun (desktop) / 2 sütun (tablet)
-- Resim + bilgi kartları
-- Karta tıklayınca detay
+### 1. Grid View (All Category)
+- All widgets are in grid format
+- 3 columns (desktop) / 2 columns (tablet)
+- Picture + flashcards
+- Detail when you click on the card
 
-### 2. Scroll ile Widget Geçişi
-- Kategori seçince tüm widget'lar listede
-- Aşağı scroll → sıradaki widget
-- Her widget kendi bölümünde
-- 40px boşluk aralarında
+### 2. Widget Switching with Scroll
+- When you select a category, all widgets are in the list
+- Scroll down → next widget
+- Each widget in its own section
+- 40px space between them
 
-### 3. Otomatik Widget Seçimi
-- Kategori seçilince ilk widget otomatik açılır
-- Liste scroll edilebilir
-- İstediğinize tıklayıp atlayabilirsiniz
+### 3. Automatic Widget Selection
+- When the category is selected, the first widget opens automatically
+- List can be scrolled
+- You can click and skip whatever you want
 
-### 4. Resim Optimizasyonları
-- BoxFit.contain (kırpma yok)
-- Dinamik boyutlandırma
-- Overflow hatası düzeltildi
-- CORS sorunu çözüldü
+### 4. Image Optimizations
+- BoxFit.contain (no clipping)
+- Dynamic sizing
+- Overflow bug fixed
+- CORS issue resolved
 
-### 5. Kompakt AppBar
-- Search bar sağa alındı (başlıkla aynı satır)
-- Daha az dikey alan
-- Modern ve temiz görünüm
+### 5. Compact AppBar
+- Search bar moved to the right (same line as the title)
+- Less vertical space
+- Modern and clean appearance
 
-### 6. Kod Görüntüleme
-- 24 satır görünür
-- Scroll ile devam
-- Copy Code butonu
+### 6. Code View
+- 24 lines visible
+- Continue with scroll
+- Copy Code button
 
-### 7. Çoklu Format Desteği
+### 7. Multiple Format Support
 - PNG, JPG, JPEG, GIF, WebP
-- Tüm formatlar destekleniyor
+- All formats supported
 
 ---
 
 ## 🌐 Live URLs
 
 ### Production:
-**Ana Site:** https://arkuibuilder.web.app  
+**Main Site:** https://arkuibuilder.web.app
 **Admin Panel:** https://arkuibuilder.web.app/admin
 
 ### Firebase Console:
@@ -70,106 +70,106 @@
 
 ---
 
-## 🎯 Özellik Listesi
+## 🎯 Feature List
 
-### Ana Sayfa:
-- ✅ Grid görünümü (All kategorisi)
-- ✅ Liste görünümü (Diğer kategoriler)
-- ✅ Kategori filtreleme
-- ✅ Arama fonksiyonu
-- ✅ Scroll ile widget geçişi
-- ✅ Responsive tasarım
+### Home Page:
+- ✅ Grid view (All category)
+- ✅ List view (Other categories)
+- ✅ Category filtering
+- ✅ Search function
+- ✅ Widget switching with scroll
+- ✅ Responsive design
 
-### Widget Detayları:
-- ✅ Resim önizleme (ortalanmış, kırpma yok)
-- ✅ ArkTS kod gösterimi (syntax highlighting)
-- ✅ 24 satır + scroll
-- ✅ Copy Code butonu
-- ✅ Başlık, açıklama, kategori, tag'ler
+### Widget Details:
+- ✅ Image preview (centered, no cropping)
+- ✅ ArkTS code highlighting (syntax highlighting)
+- ✅ 24 lines + scroll
+- ✅ Copy Code button
+- ✅ Title, description, category, tags
 
 ### Admin Panel:
-- ✅ Widget ekleme/düzenleme/silme
-- ✅ Resim yükleme (PNG, JPG, GIF, WebP)
+- ✅ Add/edit/delete widgets
+- ✅ Image upload (PNG, JPG, GIF, WebP)
 - ✅ Firebase Storage entegrasyonu
-- ✅ Authentication korumalı
+- ✅ Authentication protected
 
-### Teknik:
-- ✅ Firebase Firestore (veritabanı)
+### Technique:
+- ✅ Firebase Firestore (database)
 - ✅ Firebase Storage (resimler)
 - ✅ Firebase Authentication (admin)
-- ✅ CORS yapılandırması
+- ✅ CORS configuration
 - ✅ Security Rules
 - ✅ Flutter Web
 
 ---
 
-## 📊 İstatistikler
+## 📊 Statistics
 
-- **Build Süresi:** ~23 saniye
-- **Deploy Süresi:** ~15 saniye
-- **Dosya Sayısı:** 34 dosya
+- **Build Time:** ~23 seconds
+- **Deploy Time:** ~15 seconds
+- **Number of Files:** 34 files
 - **Platform:** Flutter Web
 
 ---
 
-## 🧪 Test Adımları
+## 🧪 Testing Steps
 
-1. **Ana Sayfayı Ziyaret Edin:**
+1. **Visit Home Page:**
    - https://arkuibuilder.web.app
-   - "All" kategorisine tıklayın → Grid görünümü
-   - Bir widget kartına tıklayın → Detay sayfası
+   - Click "All" category → Grid view
+   - Click on a widget card → Detail page
 
-2. **Kategori Test:**
-   - Navigation, Cards, Input, etc. kategorilere tıklayın
-   - İlk widget otomatik açılır
-   - Aşağı scroll yapın → Sıradaki widget'lar
+2. **Category Test:**
+   - Navigation, Cards, Input, etc. click on categories
+   - First widget opens automatically
+   - Scroll down → Next widgets
 
-3. **Arama Test:**
-   - Search bar'da arama yapın
-   - Sonuçlar filtreli gösterilir
+3. **Search Test:**
+   - Search in search bar
+   - Results are shown with filters
 
 4. **Responsive Test:**
-   - Tarayıcı penceresini küçültün/büyütün
-   - Desktop, tablet, mobil görünümler
+   - Minimize/maximize browser window
+   - Desktop, tablet, mobile views
 
 5. **Admin Panel:**
-   - /admin sayfasına gidin
+   - Go to /admin page
    - Login olun
-   - Widget ekleyin/düzenleyin
+   - Add/edit widgets
 
 ---
 
-## 🎨 Tasarım Değişiklikleri
+## 🎨 Design Changes
 
 ### AppBar:
-- Daha kompakt
-- Search bar sağda
-- Modern görünüm
+- More compact
+- Search bar on the right
+- Modern appearance
 
-### Grid Kartları:
-- 180px resim yüksekliği
+### Grid Cards:
+- 180px image height
 - BoxFit.contain
-- Dinamik boyutlandırma
+- Dynamic sizing
 
-### Widget Detayları:
-- Resim ortalanmış
-- Dinamik boyutlandırma
-- Overflow yok
+### Widget Details:
+- The image is centered
+- Dynamic sizing
+- No overflow
 
 ---
 
-## 🔧 Sonraki Adımlar (Opsiyonel)
+## 🔧 Next Steps (Optional)
 
-1. Analytics ekleme
+1. Add Analytics
 2. SEO optimizasyonu
-3. PWA özellikleri
-4. Daha fazla widget ekleme
-5. Kategori ikonları
-6. Favoriler özelliği
-7. Widget paylaşma
+3. PWA features
+4. Add more widgets
+5. Category icons
+6. Favorites feature
+7. Share widgets
 
 ---
 
-**Projeniz tam çalışır durumda ve production'da! 🚀**
+**Your project is fully operational and in production! 🚀**
 
-**Test edin:** https://arkuibuilder.web.app
+**Test:** https://arkuibuilder.web.app

@@ -1,34 +1,34 @@
-# 🎯 Kod Görüntüleyici Güncelleme
+# 🎯 Code Viewer Update
 
-## Yapılan Değişiklik
+## Change Made
 
-### Öncesi:
-- Kod alanı flexible/dinamik yükseklikte
-- Tüm kod ekranda görünmeye çalışıyordu
+### Before:
+- Code area at flexible/dynamic height
+- All code was trying to appear on screen
 
-### Sonrası:
-- Kod alanı sabit yükseklikte
-- **İlk 24 satır** ekranda görünüyor
-- 24 satırdan sonrası için **scroll** yapılabiliyor
-- Yükseklik hesaplaması: `24 satır × 14px (font) × 1.5 (line height) + 32px (padding)`
+### After:
+- Code area fixed height
+- **First 24 lines** appear on the screen
+- **scroll** is possible after 24 lines
+- Height calculation: `24 lines × 14px (font) × 1.5 (line height) + 32px (padding)`
 
-## Teknik Detaylar
+## Technical Details
 
 ```dart
 Container(
   height: 24 * 14 * 1.5 + 32, // ≈ 536px
   child: SingleChildScrollView(
-    // Kod içeriği
+    //Code content
   ),
 )
 ```
 
-## Kullanıcı Deneyimi
+## User Experience
 
-✅ Kısa kodlar (< 24 satır): Tam görünür, scroll yok
-✅ Uzun kodlar (> 24 satır): İlk 24 satır görünür, kaydırılabilir
-✅ Kod kopyalama: Tüm kod kopyalanır (scroll konumundan bağımsız)
+✅ Shortcodes (< 24 lines): Fully visible, no scrolling
+✅ Long codes (> 24 lines): First 24 lines visible, scrollable
+✅ Copy code: All code is copied (regardless of scroll position)
 
 ---
 
-**Hot reload ile değişiklikleri görebilirsiniz! 🚀**
+**You can see the changes with hot reload! 🚀**

@@ -1,67 +1,67 @@
-# 🚀 Firebase Deployment Kılavuzu
+# 🚀 Firebase Deployment Guide
 
-Firebase alt yapınız başarıyla kuruldu! İşte deployment adımları:
+Your Firebase infrastructure has been successfully installed! Here are the deployment steps:
 
-## ✅ Kurulum Özeti
+## ✅ Installation Summary
 
-### Yapılanlar:
+### What was done:
 - ✅ Firebase CLI kuruldu
 - ✅ FlutterFire CLI kuruldu
-- ✅ Firebase projesi bağlandı: `arkuibuilder`
+- ✅ Firebase project connected: `arkuibuilder`
 - ✅ Web app kaydedildi
-- ✅ `firebase_options.dart` oluşturuldu
-- ✅ `firebase.json` yapılandırıldı
-- ✅ `.firebaserc` oluşturuldu
-- ✅ Firebase Core paketi eklendi
-- ✅ Firebase initialize kodu main.dart'a eklendi
+- ✅ `firebase_options.dart` created
+- ✅ `firebase.json` configured
+- ✅ `.firebaserc` created
+- ✅ Firebase Core package added
+- ✅ Firebase initialize code added to main.dart
 
-### Firebase Proje Bilgileri:
-- **Proje ID**: `arkuibuilder`
+### Firebase Project Information:
+- **Project ID**: `arkuibuilder`
 - **App ID**: `1:497257718509:web:736246c633a6533a1322e4`
-- **Hosting URL**: `https://arkuibuilder.web.app` veya `https://arkuibuilder.firebaseapp.com`
+- **Hosting URL**: `https://arkuibuilder.web.app` or `https://arkuibuilder.firebaseapp.com`
 
-## 🚀 Deployment Adımları
+## 🚀 Deployment Steps
 
-### 1. Build Oluştur
+### 1. Create Build
 
 ```bash
 # Production build
 flutter build web --release
 
-# Build tamamlandığında build/web/ klasörü oluşacak
+# When the build is completed, the build/web/ folder will be created
 ```
 
-### 2. Firebase'e Deploy Et
+### 2. Deploy to Firebase
 
 ```bash
-# Deploy komutu
-firebase deploy
+# Deploy command
+deploy firebase
 
-# Sadece hosting deploy et
+# Just deploy hosting
 firebase deploy --only hosting
 ```
 
-### 3. Başarılı Deploy Sonrası
+### 3. After Successful Deployment
 
-Deploy tamamlandığında şu mesajı göreceksiniz:
+When the deployment is complete you will see this message:
 ```
-✔  Deploy complete!
+✔ Deploy complete!
 
 Project Console: https://console.firebase.google.com/project/arkuibuilder/overview
 Hosting URL: https://arkuibuilder.web.app
 ```
 
-### 4. Web Sitenizi Ziyaret Edin
+### 4. Visit Your Website
 
 ```
 https://arkuibuilder.web.app
-veya
+or
 https://arkuibuilder.firebaseapp.com
 ```
 
-## 🔧 Firebase Hosting Yapılandırması
+## 🔧 Firebase Hosting Configuration
 
-`firebase.json` dosyası şu şekilde yapılandırıldı:
+The `firebase.json` file is structured as follows:
 
 ```json
 {
@@ -82,74 +82,74 @@ https://arkuibuilder.firebaseapp.com
 }
 ```
 
-### Yapılandırma Açıklaması:
-- **public**: Deploy edilecek klasör (`build/web`)
-- **rewrites**: Tüm route'lar index.html'e yönlendirilir (SPA için gerekli)
-- **ignore**: Deploy edilmeyecek dosyalar
+### Configuration Description:
+- **public**: Folder to be deployed (`build/web`)
+- **rewrites**: All routes are redirected to index.html (required for SPA)
+- **ignore**: Files that will not be deployed
 
-## 📝 Hızlı Deployment Script'i
+## 📝 Fast Deployment Script
 
-Aşağıdaki script'i kullanarak tek komutla deploy edebilirsiniz:
+You can deploy it with a single command using the following script:
 
 ```bash
-# deploy.sh dosyasını çalıştır
+# run deploy.sh
 ./deploy.sh
 ```
 
-Script otomatik olarak:
-1. Flutter web build oluşturur
-2. Firebase'e deploy eder
-3. URL'i gösterir
+Script automatically:
+1. Flutter creates web build
+2. Deploys to Firebase
+3. Shows URL
 
-## 🔄 Güncelleme Deploy Etme
+## 🔄 Deploying Updates
 
-Yeni değişiklikler yaptıktan sonra:
+After making new changes:
 
 ```bash
-# 1. Değişiklikleri test edin
+#1. Test the changes
 flutter run -d chrome
 
-# 2. Build oluşturun
+# 2. Create Build
 flutter build web --release
 
-# 3. Deploy edin
+#3. deployment
 firebase deploy --only hosting
 
-# Hepsi tek komutta:
+# All in one command:
 ./deploy.sh
 ```
 
-## 🌐 Custom Domain Ekleme (Opsiyonel)
+## 🌐 Adding a Custom Domain (Optional)
 
-### 1. Firebase Console'a Gidin
+### 1. Go to Firebase Console
 ```
 https://console.firebase.google.com/project/arkuibuilder/hosting/sites
 ```
 
-### 2. Custom Domain Ekle
-- "Add custom domain" butonuna tıklayın
-- Domain adınızı girin (örn: `arkuibuild.com`)
-- Talimatları takip edin
+### 2. Add Custom Domain
+- Click on the "Add custom domain" button
+- Enter your domain name (ex: `arkuibuild.com`)
+- Follow the instructions
 
-### 3. DNS Kayıtlarını Güncelleyin
-Firebase size DNS kayıtları verecek:
+### 3. Update DNS Records
+Firebase will give you DNS records:
 ```
 A Record:
 @ → 151.101.1.195
 @ → 151.101.65.195
 
-veya
+or
 
 CNAME Record:
 www → arkuibuilder.web.app
 ```
 
-### 4. Doğrulama
-DNS yayılması 24-48 saat sürebilir.
+### 4. Verification
+DNS propagation may take 24-48 hours.
 
-## 🔐 Firebase Security Rules (Gelecek için)
+## 🔐 Firebase Security Rules (For the Future)
 
-Eğer Firestore veya Storage eklerseniz:
+If you add Firestore or Storage:
 
 ### Firestore Rules:
 ```javascript
@@ -170,7 +170,7 @@ service cloud.firestore {
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
-    // GIF'ler - public read
+    // GIFs - public read
     match /gifs/{fileName} {
       allow read: if true;
       allow write: if request.auth != null;
@@ -179,21 +179,21 @@ service firebase.storage {
 }
 ```
 
-## 📊 Firebase Hosting Özellikleri
+## 📊 Firebase Hosting Features
 
-### Otomatik SSL
-✅ HTTPS otomatik sağlanır
+### Automatic SSL
+✅ HTTPS is provided automatically
 
 ### CDN
-✅ Global CDN ile hızlı yükleme
+✅ Fast loading with Global CDN
 
 ### Version Control
-✅ Her deploy bir version oluşturur
-✅ Önceki versiyona geri dönülebilir
+✅ Each deploy creates a version
+✅ Rollback to previous version possible
 
 ### Rollback
 ```bash
-# Önceki versiyona dön
+# Revert to previous version
 firebase hosting:channel:deploy preview
 firebase hosting:clone [SOURCE_SITE_ID]:[SOURCE_CHANNEL_ID] [TARGET_CHANNEL_ID]
 ```
@@ -202,27 +202,27 @@ firebase hosting:clone [SOURCE_SITE_ID]:[SOURCE_CHANNEL_ID] [TARGET_CHANNEL_ID]
 
 ### Build Optimization Flags:
 ```bash
-# En optimize build
+# Most optimized build
 flutter build web --release --web-renderer canvaskit --dart-define=Dart2jsOptimization=O4
 
-# Daha küçük bundle
+# Smaller bundle
 flutter build web --release --web-renderer html
 
-# Tree shaking (kullanılmayan kod temizleme)
+# Tree shaking (unused code cleaning)
 flutter build web --release --tree-shake-icons
 ```
 
 ### Caching
-Firebase Hosting otomatik olarak:
-- Static asset'leri cache'ler
-- Immutable asset'ler için uzun cache süresi
-- HTML için kısa cache süresi
+Firebase Hosting automatically:
+- Caches static assets
+- Long cache time for immutable assets
+- Short cache time for HTML
 
 ## 📈 Analytics (Opsiyonel)
 
-### Firebase Analytics Ekle:
+### Add Firebase Analytics:
 
-1. **Paketi ekle**:
+1. **Add package**:
 ```yaml
 dependencies:
   firebase_analytics: ^11.0.1
@@ -241,37 +241,37 @@ await analytics.logEvent(
 );
 ```
 
-## 🐛 Sorun Giderme
+## 🐛 Troubleshooting
 
-### Build Hatası
+### Build Error
 ```bash
-# Clean ve rebuild
+# Clean and rebuild
 flutter clean
 flutter pub get
 flutter build web --release
 ```
 
-### Deploy Hatası
+### Deploy Error
 ```bash
 # Firebase yeniden login
 firebase logout
 firebase login
 
-# Proje kontrolü
+# Project control
 firebase projects:list
 firebase use arkuibuilder
 ```
 
-### SSL/Certificate Hatası
+### SSL/Certificate Error
 ```bash
-# Cache temizle
+# Clear cache
 firebase hosting:channel:delete preview
 firebase deploy --only hosting
 ```
 
-### 404 Hatası
-- `firebase.json` rewrites kontrolü
-- `build/web/index.html` var mı kontrol et
+### 404 Error
+- `firebase.json` rewrites control
+- Check if there is `build/web/index.html`
 
 ## 📞 Firebase Console Linkleri
 
@@ -280,37 +280,37 @@ firebase deploy --only hosting
 - **Analytics**: https://console.firebase.google.com/project/arkuibuilder/analytics
 - **Settings**: https://console.firebase.google.com/project/arkuibuilder/settings/general
 
-## 🎉 Deploy Kontrol Listesi
+## 🎉 Deploy Checklist
 
-Deployment öncesi:
-- [ ] `flutter build web --release` başarılı
-- [ ] `build/web/` klasörü oluştu
-- [ ] Local'de test edildi (`flutter run -d chrome`)
-- [ ] GIF'ler assets klasöründe
-- [ ] Firebase login yapıldı
-- [ ] Doğru proje seçildi (`firebase use arkuibuilder`)
+Before deployment:
+- [ ] `flutter build web --release` successful
+- [ ] `build/web/` folder was created
+- Tested in [ ] Local (`flutter run -d chrome`)
+- [ ] GIFs in assets folder
+- [ ] Firebase logged in
+- [ ] Correct project selected (`firebase use arkuibuilder`)
 
-Deploy sonrası:
-- [ ] URL çalışıyor (https://arkuibuilder.web.app)
-- [ ] Tüm sayfalar yükleniyor
-- [ ] Widget'lar görünüyor
-- [ ] Kod kopyalama çalışıyor
-- [ ] Responsive tasarım çalışıyor
-- [ ] Arama fonksiyonu çalışıyor
+After deployment:
+- [ ] URL is working (https://arkuibuilder.web.app)
+- [ ] All pages are loading
+- [ ] Widgets appear
+- [ ] Code copying works
+- [ ] Responsive design works
+- [ ] Search function works
 
-## 🚀 Hızlı Komutlar
+## 🚀 Quick Commands
 
 ```bash
-# Tek komut deploy
+# Single command deploy
 flutter build web --release && firebase deploy --only hosting
 
-# Preview deploy (test için)
+# Preview deploy (for testing)
 flutter build web --release && firebase hosting:channel:deploy preview
 
-# Production deploy (alias ile)
+# Production deploy (with alias)
 flutter build web --release && firebase deploy --only hosting -m "New widgets added"
 
-# Deploy ve cache temizle
+# Deploy and clear cache
 flutter clean && flutter build web --release && firebase deploy --only hosting
 ```
 
@@ -323,13 +323,13 @@ flutter clean && flutter build web --release && firebase deploy --only hosting
 
 ---
 
-**🎊 Firebase alt yapınız hazır! Deploy etmeye hazırsınız! 🚀**
+**🎊 Your Firebase infrastructure is ready! You're ready to deploy! 🚀**
 
-**Şimdi yapmanız gereken:**
+**What you need to do now:**
 ```bash
 flutter build web --release
-firebase deploy
+deploy firebase
 ```
 
-Ardından siteniz şu adreste yayında olacak:
+Then your site will be live at:
 **https://arkuibuilder.web.app** 🌐
