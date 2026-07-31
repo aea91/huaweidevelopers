@@ -15,6 +15,10 @@ import 'screens/example_demos_screen.dart';
 import 'screens/articles_screen.dart';
 import 'screens/playground_screen.dart';
 import 'screens/playground_quiz_screen.dart';
+import 'screens/course_catalog_screen.dart';
+import 'screens/course_screen.dart';
+import 'screens/course_lesson_screen.dart';
+import 'screens/roadmap_screen.dart';
 import 'services/auth_service.dart';
 
 void main() async {
@@ -100,6 +104,43 @@ class MyApp extends StatelessWidget {
             settings.name == '/playground/quiz/') {
           return MaterialPageRoute(
             builder: (context) => const PlaygroundQuizScreen(),
+            settings: settings,
+          );
+        } else if (settings.name == '/roadmap' || settings.name == '/roadmap/') {
+          return MaterialPageRoute(
+            builder: (context) => const RoadmapScreen(),
+            settings: settings,
+          );
+        } else if (settings.name == '/course' || settings.name == '/course/') {
+          return MaterialPageRoute(
+            builder: (context) => const CourseCatalogScreen(),
+            settings: settings,
+          );
+        } else if (settings.name != null &&
+            settings.name!.startsWith('/course/')) {
+          final parts = settings.name!
+              .split('/')
+              .where((p) => p.isNotEmpty)
+              .toList();
+          // /course/:courseId
+          // /course/:courseId/lesson/:lessonId
+          if (parts.length == 2) {
+            return MaterialPageRoute(
+              builder: (context) => CourseScreen(courseId: parts[1]),
+              settings: settings,
+            );
+          }
+          if (parts.length >= 4 && parts[2] == 'lesson') {
+            return MaterialPageRoute(
+              builder: (context) => CourseLessonScreen(
+                courseId: parts[1],
+                lessonId: parts[3],
+              ),
+              settings: settings,
+            );
+          }
+          return MaterialPageRoute(
+            builder: (context) => const CourseCatalogScreen(),
             settings: settings,
           );
         } else if (settings.name == '/admin' || settings.name == '/admin/') {

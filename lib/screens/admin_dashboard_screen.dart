@@ -6,6 +6,8 @@ import '../models/widget_showcase.dart';
 import 'admin_add_widget_screen.dart';
 import 'admin_managers_screen.dart';
 import 'admin_permission_templates_screen.dart';
+import 'admin_courses_screen.dart';
+import 'admin_roadmap_screen.dart';
 
 class AdminDashboardScreen extends StatefulWidget {
   const AdminDashboardScreen({super.key});
@@ -81,6 +83,30 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
         backgroundColor: const Color(0xFF5B21B6),
         foregroundColor: Colors.white,
         actions: [
+          IconButton(
+            icon: const Icon(Icons.school_rounded),
+            tooltip: 'Courses',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AdminCoursesScreen(),
+                ),
+              );
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.route_rounded),
+            tooltip: 'Roadmap',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AdminRoadmapScreen(),
+                ),
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.manage_accounts),
             tooltip: 'Managers',

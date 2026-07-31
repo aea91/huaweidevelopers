@@ -8,10 +8,19 @@ service cloud.firestore {
       return request.auth != null;
     }
     
+    // Email allowlist of admins. Add advocate emails here to grant write access.
+    // The admins/{uid} collection (isAdmin == true) is honored as a fallback so
+    // admins can be managed from the Firebase console without a redeploy.
     function isAdmin() {
-      return isSignedIn();
-      // Advanced: Custom claims or admin collection control can be added
-      // return isSignedIn() && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.isAdmin == true;
+      return isSignedIn() && (
+        request.auth.token.email in [
+          'ankaraarifemre@gmail.com'
+        ]
+        || (
+          exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+          && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.isAdmin == true
+        )
+      );
     }
     
     // Widgets collection
@@ -31,6 +40,28 @@ service cloud.firestore {
       // Only admin can write
       allow create, update, delete: if isAdmin();
     }
+
+    // Learning courses (ArkTS, HarmonyOS kits, ArkUI, …)
+    match /courses/{courseId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+
+      match /lessons/{lessonId} {
+        allow read: if true;
+        allow create, update, delete: if isAdmin();
+      }
+    }
+
+    // Learning roadmaps (ArkTS, …) with milestone steps
+    match /roadmaps/{roadmapId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+
+      match /steps/{stepId} {
+        allow read: if true;
+        allow create, update, delete: if isAdmin();
+      }
+    }
     
     // Admin users collection (optional - available in the future)
     match /admins/{userId} {
@@ -41,7 +72,7 @@ service cloud.firestore {
     // Analytics and stats (for the future)
     match /analytics/{document=**} {
       allow read: if isAdmin();
-      allow write: if true; // Anyone can submit analytics
+      allow write: if isAdmin(); // Locked down; route public analytics via a Cloud Function
     }
   }
 }

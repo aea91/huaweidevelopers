@@ -316,6 +316,16 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: () => Navigator.pushNamed(context, '/playground'),
       ),
       _NavItem(
+        label: 'Course',
+        icon: Icons.school_rounded,
+        onTap: () => Navigator.pushNamed(context, '/course'),
+      ),
+      _NavItem(
+        label: 'Roadmap',
+        icon: Icons.route_rounded,
+        onTap: () => Navigator.pushNamed(context, '/roadmap'),
+      ),
+      _NavItem(
         label: 'App Builder',
         icon: Icons.rocket_launch_rounded,
         onTap: () => Navigator.pushNamed(context, '/app-builder'),

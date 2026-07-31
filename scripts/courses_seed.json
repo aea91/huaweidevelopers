@@ -1,0 +1,1679 @@
+{
+  "exportedAt": "2026-07-24T12:27:53.806820Z",
+  "courses": [
+    {
+      "id": "arkts-fundamentals",
+      "track": "arkts",
+      "title": "ArkTS Fundamentals",
+      "subtitle": "Official HarmonyOS Learning ArkTS pathway — read, study examples, then practice.",
+      "description": "A guided course mapped to Huawei developer documentation. Progress topic by topic: Introduction to ArkTS, Coding Style Guide, Migration Background, TypeScript to ArkTS Cookbook, Adaptation Cases, and High-Performance Programming. Each lesson includes reading notes, worked examples, and graded coding challenges (same Run & Check model as Playground Quiz).",
+      "learningOutcomes": [
+        "Explain what ArkTS is and how it tightens TypeScript for HarmonyOS",
+        "Use declarations, types, operators, functions, classes, interfaces, and null safety",
+        "Apply ArkTS naming, formatting, and programming-practice style rules",
+        "Rewrite common TypeScript patterns using the official migration cookbook",
+        "Apply high-performance habits for hot paths (const, arrays, exceptions)"
+      ],
+      "comingSoon": false,
+      "order": 0,
+      "lessonCount": 14,
+      "lessons": [
+        {
+          "id": "get-started",
+          "number": 1,
+          "title": "Getting Started with ArkTS",
+          "summary": "What ArkTS is, why HarmonyOS prefers it, and the four pillars that separate it from TypeScript.",
+          "durationLabel": "15 min",
+          "sourceUrl": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/arkts-get-started",
+          "sourceLabel": "Official: Getting Started with ArkTS",
+          "content": [
+            {
+              "type": "heading",
+              "text": "Preferred language for HarmonyOS"
+            },
+            {
+              "type": "paragraph",
+              "text": "ArkTS is the preferred programming language for HarmonyOS application development. Built on the TypeScript ecosystem, it keeps the familiar TS style while extending the language with stronger static checks for stability and performance."
+            },
+            {
+              "type": "paragraph",
+              "text": "Since API version 10, ArkTS further strengthens static check and analysis. Understanding these pillars early will make every later lesson clearer."
+            },
+            {
+              "type": "heading",
+              "text": "Four pillars of ArkTS"
+            },
+            {
+              "type": "bullets",
+              "items": [
+                "Forced static types — every value has a definite compile-time type; no any.",
+                "Forbidden runtime object-layout changes — properties cannot be added/removed dynamically.",
+                "Restricted operator semantics — e.g. unary + only on numbers.",
+                "No structural typing — types match by declared identity (classes/interfaces), not by shape alone."
+              ]
+            },
+            {
+              "type": "callout",
+              "title": "How this course maps to official docs",
+              "text": "Lessons follow Huawei’s Learning ArkTS pathway: Introduction → Coding Style → Migration Background → TypeScript to ArkTS Cookbook → Adaptation Cases → High-Performance Programming. Each lesson links to the matching official page."
+            },
+            {
+              "type": "heading",
+              "text": "Interop with TS/JS"
+            },
+            {
+              "type": "paragraph",
+              "text": "ArkTS remains compatible with the TypeScript and JavaScript ecosystem. You can write new ArkTS code or reuse existing TS/JS where the runtime allows — covered later in Migration Background."
+            },
+            {
+              "type": "code",
+              "code": "declare function print(arg: any): any\n\nprint(\"Hello ArkTS\")\n",
+              "title": "hello",
+              "caption": "In this course playground, print() is your console."
+            }
+          ],
+          "examples": [
+            {
+              "id": "gs-e1",
+              "title": "First console line",
+              "explanation": "Print a greeting — the foundation of every practice challenge.",
+              "code": "declare function print(arg: any): any\n\nprint(\"HarmonyOS\")\n"
+            },
+            {
+              "id": "gs-e2",
+              "title": "Typed constant",
+              "explanation": "Prefer const when a binding never changes after initialization.",
+              "code": "declare function print(arg: any): any\n\nconst language: string = \"ArkTS\"\nprint(language)\n"
+            }
+          ],
+          "challenges": [
+            {
+              "id": "c-gs-q1",
+              "number": 1,
+              "title": "Say Hello ArkTS",
+              "prompt": "Print exactly Hello ArkTS on one line.",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\n// TODO\n",
+              "expectedOutput": "Hello ArkTS",
+              "hint": "print(\"Hello ArkTS\")"
+            },
+            {
+              "id": "c-gs-q2",
+              "number": 2,
+              "title": "Static typing mindset",
+              "prompt": "Declare const pillar: string = \"static types\" and print it. Expected: static types",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\n// TODO\n",
+              "expectedOutput": "static types",
+              "hint": "Use an explicit string type annotation."
+            }
+          ]
+        },
+        {
+          "id": "basics-types",
+          "number": 2,
+          "title": "Basics: Declarations & Types",
+          "summary": "let/const, number, string, boolean, arrays, enums, unions, and type aliases from Introduction to ArkTS.",
+          "durationLabel": "25 min",
+          "sourceUrl": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/introduction-to-arkts",
+          "sourceLabel": "Official: Introduction to ArkTS — The Basics",
+          "content": [
+            {
+              "type": "heading",
+              "text": "Declarations"
+            },
+            {
+              "type": "paragraph",
+              "text": "let introduces a variable that may be reassigned. const introduces a read-only constant that can be assigned only once. Prefer const by default."
+            },
+            {
+              "type": "code",
+              "code": "let hi: string = 'hello'\nhi = 'hello, world'\n\nconst greeting: string = 'hello'\n",
+              "title": "let-const"
+            },
+            {
+              "type": "paragraph",
+              "text": "If an initializer is present, ArkTS can often infer the type. Both of these are string:"
+            },
+            {
+              "type": "code",
+              "code": "let hi1: string = 'hello'\nlet hi2 = 'hello, world'\n",
+              "title": "inference"
+            },
+            {
+              "type": "heading",
+              "text": "Core types"
+            },
+            {
+              "type": "bullets",
+              "items": [
+                "number — integers and floats (decimal, hex 0x, octal 0o, binary 0b)",
+                "bigint — for integers beyond safe number precision",
+                "boolean — true / false",
+                "string — quotes or template literals with backticks and ${expression}",
+                "void — function returns nothing",
+                "Object / object — base reference types",
+                "T[] — arrays of element type T",
+                "enum — named value sets",
+                "union — T | U combinations",
+                "type aliases — name complex types"
+              ]
+            },
+            {
+              "type": "callout",
+              "title": "Basic vs reference",
+              "text": "number and string behave as basic values. Objects, arrays, and functions are reference types — assigning them copies the reference, not a deep clone."
+            },
+            {
+              "type": "heading",
+              "text": "Enums & unions"
+            },
+            {
+              "type": "code",
+              "code": "enum ColorSet { Red, Green, Blue }\nlet c: ColorSet = ColorSet.Red\n\ntype Id = number | string\nlet id: Id = 42\nid = 'user-1'\n",
+              "title": "enum-union"
+            }
+          ],
+          "examples": [
+            {
+              "id": "bt-e1",
+              "title": "Numbers and strings",
+              "explanation": "Mix typed locals and print results.",
+              "code": "declare function print(arg: any): any\n\nconst answer: number = 42\nconst label: string = \"n=\" + answer\nprint(label)\n"
+            },
+            {
+              "id": "bt-e2",
+              "title": "Array access",
+              "explanation": "Declare a typed array and print an element.",
+              "code": "declare function print(arg: any): any\n\nconst names: string[] = [\"Alice\", \"Bob\", \"Carol\"]\nprint(names[1])\n"
+            },
+            {
+              "id": "bt-e3",
+              "title": "Enum values",
+              "explanation": "Print an enum member as a number (default auto-increment).",
+              "code": "declare function print(arg: any): any\n\nenum Level { Low, Mid, High }\nprint(Level.Mid)\n"
+            }
+          ],
+          "challenges": [
+            {
+              "id": "c-bt-q1",
+              "number": 1,
+              "title": "Const string",
+              "prompt": "Create const app: string = \"HarmonyOS\" and print it.",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\n// TODO\n",
+              "expectedOutput": "HarmonyOS",
+              "hint": "const app: string = \"HarmonyOS\"; print(app)"
+            },
+            {
+              "id": "c-bt-q2",
+              "number": 2,
+              "title": "Array length",
+              "prompt": "Given const nums: number[] = [10, 20, 30], print nums.length.",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\nconst nums: number[] = [10, 20, 30]\n// TODO\n",
+              "expectedOutput": "3",
+              "hint": "print(nums.length)"
+            },
+            {
+              "id": "c-bt-q3",
+              "number": 3,
+              "title": "Template-style join",
+              "prompt": "const a = \"Ark\"; const b = \"TS\"; print a + b. Expected: ArkTS",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\nconst a: string = \"Ark\"\nconst b: string = \"TS\"\n// TODO\n",
+              "expectedOutput": "ArkTS",
+              "hint": "print(a + b)"
+            }
+          ]
+        },
+        {
+          "id": "operators-statements",
+          "number": 3,
+          "title": "Basics: Operators & Statements",
+          "summary": "Assignment, comparison, arithmetic, control flow, loops, and try/catch from Introduction to ArkTS.",
+          "durationLabel": "22 min",
+          "sourceUrl": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/introduction-to-arkts",
+          "sourceLabel": "Official: Introduction to ArkTS — Operators & Statements",
+          "content": [
+            {
+              "type": "heading",
+              "text": "Comparison: === vs =="
+            },
+            {
+              "type": "paragraph",
+              "text": "=== compares values and types. == compares values with coercion. Prefer === in ArkTS code."
+            },
+            {
+              "type": "heading",
+              "text": "Control flow"
+            },
+            {
+              "type": "bullets",
+              "items": [
+                "if / else if / else",
+                "switch with case / default",
+                "for, while, do-while",
+                "break / continue",
+                "try / catch / finally"
+              ]
+            },
+            {
+              "type": "code",
+              "code": "for (let i: number = 1; i <= 3; i++) {\n  print(i)\n}\n",
+              "title": "for-loop"
+            },
+            {
+              "type": "callout",
+              "title": "throw rules (preview)",
+              "text": "ArkTS only allows throwing Error (or subclasses). Throwing a string/number is forbidden — covered in the migration lessons."
+            },
+            {
+              "type": "heading",
+              "text": "for-of for arrays"
+            },
+            {
+              "type": "paragraph",
+              "text": "Iterate array elements with for...of. Do not use for...in over object keys in ArkTS (forbidden — object layout is fixed)."
+            }
+          ],
+          "examples": [
+            {
+              "id": "os-e1",
+              "title": "if / else",
+              "explanation": "Branch on a score threshold.",
+              "code": "declare function print(arg: any): any\n\nconst score: number = 85\nif (score >= 60) {\n  print(\"Pass\")\n} else {\n  print(\"Fail\")\n}\n"
+            },
+            {
+              "id": "os-e2",
+              "title": "Accumulate in a loop",
+              "explanation": "Sum 1..4 then print once.",
+              "code": "declare function print(arg: any): any\n\nlet sum: number = 0\nfor (let i: number = 1; i <= 4; i++) {\n  sum += i\n}\nprint(sum)\n"
+            }
+          ],
+          "challenges": [
+            {
+              "id": "c-os-q1",
+              "number": 1,
+              "title": "Count 1 to 5",
+              "prompt": "Print 1 through 5, each on its own line.",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\n// TODO\n",
+              "expectedOutput": "1\n2\n3\n4\n5",
+              "hint": "for (let i = 1; i <= 5; i++) print(i)"
+            },
+            {
+              "id": "c-os-q2",
+              "number": 2,
+              "title": "Even check",
+              "prompt": "If n = 8 is even print even, else odd. Expected: even",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\nconst n: number = 8\n// TODO\n",
+              "expectedOutput": "even",
+              "hint": "Use n % 2 === 0"
+            },
+            {
+              "id": "c-os-q3",
+              "number": 3,
+              "title": "Sum to 10",
+              "prompt": "Print the sum of 1..10. Expected: 55",
+              "difficulty": "medium",
+              "starterCode": "declare function print(arg: any): any\n\n// TODO\n",
+              "expectedOutput": "55",
+              "hint": "Accumulate in a for loop, print once."
+            }
+          ]
+        },
+        {
+          "id": "functions",
+          "number": 4,
+          "title": "Functions",
+          "summary": "Parameters, optional/default/rest args, return types, arrow functions, and closures.",
+          "durationLabel": "24 min",
+          "sourceUrl": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/introduction-to-arkts",
+          "sourceLabel": "Official: Introduction to ArkTS — Function",
+          "content": [
+            {
+              "type": "heading",
+              "text": "Function declaration"
+            },
+            {
+              "type": "paragraph",
+              "text": "Every parameter needs a type annotation. Specify the return type when it is not obvious."
+            },
+            {
+              "type": "code",
+              "code": "function add(x: string, y: string): string {\n  return x + ' ' + y\n}\n",
+              "title": "add-strings"
+            },
+            {
+              "type": "heading",
+              "text": "Optional, default, rest"
+            },
+            {
+              "type": "bullets",
+              "items": [
+                "Optional: name?: Type",
+                "Default: coeff: number = 2",
+                "Rest: ...numbers: number[] as the last parameter"
+              ]
+            },
+            {
+              "type": "code",
+              "code": "function multiply(n: number, coeff: number = 2): number {\n  return n * coeff\n}\n\nfunction sum(...numbers: number[]): number {\n  let res = 0\n  for (let i = 0; i < numbers.length; i++) {\n    res += numbers[i]\n  }\n  return res\n}\n",
+              "title": "defaults-rest"
+            },
+            {
+              "type": "heading",
+              "text": "Arrow functions"
+            },
+            {
+              "type": "paragraph",
+              "text": "ArkTS prefers arrow functions over classic function expressions. Nested named function declarations inside functions are also restricted — use lambdas instead."
+            }
+          ],
+          "examples": [
+            {
+              "id": "fn-e1",
+              "title": "Typed return",
+              "explanation": "Implement and call a numeric helper.",
+              "code": "declare function print(arg: any): any\n\nfunction square(n: number): number {\n  return n * n\n}\nprint(square(6))\n"
+            },
+            {
+              "id": "fn-e2",
+              "title": "Default parameter",
+              "explanation": "Call with one argument; default applies.",
+              "code": "declare function print(arg: any): any\n\nfunction multiply(n: number, coeff: number = 2): number {\n  return n * coeff\n}\nprint(multiply(5))\n"
+            },
+            {
+              "id": "fn-e3",
+              "title": "Arrow function",
+              "explanation": "Assign an arrow function to a typed variable.",
+              "code": "declare function print(arg: any): any\n\nconst double = (n: number): number => n * 2\nprint(double(9))\n"
+            }
+          ],
+          "challenges": [
+            {
+              "id": "c-fn-q1",
+              "number": 1,
+              "title": "add()",
+              "prompt": "Implement add(a,b) and print add(7,5). Expected: 12",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\nfunction add(a: number, b: number): number {\n  // TODO\n  return 0\n}\nprint(add(7, 5))\n",
+              "expectedOutput": "12",
+              "hint": "return a + b"
+            },
+            {
+              "id": "c-fn-q2",
+              "number": 2,
+              "title": "Default multiplier",
+              "prompt": "Implement scale(n, factor = 3) returning n * factor. Print scale(4). Expected: 12",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\nfunction scale(n: number, factor: number = 3): number {\n  // TODO\n  return 0\n}\nprint(scale(4))\n",
+              "expectedOutput": "12",
+              "hint": "return n * factor"
+            },
+            {
+              "id": "c-fn-q3",
+              "number": 3,
+              "title": "fullName",
+              "prompt": "fullName(first, last) returns first + \" \" + last. Print fullName(\"Ada\", \"Lovelace\").",
+              "difficulty": "medium",
+              "starterCode": "declare function print(arg: any): any\n\nfunction fullName(first: string, last: string): string {\n  // TODO\n  return \"\"\n}\nprint(fullName(\"Ada\", \"Lovelace\"))\n",
+              "expectedOutput": "Ada Lovelace",
+              "hint": "return first + \" \" + last"
+            }
+          ]
+        },
+        {
+          "id": "classes",
+          "number": 5,
+          "title": "Classes & Object Literals",
+          "summary": "Fields, methods, constructors, visibility, static members, and typed object literals.",
+          "durationLabel": "26 min",
+          "sourceUrl": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/introduction-to-arkts",
+          "sourceLabel": "Official: Introduction to ArkTS — Class",
+          "content": [
+            {
+              "type": "heading",
+              "text": "Class anatomy"
+            },
+            {
+              "type": "paragraph",
+              "text": "A class introduces a type with fields, methods, and constructors. Fields should be initialized at declaration or in the constructor (strict initialization)."
+            },
+            {
+              "type": "code",
+              "code": "class Person {\n  public name: string = ''\n  public surname: string = ''\n  constructor(n: string, sn: string) {\n    this.name = n\n    this.surname = sn\n  }\n  fullName(): string {\n    return this.name + ' ' + this.surname\n  }\n}\n",
+              "title": "person"
+            },
+            {
+              "type": "heading",
+              "text": "Object literals need an explicit type"
+            },
+            {
+              "type": "paragraph",
+              "text": "You can create instances with new or with an object literal that matches a declared class/interface. Untyped object literals are a major migration pitfall."
+            },
+            {
+              "type": "code",
+              "code": "class Point {\n  public x: number = 0\n  public y: number = 0\n}\nlet p: Point = { x: 42, y: 42 }\n",
+              "title": "point-literal"
+            },
+            {
+              "type": "heading",
+              "text": "Visibility"
+            },
+            {
+              "type": "bullets",
+              "items": [
+                "public — accessible everywhere (often explicit in style guides)",
+                "private — only inside the class",
+                "protected — class + subclasses",
+                "Do not use #private fields — use the private keyword"
+              ]
+            }
+          ],
+          "examples": [
+            {
+              "id": "cl-e1",
+              "title": "Method call",
+              "explanation": "Create a person and print fullName().",
+              "code": "declare function print(arg: any): any\n\nclass Person {\n  name: string = \"\"\n  surname: string = \"\"\n  constructor(n: string, sn: string) {\n    this.name = n\n    this.surname = sn\n  }\n  fullName(): string {\n    return this.name + \" \" + this.surname\n  }\n}\nconst p = new Person(\"John\", \"Smith\")\nprint(p.fullName())\n"
+            },
+            {
+              "id": "cl-e2",
+              "title": "Counter",
+              "explanation": "Mutate instance state through a method.",
+              "code": "declare function print(arg: any): any\n\nclass Counter {\n  value: number = 0\n  add(n: number): void {\n    this.value = this.value + n\n  }\n}\nconst c = new Counter()\nc.add(5)\nc.add(7)\nprint(c.value)\n"
+            }
+          ],
+          "challenges": [
+            {
+              "id": "c-cl-q1",
+              "number": 1,
+              "title": "Object field",
+              "prompt": "Create city with name \"Istanbul\" typed via a class or interface-like object, print city.name.",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\nclass City {\n  name: string = \"\"\n}\n// TODO: create instance and print name\n",
+              "expectedOutput": "Istanbul",
+              "hint": "const city: City = { name: \"Istanbul\" }; print(city.name)"
+            },
+            {
+              "id": "c-cl-q2",
+              "number": 2,
+              "title": "Counter class",
+              "prompt": "Complete add(n). Call add(5) then add(7), print value. Expected: 12",
+              "difficulty": "medium",
+              "starterCode": "declare function print(arg: any): any\n\nclass Counter {\n  value: number = 0\n  add(n: number): void {\n    // TODO\n  }\n}\nconst c = new Counter()\nc.add(5)\nc.add(7)\nprint(c.value)\n",
+              "expectedOutput": "12",
+              "hint": "this.value = this.value + n"
+            }
+          ]
+        },
+        {
+          "id": "interfaces-null",
+          "number": 6,
+          "title": "Interfaces, Generics & Null Safety",
+          "summary": "Interfaces, generics, non-null by default, ??, optional chaining, and modules overview.",
+          "durationLabel": "28 min",
+          "sourceUrl": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/introduction-to-arkts",
+          "sourceLabel": "Official: Introduction to ArkTS — Interface / Null Safety",
+          "content": [
+            {
+              "type": "heading",
+              "text": "Interfaces"
+            },
+            {
+              "type": "paragraph",
+              "text": "An interface describes a contract of properties and methods. Classes implement interfaces. Interfaces can extend other interfaces."
+            },
+            {
+              "type": "code",
+              "code": "interface Named {\n  name: string\n}\n\nclass User implements Named {\n  name: string = ''\n  constructor(name: string) {\n    this.name = name\n  }\n}\n",
+              "title": "interface"
+            },
+            {
+              "type": "heading",
+              "text": "Generics"
+            },
+            {
+              "type": "paragraph",
+              "text": "Generic classes, interfaces, and functions parameterize types. Constraints use extends. Prefer explicit type arguments when inference is limited (ArkTS rule)."
+            },
+            {
+              "type": "code",
+              "code": "function identity<T>(value: T): T {\n  return value\n}\nconst n = identity<number>(10)\n",
+              "title": "generic"
+            },
+            {
+              "type": "heading",
+              "text": "Null safety"
+            },
+            {
+              "type": "paragraph",
+              "text": "Types are non-nullable by default. null must be opt-in via T | null. Use ?? for defaults and ?. for optional chaining."
+            },
+            {
+              "type": "code",
+              "code": "let x: number | null = null\nx = 1\nconst nick: string | null = null\nconst display: string = nick ?? ''\n",
+              "title": "null-safety"
+            },
+            {
+              "type": "callout",
+              "title": "Modules (overview)",
+              "text": "Use export / import to share types and functions across .ets files. Top-level statements and this-binding rules are stricter than loose JS modules."
+            }
+          ],
+          "examples": [
+            {
+              "id": "in-e1",
+              "title": "Null coalescing",
+              "explanation": "Fall back when a value is null.",
+              "code": "declare function print(arg: any): any\n\nfunction label(nick: string | null): string {\n  return nick ?? \"guest\"\n}\nprint(label(null))\nprint(label(\"Ada\"))\n"
+            },
+            {
+              "id": "in-e2",
+              "title": "Generic identity",
+              "explanation": "Pass an explicit type argument.",
+              "code": "declare function print(arg: any): any\n\nfunction identity<T>(value: T): T {\n  return value\n}\nprint(identity<string>(\"ArkTS\"))\n"
+            }
+          ],
+          "challenges": [
+            {
+              "id": "c-in-q1",
+              "number": 1,
+              "title": "Default nick",
+              "prompt": "Implement display(nick: string | null): string using ?? to return \"anon\" when null. Print display(null).",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\nfunction display(nick: string | null): string {\n  // TODO\n  return \"\"\n}\nprint(display(null))\n",
+              "expectedOutput": "anon",
+              "hint": "return nick ?? \"anon\""
+            },
+            {
+              "id": "c-in-q2",
+              "number": 2,
+              "title": "Generic echo",
+              "prompt": "Implement echo<T>(v: T): T and print echo<number>(99).",
+              "difficulty": "medium",
+              "starterCode": "declare function print(arg: any): any\n\nfunction echo<T>(v: T): T {\n  // TODO\n  return v\n}\nprint(echo<number>(99))\n",
+              "expectedOutput": "99",
+              "hint": "return v"
+            }
+          ]
+        },
+        {
+          "id": "style-naming",
+          "number": 7,
+          "title": "Coding Style: Naming & Format",
+          "summary": "UpperCamelCase, lowerCamelCase, CONSTANT_CASE, boolean names, braces, and line length.",
+          "durationLabel": "20 min",
+          "sourceUrl": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/arkts-coding-style-guide",
+          "sourceLabel": "Official: ArkTS Coding Style Guide",
+          "content": [
+            {
+              "type": "heading",
+              "text": "Purpose"
+            },
+            {
+              "type": "paragraph",
+              "text": "The ArkTS Coding Style Guide improves standardization, security, and performance. Rules must be followed; recommendations should be considered."
+            },
+            {
+              "type": "heading",
+              "text": "Naming"
+            },
+            {
+              "type": "bullets",
+              "items": [
+                "Classes, enums, namespaces → UpperCamelCase (Person, UserType)",
+                "Variables, methods, parameters → lowerCamelCase (userName, sendMsg)",
+                "Constants & enum values → UPPER_SNAKE_CASE (MAX_USER_SIZE)",
+                "Booleans → positive names with is/has/can/should (avoid isNotError)",
+                "Clear English intent — no Pinyin, no cryptic single letters (except loop indices)"
+              ]
+            },
+            {
+              "type": "code",
+              "code": "class User {\n  username: string\n  constructor(username: string) {\n    this.username = username\n  }\n}\n\nenum UserType {\n  TEACHER = 0,\n  STUDENT = 1\n}\n\nconst MAX_USER_SIZE = 10000\nlet isFound = true\n",
+              "title": "naming"
+            },
+            {
+              "type": "heading",
+              "text": "Format highlights"
+            },
+            {
+              "type": "bullets",
+              "items": [
+                "Spaces for indentation",
+                "≤ 120 characters per line",
+                "Always use braces for if/else and loops",
+                "Prefer single quotes for strings in style guide samples",
+                "Object literals with >4 properties: one property per line",
+                "Put else/catch on the same line as the closing brace"
+              ]
+            }
+          ],
+          "examples": [
+            {
+              "id": "sn-e1",
+              "title": "Constants",
+              "explanation": "Style-compliant constant naming.",
+              "code": "declare function print(arg: any): any\n\nconst MAX_RETRY_COUNT = 3\nprint(MAX_RETRY_COUNT)\n"
+            },
+            {
+              "id": "sn-e2",
+              "title": "Boolean prefix",
+              "explanation": "Positive boolean naming.",
+              "code": "declare function print(arg: any): any\n\nfunction isReady(flag: boolean): string {\n  return flag ? \"yes\" : \"no\"\n}\nprint(isReady(true))\n"
+            }
+          ],
+          "challenges": [
+            {
+              "id": "c-sn-q1",
+              "number": 1,
+              "title": "CONSTANT_CASE",
+              "prompt": "Declare const MAX_BUFFER_SIZE = 1024 and print it.",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\n// TODO\n",
+              "expectedOutput": "1024",
+              "hint": "Use UPPER_SNAKE_CASE for the name."
+            },
+            {
+              "id": "c-sn-q2",
+              "number": 2,
+              "title": "isEmpty helper",
+              "prompt": "Implement isEmpty(text: string): boolean — true if length is 0. Print isEmpty(\"\") then isEmpty(\"a\") on two lines as true/false.",
+              "difficulty": "medium",
+              "starterCode": "declare function print(arg: any): any\n\nfunction isEmpty(text: string): boolean {\n  // TODO\n  return false\n}\nprint(isEmpty(\"\"))\nprint(isEmpty(\"a\"))\n",
+              "expectedOutput": "true\nfalse",
+              "hint": "return text.length === 0"
+            }
+          ]
+        },
+        {
+          "id": "style-practices",
+          "number": 8,
+          "title": "Coding Style: Programming Practices",
+          "summary": "Access modifiers, NaN checks, array methods, finally rules, avoid ESObject, prefer T[].",
+          "durationLabel": "18 min",
+          "sourceUrl": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/arkts-coding-style-guide",
+          "sourceLabel": "Official: ArkTS Coding Style Guide — Practices",
+          "content": [
+            {
+              "type": "heading",
+              "text": "Class properties need modifiers"
+            },
+            {
+              "type": "paragraph",
+              "text": "Add public / private / protected so intent is explicit for readers and tooling."
+            },
+            {
+              "type": "heading",
+              "text": "Numeric hygiene"
+            },
+            {
+              "type": "bullets",
+              "items": [
+                "Write 0.5 not .5; write 1.0 not 1.",
+                "Use Number.isNaN() to test NaN — never x === NaN"
+              ]
+            },
+            {
+              "type": "heading",
+              "text": "Arrays"
+            },
+            {
+              "type": "bullets",
+              "items": [
+                "Prefer array methods for traversal when appropriate",
+                "Declare arrays as T[] (e.g. number[]) rather than Array alone"
+              ]
+            },
+            {
+              "type": "heading",
+              "text": "Control & exceptions"
+            },
+            {
+              "type": "bullets",
+              "items": [
+                "Do not assign inside control conditions (if (x = y))",
+                "Do not return/break/continue/throw from finally"
+              ]
+            },
+            {
+              "type": "callout",
+              "title": "Avoid ESObject",
+              "text": "ESObject is for ArkTS ↔ JS/TS cross-language boundaries. Using it elsewhere forces expensive cross-language calls. Prefer native ArkTS types."
+            }
+          ],
+          "examples": [
+            {
+              "id": "sp-e1",
+              "title": "Typed array T[]",
+              "explanation": "Prefer number[] style declarations.",
+              "code": "declare function print(arg: any): any\n\nconst values: number[] = [1, 2, 3]\nlet total = 0\nfor (let i = 0; i < values.length; i++) {\n  total += values[i]\n}\nprint(total)\n"
+            },
+            {
+              "id": "sp-e2",
+              "title": "Explicit field modifiers",
+              "explanation": "public fields with clear intent.",
+              "code": "declare function print(arg: any): any\n\nclass Account {\n  public id: number = 0\n  public balance: number = 0\n}\nconst a: Account = { id: 1, balance: 50 }\nprint(a.balance)\n"
+            }
+          ],
+          "challenges": [
+            {
+              "id": "c-sp-q1",
+              "number": 1,
+              "title": "Sum T[]",
+              "prompt": "Sum const values: number[] = [4, 5, 6] and print the total. Expected: 15",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\nconst values: number[] = [4, 5, 6]\n// TODO\n",
+              "expectedOutput": "15",
+              "hint": "Loop and accumulate."
+            },
+            {
+              "id": "c-sp-q2",
+              "number": 2,
+              "title": "Float literal style",
+              "prompt": "Create const rate: number = 0.5 and print rate * 10. Expected: 5",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\n// TODO: use 0.5 not .5\n",
+              "expectedOutput": "5",
+              "hint": "print(0.5 * 10)"
+            }
+          ]
+        },
+        {
+          "id": "migration-background",
+          "number": 9,
+          "title": "Migration Background",
+          "summary": "Why ArkTS tightens TypeScript: stability, performance, .ets compatibility, and TS/JS interop.",
+          "durationLabel": "20 min",
+          "sourceUrl": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/arkts-migration-background",
+          "sourceLabel": "Official: ArkTS Migration Background",
+          "content": [
+            {
+              "type": "heading",
+              "text": "Why migrate from standard TS?"
+            },
+            {
+              "type": "paragraph",
+              "text": "Building on TypeScript syntax, ArkTS strengthens static checks so more errors are caught during development — improving stability and runtime performance."
+            },
+            {
+              "type": "heading",
+              "text": "Program stability"
+            },
+            {
+              "type": "paragraph",
+              "text": "Dynamic languages can hide undefined bugs until runtime. TS helps with annotations, but optional typing still leaves gaps. ArkTS forces a static type system and stricter checks, including explicit field initialization."
+            },
+            {
+              "type": "code",
+              "code": "class Person {\n  name: string = '' // must be initialized\n\n  getName(): string {\n    return this.name\n  }\n}\n",
+              "title": "explicit-init",
+              "caption": "Uninitialized fields that can be undefined are a common TS footgun."
+            },
+            {
+              "type": "heading",
+              "text": "Program performance"
+            },
+            {
+              "type": "paragraph",
+              "text": "JS engines must keep runtime type checks. ArkTS compiles to Ark bytecode with known layouts, enabling ahead-of-time optimization and fewer runtime checks."
+            },
+            {
+              "type": "heading",
+              "text": "Compatibility topics"
+            },
+            {
+              "type": "bullets",
+              "items": [
+                ".ets code compatibility — ArkTS files use the .ets extension",
+                "Interaction with TS/JS — interop is supported with clear boundaries",
+                "ArkCompiler runtime compatibility with TS/JS modules"
+              ]
+            },
+            {
+              "type": "callout",
+              "title": "Null safety example",
+              "text": "Passing null into a stringy API may \"work\" in JS via ToString, but still costs runtime checks. Accurate types remove those hidden branches."
+            }
+          ],
+          "examples": [
+            {
+              "id": "mb-e1",
+              "title": "Initialized field",
+              "explanation": "Safe default prevents undefined length crashes.",
+              "code": "declare function print(arg: any): any\n\nclass Person {\n  name: string = \"\"\n  getName(): string {\n    return this.name\n  }\n}\nconst buddy = new Person()\nprint(buddy.getName().length)\n"
+            },
+            {
+              "id": "mb-e2",
+              "title": "Explicit nullable API",
+              "explanation": "When null is possible, reflect it in the type.",
+              "code": "declare function print(arg: any): any\n\nclass Person1 {\n  name: string | null = null\n  getName(): string | null {\n    return this.name\n  }\n}\nconst p = new Person1()\nprint(p.getName() === null ? \"none\" : \"set\")\n"
+            }
+          ],
+          "challenges": [
+            {
+              "id": "c-mb-q1",
+              "number": 1,
+              "title": "Safe default length",
+              "prompt": "class Tag { value: string = \"ArkTS\" }. Print new Tag().value.length.",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\nclass Tag {\n  value: string = \"ArkTS\"\n}\n// TODO\n",
+              "expectedOutput": "5",
+              "hint": "print(new Tag().value.length)"
+            },
+            {
+              "id": "c-mb-q2",
+              "number": 2,
+              "title": "Nullable branch",
+              "prompt": "let msg: string | null = null. Print \"empty\" if null else msg.",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\nlet msg: string | null = null\n// TODO\n",
+              "expectedOutput": "empty",
+              "hint": "print(msg === null ? \"empty\" : msg)"
+            }
+          ]
+        },
+        {
+          "id": "migration-core",
+          "number": 10,
+          "title": "TS→ArkTS: Core Restrictions",
+          "summary": "Static typing, no any/unknown, let not var, fixed object layout, restricted operators, no structural typing.",
+          "durationLabel": "30 min",
+          "sourceUrl": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/typescript-to-arkts-migration-guide",
+          "sourceLabel": "Official: TypeScript to ArkTS Migration Guide",
+          "content": [
+            {
+              "type": "heading",
+              "text": "Recipes summarized"
+            },
+            {
+              "type": "paragraph",
+              "text": "ArkTS constrains TS features that hurt correctness or force runtime overhead. Code rewritten to these rules remains valid TypeScript."
+            },
+            {
+              "type": "heading",
+              "text": "1. Static typing is enforced"
+            },
+            {
+              "type": "paragraph",
+              "text": "Ban any and unknown. Model API results with explicit classes/interfaces instead of untyped bags of data."
+            },
+            {
+              "type": "code",
+              "code": "// Unsupported: let res: any = api()\nclass CallResult {\n  ok: boolean = false\n  message: string = ''\n}\nlet res: CallResult = { ok: true, message: 'done' }\n",
+              "title": "no-any"
+            },
+            {
+              "type": "heading",
+              "text": "2. Object layout cannot change at runtime"
+            },
+            {
+              "type": "bullets",
+              "items": [
+                "No adding/removing properties dynamically",
+                "No delete operator",
+                "No indexed field access for arbitrary keys (obj[field])",
+                "No Symbol()-generated keys"
+              ]
+            },
+            {
+              "type": "heading",
+              "text": "3. Operator semantics are restricted"
+            },
+            {
+              "type": "paragraph",
+              "text": "Unary +, -, ~ apply to numbers only — no implicit string-to-number coercion."
+            },
+            {
+              "type": "heading",
+              "text": "4. Structural typing is not supported"
+            },
+            {
+              "type": "paragraph",
+              "text": "Two types are not interchangeable just because they share the same fields. Use explicit inheritance, interfaces, or aliases."
+            },
+            {
+              "type": "callout",
+              "title": "Constraint levels",
+              "text": "Error = compile fails. Warning = compiles now but may become an error later. Treat warnings as errors in new code."
+            }
+          ],
+          "examples": [
+            {
+              "id": "mc-e1",
+              "title": "let instead of var",
+              "explanation": "Block-scoped bindings only.",
+              "code": "declare function print(arg: any): any\n\nfunction addTen(x: number): number {\n  let ten = 10\n  return x + ten\n}\nprint(addTen(5))\n"
+            },
+            {
+              "id": "mc-e2",
+              "title": "Explicit result type",
+              "explanation": "Replace any with a concrete shape.",
+              "code": "declare function print(arg: any): any\n\nclass CallResult {\n  ok: boolean = false\n  message: string = \"\"\n}\nfunction run(): CallResult {\n  return { ok: true, message: \"ok\" }\n}\nprint(run().message)\n"
+            }
+          ],
+          "challenges": [
+            {
+              "id": "c-mc-q1",
+              "number": 1,
+              "title": "let not var",
+              "prompt": "Rewrite with let: compute x + 10 for x=7 and print. Expected: 17",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\nfunction addTen(x: number): number {\n  // TODO: use let, not var\n  return 0\n}\nprint(addTen(7))\n",
+              "expectedOutput": "17",
+              "hint": "let ten = 10; return x + ten"
+            },
+            {
+              "id": "c-mc-q2",
+              "number": 2,
+              "title": "Typed API result",
+              "prompt": "class Status { code: number = 0 }. Return { code: 200 } from ok() and print code.",
+              "difficulty": "medium",
+              "starterCode": "declare function print(arg: any): any\n\nclass Status {\n  code: number = 0\n}\nfunction ok(): Status {\n  // TODO\n  return { code: 0 }\n}\nprint(ok().code)\n",
+              "expectedOutput": "200",
+              "hint": "return { code: 200 }"
+            }
+          ]
+        },
+        {
+          "id": "migration-recipes",
+          "number": 11,
+          "title": "TS→ArkTS: Everyday Recipes",
+          "summary": "Practical cookbook rules: casting, destructuring, throw, for-in, nested functions, and more.",
+          "durationLabel": "32 min",
+          "sourceUrl": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/typescript-to-arkts-migration-guide",
+          "sourceLabel": "Official: TypeScript to ArkTS Cookbook — Recipes",
+          "content": [
+            {
+              "type": "heading",
+              "text": "High-frequency rewrites"
+            },
+            {
+              "type": "bullets",
+              "items": [
+                "Use private keyword — not #fields",
+                "Cast only with as T — not angle-bracket casts",
+                "No destructuring assignments/declarations/params — use temp variables",
+                "No for...in — use indexed for on arrays",
+                "No nested function declarations — use arrow functions",
+                "throw only Error instances",
+                "No delete, no in operator, limited typeof/instanceof",
+                "No JSX",
+                "Arrow functions instead of function expressions",
+                "Declare class fields in the class body — not constructor parameter properties"
+              ]
+            },
+            {
+              "type": "heading",
+              "text": "Destructuring → temps"
+            },
+            {
+              "type": "code",
+              "code": "// Unsupported: let [a, b] = pair\n// Unsupported: const { x, y } = point\nconst x = point.x\nconst y = point.y\n",
+              "title": "no-destructure"
+            },
+            {
+              "type": "heading",
+              "text": "throw"
+            },
+            {
+              "type": "code",
+              "code": "// Unsupported: throw \"fail\"\nthrow new Error(\"fail\")\n",
+              "title": "throw-error"
+            },
+            {
+              "type": "heading",
+              "text": "Type casting"
+            },
+            {
+              "type": "code",
+              "code": "const value: Object = \"ArkTS\"\nconst text = value as string\n",
+              "title": "as-cast"
+            },
+            {
+              "type": "callout",
+              "title": "Keep learning",
+              "text": "The official cookbook lists dozens of recipes (namespaces, enums, utility types, spread limits, globalThis, Function.bind, etc.). Use Adaptation Cases next for concrete before/after samples."
+            }
+          ],
+          "examples": [
+            {
+              "id": "mr-e1",
+              "title": "Manual unpack",
+              "explanation": "Replace destructuring with explicit reads.",
+              "code": "declare function print(arg: any): any\n\nclass Point {\n  x: number = 0\n  y: number = 0\n}\nconst point: Point = { x: 3, y: 4 }\nconst x = point.x\nconst y = point.y\nprint(x + y)\n"
+            },
+            {
+              "id": "mr-e2",
+              "title": "Arrow instead of nested function",
+              "explanation": "Use a lambda for local helpers.",
+              "code": "declare function print(arg: any): any\n\nfunction total(a: number, b: number): number {\n  const add = (x: number, y: number): number => x + y\n  return add(a, b)\n}\nprint(total(2, 8))\n"
+            }
+          ],
+          "challenges": [
+            {
+              "id": "c-mr-q1",
+              "number": 1,
+              "title": "Unpack Point",
+              "prompt": "Point {x:1,y:2}. Print x and y on two lines without destructuring.",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\nclass Point {\n  x: number = 0\n  y: number = 0\n}\nconst p: Point = { x: 1, y: 2 }\n// TODO: print x then y\n",
+              "expectedOutput": "1\n2",
+              "hint": "print(p.x); print(p.y)"
+            },
+            {
+              "id": "c-mr-q2",
+              "number": 2,
+              "title": "Local arrow helper",
+              "prompt": "Inside compute(), use an arrow double = (n)=>n*2 and print double(11).",
+              "difficulty": "medium",
+              "starterCode": "declare function print(arg: any): any\n\nfunction compute(): void {\n  // TODO\n}\ncompute()\n",
+              "expectedOutput": "22",
+              "hint": "const double = (n: number): number => n * 2; print(double(11))"
+            },
+            {
+              "id": "c-mr-q3",
+              "number": 3,
+              "title": "Explicit string variable",
+              "prompt": "let text: string = \"OK\". Print text. (Prefer explicit types over loose Object casts.)",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\nlet text: string = \"OK\"\n// TODO\n",
+              "expectedOutput": "OK",
+              "hint": "print(text)"
+            }
+          ]
+        },
+        {
+          "id": "adaptation-cases",
+          "number": 12,
+          "title": "Adaptation Cases",
+          "summary": "Real migration patterns from the official More Cases guide: any→types, JSON, Record, literals, strict null.",
+          "durationLabel": "28 min",
+          "sourceUrl": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/arkts-more-cases",
+          "sourceLabel": "Official: Adaptation Cases (More Cases)",
+          "content": [
+            {
+              "type": "heading",
+              "text": "Learn by rewrite"
+            },
+            {
+              "type": "paragraph",
+              "text": "Adaptation Cases shows concrete before/after samples for cookbook rules — ideal when a compiler error cites a rule id like arkts-no-any-unknown."
+            },
+            {
+              "type": "heading",
+              "text": "any / unknown → specific types"
+            },
+            {
+              "type": "code",
+              "code": "class UserDto {\n  id: number = 0\n  name: string = ''\n}\n// Prefer parsing into a known shape instead of any\nfunction asUser(id: number, name: string): UserDto {\n  return { id: id, name: name }\n}\n",
+              "title": "typed-parse"
+            },
+            {
+              "type": "heading",
+              "text": "Record for string maps"
+            },
+            {
+              "type": "paragraph",
+              "text": "When you need a string-keyed map of values, prefer Record<string, V> with known value types instead of open index signatures."
+            },
+            {
+              "type": "code",
+              "code": "const scores: Record<string, number> = {\n  alice: 10,\n  bob: 12\n}\n",
+              "title": "record"
+            },
+            {
+              "type": "heading",
+              "text": "Object literals"
+            },
+            {
+              "type": "bullets",
+              "items": [
+                "Annotate the target class/interface type",
+                "Constructor should be parameterless if using class-typed literals",
+                "Use identifier keys for class/interface fields; strings for Record keys",
+                "Avoid export default { ... } untyped objects"
+              ]
+            },
+            {
+              "type": "heading",
+              "text": "Strict mode themes"
+            },
+            {
+              "type": "bullets",
+              "items": [
+                "strictPropertyInitialization — initialize fields",
+                "Strict null checks — T | null must be handled",
+                "Function return types must match all paths",
+                "No use-before-assign"
+              ]
+            },
+            {
+              "type": "callout",
+              "title": "Rule ids are searchable",
+              "text": "When DevEco reports arkts-no-props-by-index or arkts-no-destruct-assignment, open Adaptation Cases and jump to that section for a rewrite recipe."
+            }
+          ],
+          "examples": [
+            {
+              "id": "ac-e1",
+              "title": "DTO instead of any",
+              "explanation": "Return a concrete object type.",
+              "code": "declare function print(arg: any): any\n\nclass UserDto {\n  id: number = 0\n  name: string = \"\"\n}\nfunction asUser(id: number, name: string): UserDto {\n  return { id: id, name: name }\n}\nprint(asUser(1, \"Ada\").name)\n"
+            },
+            {
+              "id": "ac-e2",
+              "title": "Explicit map object",
+              "explanation": "Prefer a declared class/interface over untyped bags.",
+              "code": "declare function print(arg: any): any\n\nclass ScoreBoard {\n  ada: number = 0\n  bob: number = 0\n}\nconst scores: ScoreBoard = { ada: 10, bob: 12 }\nprint(scores.bob)\n"
+            }
+          ],
+          "challenges": [
+            {
+              "id": "c-ac-q1",
+              "number": 1,
+              "title": "UserDto",
+              "prompt": "Build UserDto {id:7, name:\"Neo\"} via a typed factory and print name.",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\nclass UserDto {\n  id: number = 0\n  name: string = \"\"\n}\nfunction makeUser(id: number, name: string): UserDto {\n  // TODO\n  return { id: 0, name: \"\" }\n}\nprint(makeUser(7, \"Neo\").name)\n",
+              "expectedOutput": "Neo",
+              "hint": "return { id: id, name: name }"
+            },
+            {
+              "id": "c-ac-q2",
+              "number": 2,
+              "title": "Typed scores",
+              "prompt": "class ScoreBoard { ada: number = 0 }. Set ada to 99 and print it.",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\nclass ScoreBoard {\n  ada: number = 0\n}\nconst scores: ScoreBoard = { ada: 99 }\n// TODO\n",
+              "expectedOutput": "99",
+              "hint": "print(scores.ada)"
+            },
+            {
+              "id": "c-ac-q3",
+              "number": 3,
+              "title": "Handle null",
+              "prompt": "function len(s: string | null): number returns 0 if null else s.length. Print len(null) and len(\"Ark\") on two lines.",
+              "difficulty": "medium",
+              "starterCode": "declare function print(arg: any): any\n\nfunction len(s: string | null): number {\n  // TODO\n  return 0\n}\nprint(len(null))\nprint(len(\"Ark\"))\n",
+              "expectedOutput": "0\n3",
+              "hint": "if (s === null) return 0; return s.length"
+            }
+          ]
+        },
+        {
+          "id": "high-performance",
+          "number": 13,
+          "title": "High-Performance Programming",
+          "summary": "const, stable number kinds, loop hoisting, parameter passing, TypedArray tips, avoid sparse/union arrays & hot exceptions.",
+          "durationLabel": "30 min",
+          "sourceUrl": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/arkts-high-performance-programming",
+          "sourceLabel": "Official: ArkTS High-Performance Programming",
+          "content": [
+            {
+              "type": "heading",
+              "text": "Overview"
+            },
+            {
+              "type": "paragraph",
+              "text": "These practices come from real performance-sensitive HarmonyOS code. Apply them in hot paths; combine with the Coding Style Guide for everyday quality."
+            },
+            {
+              "type": "heading",
+              "text": "Declarations & expressions"
+            },
+            {
+              "type": "bullets",
+              "items": [
+                "Use const for values that never change",
+                "Do not mix ints and floats in the same number variable after init",
+                "Avoid arithmetic overflow past INT32 ranges in hot math",
+                "Hoist loop-invariant property access outside loops"
+              ]
+            },
+            {
+              "type": "code",
+              "code": "// Prefer:\nconst info = Time.info[num - Time.start]\nfor (let index = 0x8000; index > 0x8; index >>= 1) {\n  // use info ...\n}\n",
+              "title": "hoist"
+            },
+            {
+              "type": "heading",
+              "text": "Functions"
+            },
+            {
+              "type": "bullets",
+              "items": [
+                "Pass external values as parameters instead of capturing heavy closures",
+                "Avoid optional parameters in hot functions — use defaults instead"
+              ]
+            },
+            {
+              "type": "heading",
+              "text": "Arrays"
+            },
+            {
+              "type": "bullets",
+              "items": [
+                "Prefer TypedArray for pure numeric workloads",
+                "Avoid sparse arrays (huge length holes → hash storage)",
+                "Avoid union arrays like (number | string)[]; keep homogeneous arrays",
+                "Do not mix int/float in the same number[] when avoidable"
+              ]
+            },
+            {
+              "type": "heading",
+              "text": "Exceptions"
+            },
+            {
+              "type": "paragraph",
+              "text": "Creating exceptions builds stack frames. Do not throw inside tight loops — validate once and branch instead."
+            },
+            {
+              "type": "callout",
+              "title": "Measure what matters",
+              "text": "Micro-optimizations help hottest paths. Clear types and stable layouts already buy most of ArkTS’s performance story."
+            }
+          ],
+          "examples": [
+            {
+              "id": "hp-e1",
+              "title": "const + hoist",
+              "explanation": "Cache invariant before looping.",
+              "code": "declare function print(arg: any): any\n\nconst factor: number = 3\nlet total: number = 0\nfor (let i = 1; i <= 4; i++) {\n  total += i * factor\n}\nprint(total)\n"
+            },
+            {
+              "id": "hp-e2",
+              "title": "Params over closure",
+              "explanation": "Pass the array in for less capture overhead.",
+              "code": "declare function print(arg: any): any\n\nfunction sum2(array: number[]): number {\n  return array[0] + array[1]\n}\nprint(sum2([4, 6]))\n"
+            },
+            {
+              "id": "hp-e3",
+              "title": "Homogeneous arrays",
+              "explanation": "Keep number[] and string[] separate.",
+              "code": "declare function print(arg: any): any\n\nconst arrInt: number[] = [1, 2, 3]\nconst arrString: string[] = [\"a\", \"b\"]\nprint(arrInt.length + arrString.length)\n"
+            }
+          ],
+          "challenges": [
+            {
+              "id": "c-hp-q1",
+              "number": 1,
+              "title": "Hoisted factor",
+              "prompt": "const factor = 5. Sum i*factor for i=1..3 and print. Expected: 30",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\nconst factor: number = 5\n// TODO\n",
+              "expectedOutput": "30",
+              "hint": "1*5 + 2*5 + 3*5 = 30"
+            },
+            {
+              "id": "c-hp-q2",
+              "number": 2,
+              "title": "Pass the array",
+              "prompt": "Implement firstTwoSum(arr: number[]): number as arr[0]+arr[1]. Print firstTwoSum([10, 32]).",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\nfunction firstTwoSum(arr: number[]): number {\n  // TODO\n  return 0\n}\nprint(firstTwoSum([10, 32]))\n",
+              "expectedOutput": "42",
+              "hint": "return arr[0] + arr[1]"
+            },
+            {
+              "id": "c-hp-q3",
+              "number": 3,
+              "title": "Defaults not optionals",
+              "prompt": "add(left = 0, right = 0) returns left+right. Print add() and add(2,3) on two lines.",
+              "difficulty": "medium",
+              "starterCode": "declare function print(arg: any): any\n\nfunction add(left: number = 0, right: number = 0): number {\n  // TODO\n  return 0\n}\nprint(add())\nprint(add(2, 3))\n",
+              "expectedOutput": "0\n5",
+              "hint": "return left + right"
+            }
+          ]
+        },
+        {
+          "id": "capstone",
+          "number": 14,
+          "title": "Capstone: Think in ArkTS",
+          "summary": "Pull the pathway together — static types, style, migration habits, and performance instincts.",
+          "durationLabel": "20 min",
+          "sourceUrl": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/arkts-get-started",
+          "sourceLabel": "Official pathway hub: Getting Started with ArkTS",
+          "content": [
+            {
+              "type": "heading",
+              "text": "Your ArkTS checklist"
+            },
+            {
+              "type": "bullets",
+              "items": [
+                "Types are explicit; any/unknown are gone",
+                "Object shapes are fixed at compile time",
+                "Naming and format follow the style guide",
+                "TS code is rewritten using the cookbook + adaptation cases",
+                "Hot paths follow high-performance practices"
+              ]
+            },
+            {
+              "type": "heading",
+              "text": "Recommended official reading order"
+            },
+            {
+              "type": "bullets",
+              "items": [
+                "Getting Started with ArkTS",
+                "Introduction to ArkTS",
+                "ArkTS Coding Style Guide",
+                "ArkTS Migration Background",
+                "TypeScript to ArkTS Migration Guide",
+                "Adaptation Cases",
+                "ArkTS High-Performance Programming"
+              ]
+            },
+            {
+              "type": "paragraph",
+              "text": "Continue practicing in Playground → Test Yourself, and apply the same patterns in real .ets UI code inside DevEco Studio."
+            },
+            {
+              "type": "callout",
+              "title": "Document-first course",
+              "text": "This course stays document + examples + graded quizzes. Use the Official docs button on each lesson to open Huawei’s full reference when you need depth."
+            }
+          ],
+          "examples": [
+            {
+              "id": "cap-e1",
+              "title": "Idiomatic snippet",
+              "explanation": "Typed helper + const + clear naming.",
+              "code": "declare function print(arg: any): any\n\nconst APP_NAME = \"ArkUI Build\"\n\nfunction formatTitle(chapter: number, title: string): string {\n  return APP_NAME + \" / \" + chapter + \". \" + title\n}\nprint(formatTitle(14, \"Capstone\"))\n"
+            }
+          ],
+          "challenges": [
+            {
+              "id": "c-cap-q1",
+              "number": 1,
+              "title": "Format line",
+              "prompt": "Print exactly ArkTS: ready using a const language = \"ArkTS\".",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\nconst language: string = \"ArkTS\"\n// TODO\n",
+              "expectedOutput": "ArkTS: ready",
+              "hint": "print(language + \": ready\")"
+            },
+            {
+              "id": "c-cap-q2",
+              "number": 2,
+              "title": "Mini pipeline",
+              "prompt": "Implement normalize(s: string): string that returns s in lower-ish form by returning \"arkts\" when s is \"ArkTS\", else s. Print normalize(\"ArkTS\").",
+              "difficulty": "medium",
+              "starterCode": "declare function print(arg: any): any\n\nfunction normalize(s: string): string {\n  // TODO\n  return s\n}\nprint(normalize(\"ArkTS\"))\n",
+              "expectedOutput": "arkts",
+              "hint": "if (s === \"ArkTS\") return \"arkts\"; return s"
+            },
+            {
+              "id": "c-cap-q3",
+              "number": 3,
+              "title": "Score summary",
+              "prompt": "class Score { value: number = 0 }. Create { value: 100 }, print value.",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\nclass Score {\n  value: number = 0\n}\n// TODO\n",
+              "expectedOutput": "100",
+              "hint": "const s: Score = { value: 100 }; print(s.value)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "harmonyos-kits",
+      "track": "harmonyos",
+      "title": "HarmonyOS Kits",
+      "subtitle": "Learn system kits for HarmonyOS Next — start with Location Kit, then expand.",
+      "description": "Kit courses teach capabilities such as location, network, and media. Lessons focus on architecture, permissions, and API patterns with copy-ready .ets samples. Practice questions check concepts (permission names, API choices). Live GPS requires DevEco on a device or emulator — not the in-browser ArkTS runner.",
+      "learningOutcomes": [
+        "Explain what a HarmonyOS Kit is and how it fits an application",
+        "List Location Kit permissions and privacy considerations",
+        "Recognize core location APIs and typical call flow",
+        "Know what belongs in DevEco vs this document-first course"
+      ],
+      "comingSoon": false,
+      "order": 1,
+      "lessonCount": 3,
+      "lessons": [
+        {
+          "id": "location-intro",
+          "number": 1,
+          "title": "Location Kit overview",
+          "summary": "What Location Kit provides and how kits fit HarmonyOS Next apps.",
+          "durationLabel": "12 min",
+          "sourceUrl": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/location-kit",
+          "sourceLabel": "Official: Location Kit",
+          "content": [
+            {
+              "type": "heading",
+              "text": "What is a Kit?"
+            },
+            {
+              "type": "paragraph",
+              "text": "HarmonyOS Next exposes device and system capabilities through Kits — modular API sets such as Location Kit, Network Kit, and Camera Kit. Your app imports the kit module, declares permissions, then calls typed ArkTS APIs."
+            },
+            {
+              "type": "heading",
+              "text": "Location Kit at a glance"
+            },
+            {
+              "type": "bullets",
+              "items": [
+                "Obtain the device’s current location (GNSS / network fusion depending on device)",
+                "Listen for location updates",
+                "Support map and navigation scenarios when combined with Map Kit",
+                "Require explicit user-facing permissions and privacy disclosures"
+              ]
+            },
+            {
+              "type": "callout",
+              "title": "Playground limit",
+              "text": "The in-browser runner cannot access GPS hardware. Use examples as reference code for DevEco Studio; quizzes here ask you to print the correct concept or API name."
+            },
+            {
+              "type": "heading",
+              "text": "Typical import"
+            },
+            {
+              "type": "code",
+              "code": "import { geoLocationManager } from '@kit.LocationKit'\n\n// Then request permissions and call location APIs in an Ability / page.\n",
+              "title": "import",
+              "caption": "Module name may vary slightly by API version — always check current docs."
+            }
+          ],
+          "examples": [
+            {
+              "id": "loc-e1",
+              "title": "Mental model",
+              "explanation": "Kits are capabilities; print a reminder label.",
+              "code": "declare function print(arg: any): any\n\nprint(\"LocationKit\")\n"
+            }
+          ],
+          "challenges": [
+            {
+              "id": "hos-loc-q1",
+              "number": 1,
+              "title": "Kit name",
+              "prompt": "Print exactly LocationKit (one word, no spaces).",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\n// TODO\n",
+              "expectedOutput": "LocationKit",
+              "hint": "print(\"LocationKit\")"
+            },
+            {
+              "id": "hos-loc-q2",
+              "number": 2,
+              "title": "Import module",
+              "prompt": "Print the kit import path text: @kit.LocationKit",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\n// TODO\n",
+              "expectedOutput": "@kit.LocationKit",
+              "hint": "print(\"@kit.LocationKit\")"
+            }
+          ]
+        },
+        {
+          "id": "location-permissions",
+          "number": 2,
+          "title": "Location permissions & privacy",
+          "summary": "Approximate vs precise location, module.json5 entries, and user consent.",
+          "durationLabel": "15 min",
+          "sourceUrl": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/location-kit",
+          "sourceLabel": "Official: Location Kit permissions",
+          "content": [
+            {
+              "type": "heading",
+              "text": "Why permissions matter"
+            },
+            {
+              "type": "paragraph",
+              "text": "Location is sensitive personal data. HarmonyOS requires declared permissions in module.json5 (or the project config) and a runtime request with a clear purpose string."
+            },
+            {
+              "type": "heading",
+              "text": "Common permission names"
+            },
+            {
+              "type": "bullets",
+              "items": [
+                "ohos.permission.APPROXIMATELY_LOCATION — coarse location",
+                "ohos.permission.LOCATION — precise location (often with approximate)",
+                "Background location needs additional capability and stronger justification"
+              ]
+            },
+            {
+              "type": "code",
+              "code": "// module.json5 (illustrative)\n{\n  \"requestPermissions\": [\n    {\n      \"name\": \"ohos.permission.APPROXIMATELY_LOCATION\",\n      \"reason\": \"$string:location_reason\",\n      \"usedScene\": { \"abilities\": [\"EntryAbility\"], \"when\": \"inuse\" }\n    },\n    {\n      \"name\": \"ohos.permission.LOCATION\",\n      \"reason\": \"$string:location_reason\",\n      \"usedScene\": { \"abilities\": [\"EntryAbility\"], \"when\": \"inuse\" }\n    }\n  ]\n}\n",
+              "title": "module-snippet"
+            },
+            {
+              "type": "callout",
+              "title": "UX tip",
+              "text": "Ask only when needed, explain why, and degrade gracefully if the user denies."
+            }
+          ],
+          "examples": [
+            {
+              "id": "perm-e1",
+              "title": "Permission string",
+              "explanation": "Memorize the precise location permission id.",
+              "code": "declare function print(arg: any): any\n\nprint(\"ohos.permission.LOCATION\")\n"
+            }
+          ],
+          "challenges": [
+            {
+              "id": "hos-perm-q1",
+              "number": 1,
+              "title": "Precise permission",
+              "prompt": "Print the precise location permission: ohos.permission.LOCATION",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\n// TODO\n",
+              "expectedOutput": "ohos.permission.LOCATION",
+              "hint": "Exact string match."
+            },
+            {
+              "id": "hos-perm-q2",
+              "number": 2,
+              "title": "Approximate permission",
+              "prompt": "Print ohos.permission.APPROXIMATELY_LOCATION",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\n// TODO\n",
+              "expectedOutput": "ohos.permission.APPROXIMATELY_LOCATION",
+              "hint": "Exact string match."
+            }
+          ]
+        },
+        {
+          "id": "location-api-flow",
+          "number": 3,
+          "title": "Location API flow",
+          "summary": "Request permission → get current location → handle errors; sample shape for DevEco.",
+          "durationLabel": "18 min",
+          "sourceUrl": "https://developer.huawei.com/consumer/en/doc/harmonyos-guides/location-kit",
+          "sourceLabel": "Official: Location Kit APIs",
+          "content": [
+            {
+              "type": "heading",
+              "text": "Happy path"
+            },
+            {
+              "type": "bullets",
+              "items": [
+                "Ensure location service is enabled on the device",
+                "Request the needed permissions at runtime",
+                "Call getCurrentLocation / subscribe to updates",
+                "Handle timeouts, denied permission, and empty results"
+              ]
+            },
+            {
+              "type": "heading",
+              "text": "Illustrative ArkTS shape"
+            },
+            {
+              "type": "code",
+              "code": "import { geoLocationManager } from '@kit.LocationKit'\nimport { BusinessError } from '@kit.BasicServicesKit'\n\nasync function fetchLocation(): Promise<void> {\n  const requestInfo: geoLocationManager.CurrentLocationRequest = {\n    priority: geoLocationManager.LocationRequestPriority.FIRST_FIX,\n    // scenario / timeout fields depend on API version\n  }\n  try {\n    const location = await geoLocationManager.getCurrentLocation(requestInfo)\n    console.info('lat=' + location.latitude + ' lon=' + location.longitude)\n  } catch (err) {\n    const e = err as BusinessError\n    console.error('location failed: ' + e.code + ' ' + e.message)\n  }\n}\n",
+              "title": "get-current",
+              "caption": "Reference only — run inside DevEco with permissions granted."
+            },
+            {
+              "type": "callout",
+              "title": "Next kits",
+              "text": "This course will grow with Network Kit, Camera Kit, and more. The catalog stays under HarmonyOS so new kit modules drop in as new lessons or sibling courses."
+            }
+          ],
+          "examples": [
+            {
+              "id": "api-e1",
+              "title": "API symbol",
+              "explanation": "Remember the manager name used in samples.",
+              "code": "declare function print(arg: any): any\n\nprint(\"geoLocationManager\")\n"
+            }
+          ],
+          "challenges": [
+            {
+              "id": "hos-api-q1",
+              "number": 1,
+              "title": "Manager name",
+              "prompt": "Print geoLocationManager",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\n// TODO\n",
+              "expectedOutput": "geoLocationManager",
+              "hint": "print(\"geoLocationManager\")"
+            },
+            {
+              "id": "hos-api-q2",
+              "number": 2,
+              "title": "First step",
+              "prompt": "Print the first step word of the happy path: permissions",
+              "difficulty": "easy",
+              "starterCode": "declare function print(arg: any): any\n\n// TODO\n",
+              "expectedOutput": "permissions",
+              "hint": "Always request permissions before reading location."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "arkui-basics",
+      "track": "arkui",
+      "title": "ArkUI Basics",
+      "subtitle": "Declarative UI, components, and state — coming soon.",
+      "description": "ArkUI course content will cover declarative components, layout, state management, and common patterns. Reserved in the catalog so new UI courses plug in beside ArkTS and HarmonyOS Kits.",
+      "learningOutcomes": [
+        "Build screens with ArkUI components",
+        "Manage UI state and updates",
+        "Apply layout and interaction patterns"
+      ],
+      "comingSoon": true,
+      "order": 2,
+      "lessonCount": 0,
+      "lessons": []
+    }
+  ]
+}

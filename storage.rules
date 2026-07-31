@@ -9,7 +9,9 @@ service firebase.storage {
     }
     
     function isAdmin() {
-      return isSignedIn();
+      return isSignedIn() && request.auth.token.email in [
+        'ankaraarifemre@gmail.com'
+      ];
     }
     
     function isValidImage() {

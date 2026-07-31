@@ -8,11 +8,13 @@ import 'package:flutter_highlight/themes/vs2015.dart';
 class CodeViewer extends StatefulWidget {
   final String code;
   final String title;
+  final double? height;
 
   const CodeViewer({
     super.key,
     required this.code,
     required this.title,
+    this.height,
   });
 
   @override
@@ -119,9 +121,9 @@ class _CodeViewerState extends State<CodeViewer> {
               ],
             ),
           ),
-          // Code content with fixed height (24 lines visible)
+          // Code content — default ~24 lines; override with height for compact embeds
           SizedBox(
-            height: 504.0, // 24 lines * 21px per line (14px font * 1.5 line height)
+            height: widget.height ?? 504.0,
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(16),
               child: HighlightView(

@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Scripts for ArkUI Build",
   "scripts": {
-    "upload": "node upload_widgets_simple.js"
+    "upload": "node upload_widgets_simple.js",
+    "export-courses": "cd .. && dart run lib/scripts/export_courses_to_json.dart",
+    "upload-courses": "node upload_courses.js"
   },
   "dependencies": {
     "firebase-admin": "^12.0.0"
