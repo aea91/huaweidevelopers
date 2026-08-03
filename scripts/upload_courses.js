@@ -219,19 +219,36 @@ async function main() {
   }
 
   const seed = JSON.parse(fs.readFileSync(SEED_PATH, 'utf8'));
-  const courses = seed.courses || [];
-  console.log(`Uploading ${courses.length} courses to ${PROJECT_ID}…`);
+  let courses = seed.courses || [];
 
-  const tokens = loadCliAccessToken();
-  if (!tokens) {
-    console.error('No Firebase CLI tokens. Run: firebase login');
-    process.exit(1);
+  // Optional filter: COURSE_ID=harmonyos-kits node scripts/upload_courses.js
+  // Uploads only the matching course so other courses' Firestore data is left intact.
+  const onlyId = process.env.COURSE_ID;
+  if (onlyId) {
+    courses = courses.filter((c) => c.id === onlyId);
+    if (courses.length === 0) {
+      console.error(`No course with id "${onlyId}" in seed.`);
+      process.exit(1);
+    }
+    console.log(`Filtered to course "${onlyId}".`);
   }
+  console.log(`Uploading ${courses.length} course(s) to ${PROJECT_ID}…`);
 
-  let accessToken = tokens.access_token;
-  const expiresAt = Number(tokens.expires_at || 0);
-  if (!accessToken || Date.now() > expiresAt - 60_000) {
-    accessToken = await refreshAccessToken(tokens);
+  // Preferred: a ready access token (e.g. ACCESS_TOKEN=$(gcloud auth print-access-token)).
+  let accessToken = process.env.ACCESS_TOKEN;
+  if (!accessToken) {
+    const tokens = loadCliAccessToken();
+    if (!tokens) {
+      console.error(
+        'No token. Set ACCESS_TOKEN=$(gcloud auth print-access-token) or run: firebase login',
+      );
+      process.exit(1);
+    }
+    accessToken = tokens.access_token;
+    const expiresAt = Number(tokens.expires_at || 0);
+    if (!accessToken || Date.now() > expiresAt - 60_000) {
+      accessToken = await refreshAccessToken(tokens);
+    }
   }
 
   for (const course of courses) {
