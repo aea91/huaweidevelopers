@@ -26,6 +26,7 @@ class FirestoreService {
               gifPath: data['gifUrl'] ?? '',
               code: data['code'] ?? '',
               tags: List<String>.from(data['tags'] ?? []),
+              createdAt: (data['createdAt'] as Timestamp?)?.toDate(),
             );
           }).toList();
         });
@@ -103,6 +104,7 @@ class FirestoreService {
         gifPath: data['gifUrl'] ?? '',
         code: data['code'] ?? '',
         tags: List<String>.from(data['tags'] ?? []),
+        createdAt: (data['createdAt'] as Timestamp?)?.toDate(),
       );
     } catch (e) {
       throw Exception('Failed to fetch widget: $e');

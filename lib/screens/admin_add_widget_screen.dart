@@ -36,7 +36,6 @@ class _AdminAddWidgetScreenState extends State<AdminAddWidgetScreen> {
   final List<String> _mainCategories = [
     'Mobile',
     'Smart Wearable',
-    'Light Wearable',
     'PC (2in1)',
   ];
 
