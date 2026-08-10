@@ -2,13 +2,18 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_chrome.dart';
-import '../models/app_design_suggestion.dart';
 import '../models/manager_definition.dart';
 import '../models/widget_showcase.dart';
-import '../services/app_design_assistant_service.dart';
 import '../services/firestore_service.dart';
 import '../services/project_generator.dart';
-import '../widgets/app_builder_ai_panel.dart';
+
+/// A composed page in the App Builder: a name plus an ordered list of widget ids.
+class AppPage {
+  String name;
+  final List<String> widgetIds;
+  AppPage({required this.name, List<String>? widgetIds})
+      : widgetIds = widgetIds ?? [];
+}
 
 class AppBuilderScreen extends StatefulWidget {
   const AppBuilderScreen({super.key});
@@ -19,13 +24,7 @@ class AppBuilderScreen extends StatefulWidget {
 
 class _AppBuilderScreenState extends State<AppBuilderScreen> {
   final _firestoreService = FirestoreService();
-  final _assistantService = AppDesignAssistantService();
-  final _aiDescriptionController = TextEditingController();
   int _currentStep = 0;
-  bool _aiPanelExpanded = true;
-  bool _isAiLoading = false;
-  AppDesignSuggestion? _aiSuggestion;
-  List<ManagerDefinition> _availableManagers = [];
 
   // Step 1: Theme Data
   Color primaryColor = AppChrome.ink;
@@ -36,6 +35,13 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
   // Step 2: Selected Widgets
   List<String> selectedWidgetIds = [];
   List<WidgetShowcase> availableWidgets = [];
+
+  // Step 3: Design Pages (compose + live preview)
+  final List<AppPage> _pages = [AppPage(name: 'Home')];
+  int _activePageIndex = 0;
+  String _previewDevice = 'Mobile'; // Mobile / Tablet / Wearable / PC
+  String _catalogQuery = '';
+  String _catalogPlatform = 'All';
 
   // Step 3: Managers
   List<String> selectedManagerIds = [];
@@ -62,7 +68,6 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
 
   @override
   void dispose() {
-    _aiDescriptionController.dispose();
     _modelNameController.dispose();
     _jsonController.dispose();
     _projectNameController.dispose();
@@ -76,7 +81,6 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
   void initState() {
     super.initState();
     _loadWidgets();
-    _loadManagers();
   }
 
   Future<void> _loadWidgets() async {
@@ -84,116 +88,6 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
     setState(() {
       availableWidgets = widgets;
     });
-  }
-
-  Future<void> _loadManagers() async {
-    final managers = await _firestoreService.getManagers().first;
-    setState(() {
-      _availableManagers = managers;
-    });
-  }
-
-  Future<void> _requestAiSuggestion() async {
-    final description = _aiDescriptionController.text.trim();
-    if (description.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Please describe your app', style: AppChrome.body()),
-          backgroundColor: Colors.orange,
-        ),
-      );
-      return;
-    }
-
-    setState(() {
-      _isAiLoading = true;
-    });
-
-    try {
-      final suggestion = await _assistantService.suggest(
-        description: description,
-        widgets: availableWidgets,
-        managers: _availableManagers,
-      );
-      if (!mounted) return;
-      setState(() {
-        _aiSuggestion = suggestion;
-        _isAiLoading = false;
-      });
-    } catch (e) {
-      if (!mounted) return;
-      setState(() {
-        _isAiLoading = false;
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Could not get an AI suggestion: $e',
-            style: AppChrome.body(),
-          ),
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
-  }
-
-  void _applyAiSuggestion() {
-    final suggestion = _aiSuggestion;
-    if (suggestion == null) return;
-
-    setState(() {
-      selectedWidgetIds = suggestion.widgetIds;
-      selectedManagerIds = suggestion.managerIds;
-      primaryColor = _colorFromHex(suggestion.primaryColor, primaryColor);
-      secondaryColor = _colorFromHex(suggestion.secondaryColor, secondaryColor);
-      tertiaryColor = _colorFromHex(suggestion.tertiaryColor, tertiaryColor);
-      isDarkMode = suggestion.isDarkMode;
-
-      if (suggestion.projectName != null &&
-          suggestion.projectName!.isNotEmpty) {
-        _projectNameController.text = suggestion.projectName!;
-      }
-      if (suggestion.projectDescription != null &&
-          suggestion.projectDescription!.isNotEmpty) {
-        _descriptionController.text = suggestion.projectDescription!;
-      }
-
-      for (final model in suggestion.models) {
-        final exists = models.any((m) => m['name'] == model.name);
-        if (exists) continue;
-
-        final fields = <Map<String, String>>[];
-        model.sampleJson.forEach((key, value) {
-          fields.add({'name': key, 'type': _getJsonType(value)});
-        });
-
-        models.add({
-          'name': model.name,
-          'json': jsonEncode(model.sampleJson),
-          'nullable': false,
-          'fields': fields,
-        });
-      }
-    });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          'AI suggestions applied. You can review and edit the steps.',
-          style: AppChrome.body(),
-        ),
-        backgroundColor: const Color(0xFF16A34A),
-      ),
-    );
-  }
-
-  Color _colorFromHex(String hex, Color fallback) {
-    try {
-      final value = int.parse(hex.replaceFirst('#', ''), radix: 16);
-      return Color(0xFF000000 | value);
-    } catch (_) {
-      return fallback;
-    }
   }
 
   @override
@@ -270,26 +164,34 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                       ),
                       _buildStepItem(
                         stepNumber: 3,
-                        title: 'Add Feature',
-                        description: 'Select managers/features',
-                        icon: Icons.manage_accounts,
+                        title: 'Design Pages',
+                        description: 'Compose & preview pages',
+                        icon: Icons.phone_iphone,
                         isActive: _currentStep == 2,
                         isCompleted: _currentStep > 2,
                       ),
                       _buildStepItem(
                         stepNumber: 4,
-                        title: 'Add Models',
-                        description: 'Generate data models',
-                        icon: Icons.code,
+                        title: 'Add Feature',
+                        description: 'Select managers/features',
+                        icon: Icons.manage_accounts,
                         isActive: _currentStep == 3,
                         isCompleted: _currentStep > 3,
                       ),
                       _buildStepItem(
                         stepNumber: 5,
+                        title: 'Add Models',
+                        description: 'Generate data models',
+                        icon: Icons.code,
+                        isActive: _currentStep == 4,
+                        isCompleted: _currentStep > 4,
+                      ),
+                      _buildStepItem(
+                        stepNumber: 6,
                         title: 'Generate & Download',
                         description: 'Create your project',
                         icon: Icons.download,
-                        isActive: _currentStep == 4,
+                        isActive: _currentStep == 5,
                         isCompleted: false,
                       ),
                     ],
@@ -300,42 +202,9 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
           ),
           // Right Content
           Expanded(
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                final maxAiPanelHeight = _aiPanelExpanded
-                    ? (_aiSuggestion != null
-                          ? (constraints.maxHeight * 0.45).clamp(280.0, 420.0)
-                          : 250.0)
-                    : 88.0;
-
-                return Column(
-                  children: [
-                    ConstrainedBox(
-                      constraints: BoxConstraints(maxHeight: maxAiPanelHeight),
-                      child: SingleChildScrollView(
-                        child: AppBuilderAiPanel(
-                          descriptionController: _aiDescriptionController,
-                          isLoading: _isAiLoading,
-                          isExpanded: _aiPanelExpanded,
-                          suggestion: _aiSuggestion,
-                          availableWidgets: availableWidgets,
-                          availableManagers: _availableManagers,
-                          onToggleExpanded: () {
-                            setState(() {
-                              _aiPanelExpanded = !_aiPanelExpanded;
-                            });
-                          },
-                          onSuggest: _requestAiSuggestion,
-                          onApply: _applyAiSuggestion,
-                          onClearSuggestion: () {
-                            setState(() {
-                              _aiSuggestion = null;
-                            });
-                          },
-                        ),
-                      ),
-                    ),
-                    Expanded(child: _buildCurrentStep()),
+            child: Column(
+              children: [
+                Expanded(child: _buildCurrentStep()),
                     // Navigation Buttons
                     Container(
                       padding: const EdgeInsets.all(24),
@@ -371,7 +240,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                           else
                             const SizedBox(),
                           ElevatedButton.icon(
-                            onPressed: _currentStep < 4
+                            onPressed: _currentStep < 5
                                 ? () {
                                     setState(() {
                                       _currentStep++;
@@ -379,12 +248,12 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                                   }
                                 : _generateProject,
                             icon: Icon(
-                              _currentStep < 4
+                              _currentStep < 5
                                   ? Icons.arrow_forward
                                   : Icons.download,
                             ),
                             label: Text(
-                              _currentStep < 4
+                              _currentStep < 5
                                   ? 'Next Step'
                                   : 'Generate Project',
                             ),
@@ -404,10 +273,8 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                       ),
                     ),
                   ],
-                );
-              },
-            ),
-          ),
+                ),
+              ),
         ],
       ),
     );
@@ -488,10 +355,12 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
       case 1:
         return _buildWidgetStep();
       case 2:
-        return _buildManagersStep();
+        return _buildPagesStep();
       case 3:
-        return _buildModelStep();
+        return _buildManagersStep();
       case 4:
+        return _buildModelStep();
+      case 5:
         return _buildGenerateStep();
       default:
         return const SizedBox();
@@ -1269,6 +1138,684 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
     }
 
     return firebaseUrl;
+  }
+
+  // ==========================================================================
+  // Step 3: Design Pages (compose + live device preview)
+  // ==========================================================================
+
+  // Nominal frame sizes with realistic aspect ratios; a FittedBox scales the
+  // frame to fill the available preview area, so these only set proportions.
+  double get _pvW {
+    switch (_previewDevice) {
+      case 'PC':
+        return 720; // 16:10 landscape
+      case 'Tablet':
+        return 540; // ~3:4 portrait
+      case 'Wearable':
+        return 340; // round 1:1
+      default:
+        return 340; // phone 19.5:9 portrait
+    }
+  }
+
+  double get _pvH {
+    switch (_previewDevice) {
+      case 'PC':
+        return 450;
+      case 'Tablet':
+        return 720;
+      case 'Wearable':
+        return 340;
+      default:
+        return 736;
+    }
+  }
+
+  Widget _buildPagesStep() {
+    if (_activePageIndex >= _pages.length) _activePageIndex = _pages.length - 1;
+    final page = _pages[_activePageIndex];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(32, 28, 32, 6),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: AppChrome.ink.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Icon(Icons.phone_iphone,
+                    color: AppChrome.ink, size: 32),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Design Pages',
+                        style: AppChrome.body(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            color: AppChrome.ink)),
+                    const SizedBox(height: 4),
+                    Text(
+                        'Add widgets to a page and preview it live before generating',
+                        style:
+                            AppChrome.body(fontSize: 16, color: AppChrome.muted)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(32, 8, 32, 0),
+          child: _pageTabs(),
+        ),
+        const SizedBox(height: 14),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(32, 0, 32, 24),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(child: _catalogPane(page)),
+                const SizedBox(width: 24),
+                _previewPane(page),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _pageTabs() {
+    return SizedBox(
+      height: 44,
+      child: Row(
+        children: [
+          Expanded(
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: _pages.length,
+              separatorBuilder: (_, __) => const SizedBox(width: 8),
+              itemBuilder: (c, i) {
+                final active = i == _activePageIndex;
+                return InkWell(
+                  onTap: () => setState(() => _activePageIndex = i),
+                  borderRadius: BorderRadius.circular(999),
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
+                    decoration: BoxDecoration(
+                      color:
+                          active ? AppChrome.ink : const Color(0xFFF1F5F9),
+                      borderRadius: BorderRadius.circular(999),
+                      border: Border.all(
+                          color: active
+                              ? Colors.transparent
+                              : const Color(0xFFE2E8F0)),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(_pages[i].name,
+                            style: AppChrome.body(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: active
+                                    ? Colors.white
+                                    : const Color(0xFF334155))),
+                        const SizedBox(width: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 7, vertical: 1),
+                          decoration: BoxDecoration(
+                            color: active
+                                ? Colors.white.withOpacity(0.2)
+                                : Colors.white,
+                            borderRadius: BorderRadius.circular(999),
+                          ),
+                          child: Text('${_pages[i].widgetIds.length}',
+                              style: AppChrome.body(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                  color: active
+                                      ? Colors.white
+                                      : const Color(0xFF64748B))),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          const SizedBox(width: 10),
+          IconButton(
+            tooltip: 'Rename page',
+            icon: const Icon(Icons.edit_outlined, size: 18),
+            onPressed: _renameActivePage,
+          ),
+          if (_pages.length > 1)
+            IconButton(
+              tooltip: 'Delete page',
+              icon: const Icon(Icons.delete_outline,
+                  size: 18, color: Colors.red),
+              onPressed: () => setState(() {
+                _pages.removeAt(_activePageIndex);
+                _activePageIndex =
+                    _activePageIndex.clamp(0, _pages.length - 1);
+              }),
+            ),
+          const SizedBox(width: 4),
+          OutlinedButton.icon(
+            onPressed: () => setState(() {
+              _pages.add(AppPage(name: 'Page ${_pages.length + 1}'));
+              _activePageIndex = _pages.length - 1;
+            }),
+            icon: const Icon(Icons.add, size: 18),
+            label: const Text('Page'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _renameActivePage() async {
+    final ctrl =
+        TextEditingController(text: _pages[_activePageIndex].name);
+    final name = await showDialog<String>(
+      context: context,
+      builder: (c) => AlertDialog(
+        title: Text('Rename page', style: AppChrome.body(fontWeight: FontWeight.bold)),
+        content: TextField(
+          controller: ctrl,
+          autofocus: true,
+          decoration: const InputDecoration(hintText: 'Page name'),
+          onSubmitted: (v) => Navigator.pop(c, v),
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(c), child: const Text('Cancel')),
+          ElevatedButton(
+              onPressed: () => Navigator.pop(c, ctrl.text),
+              child: const Text('Save')),
+        ],
+      ),
+    );
+    if (name != null && name.trim().isNotEmpty) {
+      setState(() => _pages[_activePageIndex].name = name.trim());
+    }
+  }
+
+  Widget _catalogPane(AppPage page) {
+    final q = _catalogQuery.toLowerCase();
+    final filtered = availableWidgets.where((w) {
+      final okP =
+          _catalogPlatform == 'All' || w.mainCategory == _catalogPlatform;
+      final okQ = q.isEmpty ||
+          w.title.toLowerCase().contains(q) ||
+          w.category.toLowerCase().contains(q);
+      return okP && okQ;
+    }).toList();
+    const platforms = ['All', 'Mobile', 'Smart Wearable', 'PC (2in1)'];
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFE5E7EB)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+            child: TextField(
+              onChanged: (v) => setState(() => _catalogQuery = v),
+              decoration: InputDecoration(
+                isDense: true,
+                prefixIcon: const Icon(Icons.search, size: 20),
+                hintText: 'Search widgets…',
+                filled: true,
+                fillColor: const Color(0xFFF8FAFC),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 38,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              itemCount: platforms.length,
+              separatorBuilder: (_, __) => const SizedBox(width: 8),
+              itemBuilder: (c, i) {
+                final p = platforms[i];
+                final sel = _catalogPlatform == p;
+                return GestureDetector(
+                  onTap: () => setState(() => _catalogPlatform = p),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: sel ? AppChrome.ink : const Color(0xFFF1F5F9),
+                      borderRadius: BorderRadius.circular(999),
+                    ),
+                    child: Text(p,
+                        style: AppChrome.body(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: sel
+                                ? Colors.white
+                                : const Color(0xFF475569))),
+                  ),
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: 10),
+          Expanded(
+            child: availableWidgets.isEmpty
+                ? const Center(child: CircularProgressIndicator())
+                : GridView.builder(
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12,
+                      childAspectRatio: 0.92,
+                    ),
+                    itemCount: filtered.length,
+                    itemBuilder: (c, i) {
+                      final w = filtered[i];
+                      final added = page.widgetIds.contains(w.id);
+                      return _catalogTile(w, added, () {
+                        setState(() {
+                          if (added) {
+                            page.widgetIds.remove(w.id);
+                          } else {
+                            page.widgetIds.add(w.id);
+                          }
+                        });
+                      });
+                    },
+                  ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _catalogTile(WidgetShowcase w, bool added, VoidCallback onTap) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: added ? AppChrome.ink : const Color(0xFFE5E7EB),
+            width: added ? 2 : 1,
+          ),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: Stack(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: Container(
+                    color: const Color(0xFFF1F5F9),
+                    child: w.gifPath.isNotEmpty
+                        ? Image.network(_getProxyUrl(w.gifPath),
+                            fit: BoxFit.cover,
+                            errorBuilder: (c, e, s) => const Center(
+                                child: Icon(Icons.widgets,
+                                    size: 32, color: Color(0xFFCBD5E1))))
+                        : const Center(
+                            child: Icon(Icons.widgets,
+                                size: 32, color: Color(0xFFCBD5E1))),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10, vertical: 8),
+                  child: Text(w.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppChrome.body(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: AppChrome.ink)),
+                ),
+              ],
+            ),
+            Positioned(
+              top: 8,
+              right: 8,
+              child: Container(
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  color: added ? AppChrome.ink : Colors.white,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: const Color(0xFFE2E8F0)),
+                ),
+                child: Icon(added ? Icons.check : Icons.add,
+                    size: 16,
+                    color: added ? Colors.white : const Color(0xFF64748B)),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _previewPane(AppPage page) {
+    return SizedBox(
+      width: 490,
+      child: Column(
+        children: [
+          // device toggle
+          Container(
+            padding: const EdgeInsets.all(4),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF1F5F9),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: ['Mobile', 'Tablet', 'Wearable', 'PC'].map((d) {
+                final sel = _previewDevice == d;
+                return GestureDetector(
+                  onTap: () => setState(() => _previewDevice = d),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 14, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: sel ? Colors.white : Colors.transparent,
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: sel
+                          ? [
+                              BoxShadow(
+                                  color: Colors.black.withOpacity(0.06),
+                                  blurRadius: 6)
+                            ]
+                          : null,
+                    ),
+                    child: Text(d,
+                        style: AppChrome.body(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                            color: sel
+                                ? AppChrome.ink
+                                : const Color(0xFF94A3B8))),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+          const SizedBox(height: 20),
+          Expanded(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: FittedBox(
+                  fit: BoxFit.contain,
+                  child: _deviceFrame(page),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+              '$_previewDevice · ${page.widgetIds.length} sections',
+              style: AppChrome.body(fontSize: 12, color: AppChrome.muted)),
+        ],
+      ),
+    );
+  }
+
+  Widget _deviceFrame(AppPage page) {
+    final dark = isDarkMode;
+    if (_previewDevice == 'Wearable') {
+      // Round smart-watch: always a dark round screen.
+      return Container(
+        width: _pvW,
+        height: _pvH,
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: const Color(0xFF0B0B0F),
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black.withOpacity(0.35),
+                blurRadius: 30,
+                offset: const Offset(0, 14))
+          ],
+        ),
+        child: ClipOval(child: _pageScreen(page, true)),
+      );
+    }
+    if (_previewDevice == 'PC') {
+      return Container(
+        width: _pvW,
+        height: _pvH,
+        decoration: BoxDecoration(
+          color: dark ? const Color(0xFF0F1424) : Colors.white,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: const Color(0xFF334155)),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black.withOpacity(0.25),
+                blurRadius: 30,
+                offset: const Offset(0, 16))
+          ],
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: Column(
+          children: [
+            Container(
+              height: 34,
+              color: dark ? const Color(0xFF161B2E) : const Color(0xFFF1F5F9),
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Row(
+                children: const [
+                  _Dot(Color(0xFFFF5F57)),
+                  SizedBox(width: 7),
+                  _Dot(Color(0xFFFEBC2E)),
+                  SizedBox(width: 7),
+                  _Dot(Color(0xFF28C840)),
+                ],
+              ),
+            ),
+            Expanded(child: _pageScreen(page, dark)),
+          ],
+        ),
+      );
+    }
+    final radius = _previewDevice == 'Tablet' ? 26.0 : 42.0;
+    final inner = _previewDevice == 'Tablet' ? 18.0 : 32.0;
+    return Container(
+      width: _pvW,
+      height: _pvH,
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: const Color(0xFF0F172A),
+        borderRadius: BorderRadius.circular(radius),
+        boxShadow: [
+          BoxShadow(
+              color: Colors.black.withOpacity(0.3),
+              blurRadius: 32,
+              offset: const Offset(0, 16))
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(inner),
+        child: Stack(
+          children: [
+            _pageScreen(page, dark),
+            if (_previewDevice == 'Mobile')
+              Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  width: 120,
+                  height: 24,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFF0F172A),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(14),
+                      bottomRight: Radius.circular(14),
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _pageScreen(AppPage page, bool dark) {
+    final bg = dark ? const Color(0xFF0B1020) : const Color(0xFFF7F8FB);
+    if (page.widgetIds.isEmpty) {
+      return Container(
+        color: bg,
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.add_to_queue,
+                  size: 40,
+                  color: dark ? const Color(0xFF334155) : const Color(0xFFCBD5E1)),
+              const SizedBox(height: 12),
+              Text('Add widgets\nfrom the left',
+                  textAlign: TextAlign.center,
+                  style: AppChrome.body(
+                      fontSize: 13,
+                      color: dark
+                          ? const Color(0xFF64748B)
+                          : const Color(0xFF94A3B8))),
+            ],
+          ),
+        ),
+      );
+    }
+    final byId = {for (final w in availableWidgets) w.id: w};
+    final ws = [
+      for (final id in page.widgetIds)
+        if (byId[id] != null) byId[id]!
+    ];
+    return Container(
+      color: bg,
+      child: ListView.separated(
+        padding: _previewDevice == 'Wearable'
+            ? const EdgeInsets.fromLTRB(34, 44, 34, 44)
+            : EdgeInsets.fromLTRB(
+                12, _previewDevice == 'Mobile' ? 34 : 14, 12, 16),
+        itemCount: ws.length,
+        separatorBuilder: (_, __) => const SizedBox(height: 12),
+        itemBuilder: (c, i) => _sectionCard(page, ws[i], i, dark),
+      ),
+    );
+  }
+
+  Widget _sectionCard(AppPage page, WidgetShowcase w, int index, bool dark) {
+    return Container(
+      decoration: BoxDecoration(
+        color: dark ? const Color(0xFF161B2E) : Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(
+            color: dark ? const Color(0xFF252542) : const Color(0xFFEEF1F5)),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        children: [
+          AspectRatio(
+            aspectRatio: 16 / 10,
+            child: Container(
+              color: dark ? Colors.black : const Color(0xFFF1F5F9),
+              child: w.gifPath.isNotEmpty
+                  ? Image.network(_getProxyUrl(w.gifPath),
+                      fit: BoxFit.cover,
+                      errorBuilder: (c, e, s) => Center(
+                          child: Icon(Icons.widgets,
+                              size: 32,
+                              color: dark
+                                  ? const Color(0xFF334155)
+                                  : const Color(0xFFCBD5E1))))
+                  : Center(
+                      child: Icon(Icons.widgets,
+                          size: 32,
+                          color: dark
+                              ? const Color(0xFF334155)
+                              : const Color(0xFFCBD5E1))),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(12, 8, 6, 8),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(w.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppChrome.body(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: dark ? Colors.white : AppChrome.ink)),
+                ),
+                _miniBtn(Icons.arrow_upward, index > 0,
+                    () => _movePageItem(page, index, -1), dark),
+                _miniBtn(Icons.arrow_downward,
+                    index < page.widgetIds.length - 1,
+                    () => _movePageItem(page, index, 1), dark),
+                _miniBtn(Icons.close, true,
+                    () => setState(() => page.widgetIds.removeAt(index)), dark,
+                    red: true),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _miniBtn(IconData icon, bool enabled, VoidCallback onTap, bool dark,
+      {bool red = false}) {
+    final color = !enabled
+        ? const Color(0xFFCBD5E1)
+        : red
+            ? Colors.red
+            : (dark ? const Color(0xFF94A3B8) : const Color(0xFF64748B));
+    return IconButton(
+      visualDensity: VisualDensity.compact,
+      constraints: const BoxConstraints(minWidth: 30, minHeight: 30),
+      padding: EdgeInsets.zero,
+      iconSize: 17,
+      onPressed: enabled ? onTap : null,
+      icon: Icon(icon, color: color),
+    );
+  }
+
+  void _movePageItem(AppPage page, int index, int delta) {
+    final ni = index + delta;
+    if (ni < 0 || ni >= page.widgetIds.length) return;
+    setState(() {
+      final id = page.widgetIds.removeAt(index);
+      page.widgetIds.insert(ni, id);
+    });
   }
 
   Widget _buildModelStep() {
@@ -2090,9 +2637,12 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
     );
 
     try {
-      // Get selected widgets
+      // Widgets to bundle = everything selected in step 2 PLUS anything placed
+      // on a page in the Design Pages step (so every page reference has code).
+      final pageWidgetIds = _pages.expand((p) => p.widgetIds).toSet();
+      final allWidgetIds = {...selectedWidgetIds, ...pageWidgetIds};
       final selectedWidgets = availableWidgets
-          .where((w) => selectedWidgetIds.contains(w.id))
+          .where((w) => allWidgetIds.contains(w.id))
           .map(
             (w) => {
               'id': w.id,
@@ -2101,6 +2651,16 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
               'code': w.code,
             },
           )
+          .toList();
+
+      // Composed pages (skip empty pages; generator falls back to a single
+      // Home page of all widgets when none have content).
+      final pagesPayload = _pages
+          .where((p) => p.widgetIds.isNotEmpty)
+          .map((p) => {
+                'name': p.name,
+                'widgetIds': List<String>.from(p.widgetIds),
+              })
           .toList();
 
       final managerDocs = await _firestoreService.getManagers().first;
@@ -2131,6 +2691,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
         selectedWidgets: selectedWidgets,
         selectedManagers: selectedManagers,
         models: models,
+        pages: pagesPayload,
         sdkVersion: sdkVersion,
       );
 
@@ -2263,4 +2824,12 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
       ),
     );
   }
+}
+
+class _Dot extends StatelessWidget {
+  final Color color;
+  const _Dot(this.color);
+  @override
+  Widget build(BuildContext context) =>
+      Container(width: 12, height: 12, decoration: BoxDecoration(color: color, shape: BoxShape.circle));
 }

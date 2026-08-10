@@ -31,6 +31,7 @@ class ProjectGenerator {
     required List<Map<String, dynamic>> selectedWidgets,
     required List<Map<String, dynamic>> selectedManagers,
     required List<Map<String, dynamic>> models,
+    List<Map<String, dynamic>> pages = const [],
     String? sdkVersion,
   }) async {
     final archive = buildArchive(
@@ -44,6 +45,7 @@ class ProjectGenerator {
       selectedWidgets: selectedWidgets,
       selectedManagers: selectedManagers,
       models: models,
+      pages: pages,
       sdkVersion: sdkVersion,
     );
 
@@ -66,6 +68,7 @@ class ProjectGenerator {
     required List<Map<String, dynamic>> selectedWidgets,
     required List<Map<String, dynamic>> selectedManagers,
     required List<Map<String, dynamic>> models,
+    List<Map<String, dynamic>> pages = const [],
     String? sdkVersion,
   }) {
     final archive = Archive();
@@ -88,6 +91,7 @@ class ProjectGenerator {
       widgets: selectedWidgets,
       managers: selectedManagers,
       models: models,
+      pages: pages,
     );
     return archive;
   }
@@ -106,6 +110,7 @@ class ProjectGenerator {
     required List<Map<String, dynamic>> widgets,
     required List<Map<String, dynamic>> managers,
     required List<Map<String, dynamic>> models,
+    List<Map<String, dynamic>> pages = const [],
   }) {
     final p = projectName;
 
@@ -149,7 +154,7 @@ class ProjectGenerator {
     _text(archive, '$p/entry/src/main/ets/common/AppTheme.ets',
         _theme(primaryColor, secondaryColor, tertiaryColor, isDarkMode));
     _text(archive, '$p/entry/src/main/ets/pages/Index.ets',
-        _indexPage(projectName, description, widgets, managers, models));
+        _composedIndexPage(projectName, description, pages, widgets));
 
     for (final m in managers) {
       final className = _sanitize((m['className'] ?? 'Manager').toString());
@@ -670,86 +675,212 @@ export struct $name {
 }
 ''';
 
-  static String _indexPage(
+  static String? _structName(String code) {
+    final m = RegExp(r'export\s+struct\s+([A-Za-z_]\w*)').firstMatch(code);
+    return m?.group(1);
+  }
+
+  static List<Map<String, String>> _widgetParams(String code) {
+    final out = <Map<String, String>>[];
+    final re = RegExp(r'@(Link|Prop|ObjectLink)\s+([A-Za-z_]\w*)\s*:\s*([A-Za-z_]\w*)');
+    for (final line in code.split('\n')) {
+      if (line.contains('=')) continue; // has a default -> not required from parent
+      final m = re.firstMatch(line);
+      if (m != null) {
+        out.add({'deco': m.group(1)!, 'name': m.group(2)!, 'type': m.group(3)!});
+      }
+    }
+    return out;
+  }
+
+  static int _animMod(String name) {
+    final n = name.toLowerCase();
+    if (n.contains('hue') || n.contains('angle') || n.contains('deg') || n.contains('rot')) {
+      return 360;
+    }
+    if (n.contains('value') || n.contains('progress') || n.contains('percent') ||
+        n.contains('level') || n.contains('score') || n.contains('rating')) {
+      return 100;
+    }
+    return 100000;
+  }
+
+  static String _placeholderCard(String title) {
+    final t = _esc(title);
+    return "Column() { Text('$t').fontSize(16).fontWeight(FontWeight.Bold)"
+        ".fontColor(AppTheme.TEXT_PRIMARY) }.width('100%').padding(20)"
+        ".backgroundColor(AppTheme.SURFACE).borderRadius(12)";
+  }
+
+  /// Builds Index.ets: one @Builder per composed page (real widget instances,
+  /// with a shared setInterval driving numeric @Link/@Prop params), wrapped in
+  /// a bottom TabBar when there is more than one page.
+  static String _composedIndexPage(
     String projectName,
     String description,
+    List<Map<String, dynamic>> pages,
     List<Map<String, dynamic>> widgets,
-    List<Map<String, dynamic>> managers,
-    List<Map<String, dynamic>> models,
   ) {
-    String rows(String title, List<String> items, String emptyLabel) {
-      final safeItems = items.map(_esc).toList();
-      final listExpr = safeItems.isEmpty
-          ? "['$emptyLabel']"
-          : '[${safeItems.map((i) => "'$i'").join(', ')}]';
-      return '''
-        Text('$title')
-          .fontSize(16)
-          .fontWeight(FontWeight.Bold)
-          .fontColor(AppTheme.PRIMARY)
-          .margin({ top: 16, bottom: 8 })
-        ForEach($listExpr, (item: string) => {
-          Row() {
-            Text('•')
-              .fontSize(14)
-              .fontColor(AppTheme.SECONDARY)
-              .margin({ right: 8 })
-            Text(item)
-              .fontSize(14)
-              .fontColor(AppTheme.TEXT_PRIMARY)
-          }
-          .width('100%')
-          .padding({ top: 6, bottom: 6, left: 12, right: 12 })
-          .backgroundColor(AppTheme.SURFACE)
-          .borderRadius(8)
-          .margin({ bottom: 6 })
-        }, (item: string) => item)''';
-    }
+    final byId = {for (final w in widgets) (w['id'] ?? '').toString(): w};
 
-    final widgetItems =
-        widgets.map((w) => (w['title'] ?? 'Widget').toString()).toList();
-    final managerItems =
-        managers.map((m) => (m['className'] ?? 'Manager').toString()).toList();
-    final modelItems =
-        models.map((m) => (m['name'] ?? 'Model').toString()).toList();
-
-    return '''import { AppTheme } from '../common/AppTheme';
-
-@Entry
-@Component
-struct Index {
-  @State message: string = 'Welcome to ${_esc(projectName)}';
-
-  build() {
-    Scroll() {
-      Column() {
-        Text(this.message)
-          .fontSize(24)
-          .fontWeight(FontWeight.Bold)
-          .fontColor(AppTheme.TEXT_PRIMARY)
-          .margin({ top: 24, bottom: 8 })
-
-        Text('${_esc(description.isEmpty ? 'Generated by ArkUI Build' : description)}')
-          .fontSize(14)
-          .fontColor(AppTheme.TEXT_SECONDARY)
-          .margin({ bottom: 8 })
-
-${rows('Widgets (${widgets.length})', widgetItems, 'No widgets selected')}
-
-${rows('Managers (${managers.length})', managerItems, 'No managers selected')}
-
-${rows('Models (${models.length})', modelItems, 'No models selected')}
+    final effPages = <Map<String, dynamic>>[];
+    if (pages.isEmpty) {
+      effPages.add({
+        'name': 'Home',
+        'widgetIds': widgets.map((w) => (w['id'] ?? '').toString()).toList(),
+      });
+    } else {
+      for (final pg in pages) {
+        final ids = ((pg['widgetIds'] as List?) ?? const [])
+            .map((e) => e.toString())
+            .toList();
+        if (ids.isEmpty) continue;
+        effPages
+            .add({'name': (pg['name'] ?? 'Page').toString(), 'widgetIds': ids});
       }
-      .width('100%')
-      .alignItems(HorizontalAlign.Start)
-      .padding(20)
+      if (effPages.isEmpty) {
+        effPages.add({
+          'name': 'Home',
+          'widgetIds': widgets.map((w) => (w['id'] ?? '').toString()).toList(),
+        });
+      }
     }
-    .width('100%')
-    .height('100%')
-    .backgroundColor(AppTheme.BACKGROUND)
-  }
-}
-''';
+
+    final imports = <String>{};
+    final stateTypes = <String, String>{};
+    final pageBuilders = <String>[];
+    final pageNames = <String>[];
+
+    for (var pi = 0; pi < effPages.length; pi++) {
+      final pg = effPages[pi];
+      final ids = (pg['widgetIds'] as List).map((e) => e.toString()).toList();
+      final items = <String>[];
+      for (final id in ids) {
+        final w = byId[id];
+        if (w == null) continue;
+        final code = (w['code'] ?? '').toString();
+        final struct = _structName(code);
+        final title = (w['title'] ?? 'Widget').toString();
+        if (struct == null) {
+          items.add(_placeholderCard(title));
+          continue;
+        }
+        final params = _widgetParams(code);
+        final unsupported = params.any(
+            (pp) => !['number', 'string', 'boolean'].contains(pp['type']));
+        if (unsupported) {
+          items.add(_placeholderCard(title));
+          continue;
+        }
+        final file = _widgetFileName(w);
+        imports.add("import { $struct } from '../widgets/$file';");
+        final args = <String>[];
+        for (final pp in params) {
+          final pn = pp['name']!;
+          final pt = pp['type']!;
+          stateTypes.putIfAbsent(pn, () => pt);
+          if (pp['deco'] == 'Prop') {
+            args.add('$pn: this.$pn');
+          } else {
+            args.add('$pn: \$$pn');
+          }
+        }
+        items.add(args.isEmpty ? '$struct()' : '$struct({ ${args.join(', ')} })');
+      }
+
+      pageNames.add((pg['name']).toString());
+      final b = StringBuffer();
+      b.writeln('  @Builder');
+      b.writeln('  page$pi() {');
+      b.writeln('    Scroll() {');
+      b.writeln('      Column({ space: 16 }) {');
+      if (items.isEmpty) {
+        b.writeln(
+            "        Text('No widgets on this page').fontSize(15).fontColor(AppTheme.TEXT_SECONDARY)");
+      } else {
+        for (final it in items) {
+          b.writeln('        $it');
+        }
+      }
+      b.writeln('      }');
+      b.writeln("      .width('100%')");
+      b.writeln('      .padding(16)');
+      b.writeln('      .alignItems(HorizontalAlign.Center)');
+      b.writeln('    }');
+      b.writeln("    .width('100%')");
+      b.writeln("    .height('100%')");
+      b.writeln('    .backgroundColor(AppTheme.BACKGROUND)');
+      b.write('  }');
+      pageBuilders.add(b.toString());
+    }
+
+    final stateLines = <String>[];
+    final animLines = <String>[];
+    stateTypes.forEach((n, t) {
+      if (t == 'number') {
+        stateLines.add('  @State $n: number = 0');
+        animLines.add('        this.$n = (this.$n + 1) % ${_animMod(n)}');
+      } else if (t == 'string') {
+        stateLines.add("  @State $n: string = ''");
+      } else {
+        stateLines.add('  @State $n: boolean = false');
+      }
+    });
+
+    final sb = StringBuffer();
+    sb.writeln("import { AppTheme } from '../common/AppTheme';");
+    for (final imp in imports) {
+      sb.writeln(imp);
+    }
+    sb.writeln();
+    sb.writeln('@Entry');
+    sb.writeln('@Component');
+    sb.writeln('struct Index {');
+    for (final s in stateLines) {
+      sb.writeln(s);
+    }
+    if (effPages.length > 1) sb.writeln('  @State currentTab: number = 0');
+    sb.writeln('  private _timer: number = -1');
+    sb.writeln();
+    sb.writeln('  aboutToAppear(): void {');
+    if (animLines.isNotEmpty) {
+      sb.writeln('    this._timer = setInterval(() => {');
+      for (final a in animLines) {
+        sb.writeln(a);
+      }
+      sb.writeln('    }, 60)');
+    }
+    sb.writeln('  }');
+    sb.writeln();
+    sb.writeln('  aboutToDisappear(): void {');
+    sb.writeln(
+        '    if (this._timer >= 0) { clearInterval(this._timer); this._timer = -1 }');
+    sb.writeln('  }');
+    sb.writeln();
+    for (final pb in pageBuilders) {
+      sb.writeln(pb);
+      sb.writeln();
+    }
+    sb.writeln('  build() {');
+    if (effPages.length <= 1) {
+      sb.writeln('    this.page0()');
+    } else {
+      sb.writeln('    Tabs({ barPosition: BarPosition.End, index: this.currentTab }) {');
+      for (var i = 0; i < pageNames.length; i++) {
+        sb.writeln('      TabContent() {');
+        sb.writeln('        this.page$i()');
+        sb.writeln('      }');
+        sb.writeln("      .tabBar('${_esc(pageNames[i])}')");
+      }
+      sb.writeln('    }');
+      sb.writeln("    .width('100%')");
+      sb.writeln("    .height('100%')");
+      sb.writeln('    .backgroundColor(AppTheme.BACKGROUND)');
+      sb.writeln('    .onChange((i: number) => { this.currentTab = i })');
+    }
+    sb.writeln('  }');
+    sb.writeln('}');
+    return sb.toString();
   }
 
   // ==========================================================================
