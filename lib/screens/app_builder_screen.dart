@@ -40,6 +40,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
   final List<AppPage> _pages = [AppPage(name: 'Home')];
   int _activePageIndex = 0;
   String _previewDevice = 'Mobile'; // Mobile / Tablet / Wearable / PC
+  int _wearIndex = 0; // which widget the round watch preview is showing
   String _catalogQuery = '';
   String _catalogPlatform = 'All';
 
@@ -1605,7 +1606,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                 offset: const Offset(0, 14))
           ],
         ),
-        child: ClipOval(child: _pageScreen(page, true)),
+        child: ClipOval(child: _watchScreen(page)),
       );
     }
     if (_previewDevice == 'PC') {
@@ -1727,6 +1728,126 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
         itemCount: ws.length,
         separatorBuilder: (_, __) => const SizedBox(height: 12),
         itemBuilder: (c, i) => _sectionCard(page, ws[i], i, dark),
+      ),
+    );
+  }
+
+  // Round smart-watch preview: one widget fills the round face (like a real
+  // watch screen), with prev/next, remove, and page dots — no top/bottom crop.
+  Widget _watchScreen(AppPage page) {
+    const bg = Color(0xFF0B0B0F);
+    final byId = {for (final w in availableWidgets) w.id: w};
+    final ws = [
+      for (final id in page.widgetIds)
+        if (byId[id] != null) byId[id]!
+    ];
+    if (ws.isEmpty) {
+      return Container(
+        color: bg,
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.add_to_queue, color: Color(0xFF334155), size: 30),
+              const SizedBox(height: 8),
+              Text('Add widgets',
+                  style: AppChrome.body(
+                      fontSize: 12, color: const Color(0xFF64748B))),
+            ],
+          ),
+        ),
+      );
+    }
+    final idx = _wearIndex.clamp(0, ws.length - 1);
+    final w = ws[idx];
+    return Container(
+      color: bg,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          w.gifPath.isNotEmpty
+              ? Image.network(_getProxyUrl(w.gifPath),
+                  fit: BoxFit.cover,
+                  errorBuilder: (c, e, s) => const Center(
+                      child:
+                          Icon(Icons.watch, color: Color(0xFF334155), size: 40)))
+              : const Center(
+                  child: Icon(Icons.watch, color: Color(0xFF334155), size: 40)),
+          // remove current
+          Positioned(
+            top: 26,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: GestureDetector(
+                onTap: () => setState(() {
+                  page.widgetIds.remove(w.id);
+                  if (_wearIndex >= page.widgetIds.length) _wearIndex = 0;
+                }),
+                child: Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.5),
+                      shape: BoxShape.circle),
+                  child: const Icon(Icons.close, size: 16, color: Colors.white),
+                ),
+              ),
+            ),
+          ),
+          if (ws.length > 1) ...[
+            Positioned(
+              left: 8,
+              top: 0,
+              bottom: 0,
+              child: Center(
+                child: _wearChevron(Icons.chevron_left,
+                    () => setState(() => _wearIndex = (idx - 1 + ws.length) % ws.length)),
+              ),
+            ),
+            Positioned(
+              right: 8,
+              top: 0,
+              bottom: 0,
+              child: Center(
+                child: _wearChevron(Icons.chevron_right,
+                    () => setState(() => _wearIndex = (idx + 1) % ws.length)),
+              ),
+            ),
+          ],
+          Positioned(
+            bottom: 26,
+            left: 0,
+            right: 0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(
+                ws.length,
+                (i) => Container(
+                  width: 7,
+                  height: 7,
+                  margin: const EdgeInsets.symmetric(horizontal: 3),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color:
+                        i == idx ? Colors.white : Colors.white.withOpacity(0.35),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _wearChevron(IconData icon, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(4),
+        decoration: BoxDecoration(
+            color: Colors.black.withOpacity(0.4), shape: BoxShape.circle),
+        child: Icon(icon, size: 22, color: Colors.white),
       ),
     );
   }
