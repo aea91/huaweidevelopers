@@ -1,5 +1,6 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const crypto = require('crypto');
 
 admin.initializeApp();
 
@@ -1205,5 +1206,86 @@ exports.proxyImage = functions.https.onRequest(async (req, res) => {
     if (!res.headersSent) {
       res.status(500).send('Internal server error');
     }
+  }
+});
+
+/** Calendar day (YYYY-MM-DD) a visit is counted under, in Türkiye time. */
+function visitDateKey() {
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Istanbul' }).format(new Date());
+}
+
+/**
+ * Count a site visit. Called once per page load by the web app.
+ * Firestore rules keep /analytics admin-only, so public writes go through here.
+ *
+ * POST { visitorId } — random id the browser keeps in localStorage; only its hash is stored.
+ *
+ * analytics/visits                           { totalVisits, totalUniqueVisitors }
+ * analytics/visits/daily/{YYYY-MM-DD}        { date, visits, uniqueVisitors }
+ * analytics/visits/daily/{date}/visitors/{h} dedupe marker for that day
+ * analytics/visits/visitors/{h}              dedupe marker for all time
+ */
+exports.trackVisit = functions.https.onRequest(async (req, res) => {
+  res.set('Access-Control-Allow-Origin', '*');
+  res.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.set('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    res.status(204).send('');
+    return;
+  }
+  if (req.method !== 'POST') {
+    res.status(405).send('Method Not Allowed');
+    return;
+  }
+
+  const visitorId = String(req.body?.visitorId || '');
+  if (!/^[A-Za-z0-9_-]{16,64}$/.test(visitorId)) {
+    res.status(400).json({ error: 'visitorId is required' });
+    return;
+  }
+
+  const date = visitDateKey();
+  const hash = crypto.createHash('sha256').update(visitorId).digest('hex');
+  const db = admin.firestore();
+  const visitsRef = db.collection('analytics').doc('visits');
+  const dayRef = visitsRef.collection('daily').doc(date);
+  const dayVisitorRef = dayRef.collection('visitors').doc(hash);
+  const knownVisitorRef = visitsRef.collection('visitors').doc(hash);
+  const { FieldValue } = admin.firestore;
+
+  try {
+    await db.runTransaction(async (tx) => {
+      const [dayVisitor, knownVisitor] = await tx.getAll(dayVisitorRef, knownVisitorRef);
+      const now = FieldValue.serverTimestamp();
+
+      tx.set(
+        dayRef,
+        {
+          date,
+          visits: FieldValue.increment(1),
+          uniqueVisitors: FieldValue.increment(dayVisitor.exists ? 0 : 1),
+          updatedAt: now,
+        },
+        { merge: true }
+      );
+      tx.set(
+        visitsRef,
+        {
+          totalVisits: FieldValue.increment(1),
+          totalUniqueVisitors: FieldValue.increment(knownVisitor.exists ? 0 : 1),
+          updatedAt: now,
+        },
+        { merge: true }
+      );
+      if (!dayVisitor.exists) tx.set(dayVisitorRef, { firstSeenAt: now });
+      if (!knownVisitor.exists) {
+        tx.set(knownVisitorRef, { firstSeenAt: now, firstSeenDate: date });
+      }
+    });
+    res.status(200).json({ status: 'ok', date });
+  } catch (error) {
+    console.error('trackVisit failed:', error);
+    res.status(500).json({ error: 'Failed to record visit' });
   }
 });

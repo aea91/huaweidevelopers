@@ -8,6 +8,7 @@ import '../services/firestore_service.dart';
 import '../services/github_demos_service.dart';
 import '../services/linkedin_posts_service.dart';
 import '../services/medium_articles_service.dart';
+import '../services/visit_tracking_service.dart';
 import '../services/youtube_videos_service.dart';
 import '../widgets/code_viewer.dart';
 import '../widgets/widget_preview.dart';
@@ -36,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // One shared stream instead of several concurrent listeners.
   late final Stream<List<WidgetShowcase>> _widgetsStream;
+  late final Stream<VisitTotals> _visitTotalsStream;
   final _gridKey = GlobalKey();
 
   String selectedMainCategory = 'All';
@@ -76,6 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _widgetsStream = _firestoreService.getWidgets();
+    _visitTotalsStream = VisitTrackingService().watchTotals();
     _loadMediumHighlights();
     _loadDemoHighlights();
     _loadLinkedInHighlights();
@@ -182,6 +185,12 @@ class _HomeScreenState extends State<HomeScreen> {
     }
     return list;
   }
+
+  /// 12345 -> "12,345"
+  String _formatCount(int n) => n.toString().replaceAllMapped(
+    RegExp(r'\B(?=(\d{3})+(?!\d))'),
+    (_) => ',',
+  );
 
   bool _isWearable(WidgetShowcase w) => w.mainCategory.contains('Wearable');
 
@@ -683,6 +692,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   _HeroStat(label: 'Components', value: '$count'),
                   _HeroStat(label: 'Mobile', value: '$mobileCount'),
                   _HeroStat(label: 'Wearable', value: '$wearCount'),
+                  StreamBuilder<VisitTotals>(
+                    stream: _visitTotalsStream,
+                    builder: (context, snapshot) {
+                      // Hide until loaded (or on error) rather than flash "0".
+                      final visits = snapshot.data?.visits ?? 0;
+                      if (visits <= 0) return const SizedBox.shrink();
+                      return _HeroStat(label: 'Visits', value: _formatCount(visits));
+                    },
+                  ),
                 ],
               ),
               const SizedBox(height: 18),

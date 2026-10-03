@@ -8,6 +8,7 @@ import 'admin_managers_screen.dart';
 import 'admin_permission_templates_screen.dart';
 import 'admin_courses_screen.dart';
 import 'admin_roadmap_screen.dart';
+import 'admin_visitors_screen.dart';
 
 class AdminDashboardScreen extends StatefulWidget {
   const AdminDashboardScreen({super.key});
@@ -83,6 +84,18 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
         backgroundColor: const Color(0xFF5B21B6),
         foregroundColor: Colors.white,
         actions: [
+          IconButton(
+            icon: const Icon(Icons.bar_chart_rounded),
+            tooltip: 'Visitors',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AdminVisitorsScreen(),
+                ),
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.school_rounded),
             tooltip: 'Courses',

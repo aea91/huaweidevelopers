@@ -69,6 +69,12 @@ service cloud.firestore {
       allow write: if false; // Can only be added from Firebase Console
     }
     
+    // Public visit totals shown on the home page. Only this document is
+    // public; its daily/visitors subcollections stay admin-only below.
+    match /analytics/visits {
+      allow read: if true;
+    }
+
     // Analytics and stats (for the future)
     match /analytics/{document=**} {
       allow read: if isAdmin();

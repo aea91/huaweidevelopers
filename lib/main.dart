@@ -20,6 +20,7 @@ import 'screens/course_screen.dart';
 import 'screens/course_lesson_screen.dart';
 import 'screens/roadmap_screen.dart';
 import 'services/auth_service.dart';
+import 'services/visit_tracking_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +29,7 @@ void main() async {
   usePathUrlStrategy();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  VisitTrackingService.trackVisit();
   runApp(const MyApp());
 }
 
