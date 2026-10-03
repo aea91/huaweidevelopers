@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../models/external_article.dart';
@@ -544,6 +545,12 @@ class _HomeScreenState extends State<HomeScreen> {
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(28, 24, 28, 0),
+            child: _buildToolsSection(),
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(28, 24, 28, 0),
             child: _buildExploreSection(),
           ),
         ),
@@ -601,7 +608,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (filtered.isEmpty) return _emptyState();
 
     final hasExplore = _exploreEntries().isNotEmpty;
-    final leadCount = 1 + (hasExplore ? 1 : 0); // hero + optional explore
+    final leadCount = 2 + (hasExplore ? 1 : 0); // hero + tools + optional explore
 
     return ListView.separated(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
@@ -609,7 +616,13 @@ class _HomeScreenState extends State<HomeScreen> {
       separatorBuilder: (_, __) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
         if (index == 0) return _buildHero(all, filtered.length, compact: true);
-        if (hasExplore && index == 1) {
+        if (index == 1) {
+          return Padding(
+            padding: const EdgeInsets.only(top: 12),
+            child: _buildToolsSection(),
+          );
+        }
+        if (hasExplore && index == 2) {
           return Padding(
             padding: const EdgeInsets.only(top: 12),
             child: _buildExploreSection(),
@@ -736,6 +749,103 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  // ---- use in your tools (MCP + IDE plugin) -----------------------------
+
+  static const _mcpCommand =
+      'claude mcp add arkuibuilder -- npx -y arkuibuilder-mcp';
+  static const _pluginRepoUrl =
+      'https://raw.githubusercontent.com/aea91/arkuibuilder-tool/main/updatePlugins.xml';
+
+  Widget _buildToolsSection() {
+    Widget mcp({required bool fill}) => _ToolCard(
+      fill: fill,
+      icon: Icons.auto_awesome_rounded,
+      title: 'Build with AI assistants',
+      isNew: true,
+      description:
+          'Connect Claude, Cursor or any MCP client. Your assistant finds the right component, adds it to '
+          'your project with its import and writes only the call: tested code, far fewer tokens.',
+      commandLabel: 'Claude Code',
+      command: _mcpCommand,
+      onCopy: () => _copy(_mcpCommand, 'MCP command copied'),
+      links: [
+        _ToolLink(
+          'Setup guide',
+          () => _openUrl('https://github.com/aea91/arkuibuilder-mcp#setup'),
+        ),
+        _ToolLink(
+          'npm',
+          () => _openUrl('https://www.npmjs.com/package/arkuibuilder-mcp'),
+        ),
+      ],
+    );
+    Widget plugin({required bool fill}) => _ToolCard(
+      fill: fill,
+      icon: Icons.extension_rounded,
+      title: 'DevEco Studio plugin',
+      description:
+          'Browse the catalog inside DevEco Studio and add a component in one click: file, import and call. '
+          'Code completion, quick search and your own My Widgets included.',
+      commandLabel: 'Settings › Plugins › ⚙ › Manage Plugin Repositories',
+      command: _pluginRepoUrl,
+      onCopy: () => _copy(_pluginRepoUrl, 'Plugin repository URL copied'),
+      links: [
+        _ToolLink(
+          'Install guide',
+          () => _openUrl(
+            'https://github.com/aea91/arkuibuilder-tool#install-in-deveco-studio',
+          ),
+        ),
+        _ToolLink(
+          'JetBrains Marketplace',
+          () => _openUrl('https://plugins.jetbrains.com/plugin/34630'),
+        ),
+      ],
+    );
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Use it where you code', style: _display.copyWith(fontSize: 20)),
+        const SizedBox(height: 4),
+        Text(
+          'The same components, available to your AI assistant and your IDE.',
+          style: _body.copyWith(fontSize: 13.5, color: _muted),
+        ),
+        const SizedBox(height: 14),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            if (constraints.maxWidth < 820) {
+              return Column(
+                children: [
+                  mcp(fill: false),
+                  const SizedBox(height: 14),
+                  plugin(fill: false),
+                ],
+              );
+            }
+            return IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(child: mcp(fill: true)),
+                  const SizedBox(width: 18),
+                  Expanded(child: plugin(fill: true)),
+                ],
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  void _copy(String text, String message) {
+    Clipboard.setData(ClipboardData(text: text));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), duration: const Duration(seconds: 2)),
     );
   }
 
@@ -1369,6 +1479,159 @@ class _ExploreTabChip extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _ToolLink {
+  final String label;
+  final VoidCallback onTap;
+  const _ToolLink(this.label, this.onTap);
+}
+
+/// Card in the "Use it where you code" section: what the tool does, a copyable setup line, links.
+class _ToolCard extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String description;
+  final String commandLabel;
+  final String command;
+  final VoidCallback onCopy;
+  final List<_ToolLink> links;
+  final bool isNew;
+
+  /// Side by side the cards share a height; push the setup block to the bottom so both line up.
+  final bool fill;
+
+  const _ToolCard({
+    required this.icon,
+    required this.title,
+    required this.description,
+    required this.commandLabel,
+    required this.command,
+    required this.onCopy,
+    required this.links,
+    this.isNew = false,
+    this.fill = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    const ink = Color(0xFF0F172A);
+    const accent = Color(0xFFE11D48);
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: const Color(0xFFE2E8F0)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 38,
+                height: 38,
+                decoration: BoxDecoration(
+                  color: accent.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(11),
+                ),
+                child: Icon(icon, size: 20, color: accent),
+              ),
+              const SizedBox(width: 12),
+              Flexible(
+                child: Text(
+                  title,
+                  style: GoogleFonts.spaceGrotesk(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w700,
+                    color: ink,
+                  ),
+                ),
+              ),
+              if (isNew) ...[const SizedBox(width: 8), const _NewBadge()],
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text(
+            description,
+            style: GoogleFonts.plusJakartaSans(
+              fontSize: 13.5,
+              height: 1.5,
+              color: const Color(0xFF475569),
+            ),
+          ),
+          if (fill) const Spacer(),
+          const SizedBox(height: 14),
+          Text(
+            commandLabel,
+            style: GoogleFonts.plusJakartaSans(
+              fontSize: 11.5,
+              fontWeight: FontWeight.w700,
+              color: const Color(0xFF64748B),
+            ),
+          ),
+          const SizedBox(height: 6),
+          Container(
+            padding: const EdgeInsets.only(left: 14),
+            decoration: BoxDecoration(
+              color: ink,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: SelectableText(
+                      command,
+                      maxLines: 1,
+                      style: GoogleFonts.jetBrainsMono(
+                        fontSize: 12.5,
+                        color: const Color(0xFFE2E8F0),
+                      ),
+                    ),
+                  ),
+                ),
+                IconButton(
+                  tooltip: 'Copy',
+                  icon: const Icon(
+                    Icons.copy_rounded,
+                    size: 17,
+                    color: Colors.white70,
+                  ),
+                  onPressed: onCopy,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10),
+          Wrap(
+            spacing: 4,
+            children: [
+              for (final link in links)
+                TextButton.icon(
+                  onPressed: link.onTap,
+                  icon: const Icon(
+                    Icons.arrow_outward_rounded,
+                    size: 15,
+                    color: accent,
+                  ),
+                  label: Text(
+                    link.label,
+                    style: GoogleFonts.plusJakartaSans(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      color: accent,
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ],
       ),
     );
   }
