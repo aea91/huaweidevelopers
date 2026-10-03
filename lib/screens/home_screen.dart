@@ -378,7 +378,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.only(right: 8),
               child: _PlatformChip(
-                label: p == 'All' ? 'All' : p,
+                label: WidgetShowcase.platformLabel(p),
                 count: _platformCount(all, p),
                 selected: selectedMainCategory == p,
                 onTap: () => setState(() {
@@ -1010,7 +1010,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Positioned(
           left: 10,
           top: 10,
-          child: _Badge(text: widget.mainCategory, icon: _platformIcon(widget), dark: _isWearable(widget)),
+          child: _Badge(text: widget.platformDisplay, icon: _platformIcon(widget), dark: _isWearable(widget)),
         ),
       ],
     );
@@ -1181,7 +1181,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                   const SizedBox(height: 8),
-                  Row(children: [_Badge(text: widget.mainCategory, icon: _platformIcon(widget), dark: _isWearable(widget)), const SizedBox(width: 8), _Tag(label: widget.category)]),
+                  Row(children: [_Badge(text: widget.platformDisplay, icon: _platformIcon(widget), dark: _isWearable(widget)), const SizedBox(width: 8), _Tag(label: widget.category)]),
                   const SizedBox(height: 18),
                   Flexible(
                     child: SingleChildScrollView(
@@ -1235,7 +1235,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 8),
                 Text(widget.description, style: _body.copyWith(fontSize: 14, color: _muted, height: 1.45)),
                 const SizedBox(height: 12),
-                Row(children: [_Badge(text: widget.mainCategory, icon: _platformIcon(widget), dark: _isWearable(widget)), const SizedBox(width: 8), _Tag(label: widget.category)]),
+                Row(children: [_Badge(text: widget.platformDisplay, icon: _platformIcon(widget), dark: _isWearable(widget)), const SizedBox(width: 8), _Tag(label: widget.category)]),
                 const SizedBox(height: 20),
                 WidgetPreview(gifPath: widget.gifPath),
                 const SizedBox(height: 16),

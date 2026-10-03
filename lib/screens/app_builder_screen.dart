@@ -1410,7 +1410,7 @@ class _AppBuilderScreenState extends State<AppBuilderScreen> {
                       color: sel ? AppChrome.ink : const Color(0xFFF1F5F9),
                       borderRadius: BorderRadius.circular(999),
                     ),
-                    child: Text(p,
+                    child: Text(WidgetShowcase.platformLabel(p),
                         style: AppChrome.body(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,

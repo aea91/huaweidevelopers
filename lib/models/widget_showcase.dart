@@ -20,4 +20,10 @@ class WidgetShowcase {
     required this.tags,
     this.createdAt,
   });
+
+  /// Label shown for a platform. The stored value stays "Smart Wearable"; users see "Wearable".
+  static String platformLabel(String platform) =>
+      platform == 'Smart Wearable' ? 'Wearable' : platform;
+
+  String get platformDisplay => platformLabel(mainCategory);
 }
