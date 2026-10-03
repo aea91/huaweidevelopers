@@ -31,6 +31,24 @@
 
   <title>arkuibuild</title>
   <link rel="manifest" href="manifest.json">
+
+  <!-- Google Analytics 4 (independent visitor stats). Skipped on local dev
+       servers so development traffic doesn't pollute the numbers. Page changes
+       via the History API are picked up by GA4 enhanced measurement. -->
+  <script>
+    (function () {
+      var host = window.location.hostname;
+      if (host === 'localhost' || host === '127.0.0.1') return;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-C9W905D270';
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { dataLayer.push(arguments); };
+      gtag('js', new Date());
+      gtag('config', 'G-C9W905D270');
+    })();
+  </script>
 </head>
 <body>
   <script src="flutter_bootstrap.js" async></script>
