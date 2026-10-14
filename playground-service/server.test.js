@@ -47,3 +47,20 @@ test('run endpoint rejects invalid JSON', async () => {
     error: 'Request body must be valid JSON.',
   });
 });
+
+test('run endpoint rejects code that fails the ArkTS check', async () => {
+  const response = await fetch(`${baseUrl}/run`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ code: 'let a: any = 1\nprint(a)' }),
+  });
+
+  assert.equal(response.status, 200);
+  const body = await response.json();
+  assert.equal(body.success, false);
+  assert.equal(body.stage, 'check');
+  assert.equal(body.compileExitCode, 1);
+  assert.equal(body.runtimeExitCode, null);
+  assert.match(body.compileOutput, /arkts-no-any-unknown/);
+  assert.equal(body.diagnostics[0].code, 'arkts-no-any-unknown');
+});

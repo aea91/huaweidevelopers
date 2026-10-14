@@ -5,6 +5,7 @@ const { spawn } = require('node:child_process');
 const { mkdtemp, rm, writeFile } = require('node:fs/promises');
 const { tmpdir } = require('node:os');
 const { join } = require('node:path');
+const { checkArkTs } = require('./arkts-check');
 
 const PORT = Number(process.env.PORT || 8080);
 const COMPILER_PATH = process.env.ARK_COMPILER_PATH || '/opt/ark/bin/es2abc';
@@ -13,6 +14,11 @@ const MAX_SOURCE_BYTES = Number(process.env.MAX_SOURCE_BYTES || 64 * 1024);
 const PROCESS_TIMEOUT_MS = Number(process.env.PROCESS_TIMEOUT_MS || 5000);
 const MAX_CONCURRENT_RUNS = Number(process.env.MAX_CONCURRENT_RUNS || 2);
 const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || '*';
+
+// ark_js_vm has print() but no console. Kept on the first line, without a
+// newline, so runtime line numbers still match the user's code.
+const CONSOLE_POLYFILL =
+  'const console = { log: print, info: print, warn: print, error: print, debug: print }; ';
 
 let activeRuns = 0;
 
@@ -109,14 +115,32 @@ function runProcess(command, args, cwd) {
   });
 }
 
+function joinOutput(...parts) {
+  return parts.filter(Boolean).join('\n');
+}
+
 async function compileAndRun(code) {
   const startedAt = Date.now();
+  const check = checkArkTs(code);
+  if (!check.ok) {
+    return {
+      success: false,
+      stage: 'check',
+      compileOutput: check.output,
+      runtimeOutput: '',
+      diagnostics: check.diagnostics,
+      compileExitCode: 1,
+      runtimeExitCode: null,
+      durationMs: Date.now() - startedAt,
+    };
+  }
+
   const workDirectory = await mkdtemp(join(tmpdir(), 'arkts-'));
   const sourcePath = join(workDirectory, 'main.ts');
   const bytecodePath = join(workDirectory, 'main.abc');
 
   try {
-    await writeFile(sourcePath, code, { encoding: 'utf8', mode: 0o600 });
+    await writeFile(sourcePath, CONSOLE_POLYFILL + code, { encoding: 'utf8', mode: 0o600 });
 
     const compile = await runProcess(
       COMPILER_PATH,
@@ -127,8 +151,10 @@ async function compileAndRun(code) {
     if (compile.exitCode !== 0) {
       return {
         success: false,
-        compileOutput: compile.output,
+        stage: 'compile',
+        compileOutput: joinOutput(check.output, compile.output),
         runtimeOutput: '',
+        diagnostics: check.diagnostics,
         compileExitCode: compile.exitCode,
         runtimeExitCode: null,
         durationMs: Date.now() - startedAt,
@@ -138,8 +164,10 @@ async function compileAndRun(code) {
     const runtime = await runProcess(RUNTIME_PATH, [bytecodePath], workDirectory);
     return {
       success: runtime.exitCode === 0,
-      compileOutput: compile.output,
+      stage: 'run',
+      compileOutput: joinOutput(check.output, compile.output),
       runtimeOutput: runtime.output,
+      diagnostics: check.diagnostics,
       compileExitCode: compile.exitCode,
       runtimeExitCode: runtime.exitCode,
       durationMs: Date.now() - startedAt,

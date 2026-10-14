@@ -55,7 +55,9 @@ RUN apt-get update \
 
 WORKDIR /app
 
-COPY package.json server.js ./
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev --ignore-scripts && npm cache clean --force
+COPY server.js arkts-check.js ./
 COPY --from=ark-builder /ark-package/ /opt/ark/
 
 RUN test -x /opt/ark/bin/es2abc \
