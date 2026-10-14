@@ -21,9 +21,16 @@ Course starter code has a `declare function print(arg: any): any` line. Since
 
 ## Toolchain
 
-OpenHarmony ArkCompiler's Linux x64 `es2abc`, `ark_js_vm` and required shared
-Place the libraries under `toolchain/`. Expected folder structure
-Described in `toolchain/README.md`.
+`Dockerfile` copies the ArkCompiler outputs (`es2abc`, `ark_js_vm` and the
+shared libraries under `/opt/ark`) from a pinned image instead of building
+them. The default is the image deployed on 2026-07-17 (tag
+`ark-toolchain-20260717`); another image can be passed with
+`--build-arg ARK_TOOLCHAIN_IMAGE=...`.
+
+`Dockerfile.toolchain` builds the toolchain from OpenHarmony sources. As of
+2026-10 it does not work as-is: gitcode.com returns HTTP 418 to Cloud Build
+and the manifest's `master` branch is missing for `arkcompiler_ets_frontend`.
+Pin a release branch before reusing it.
 
 ## Tests
 
